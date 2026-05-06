@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:7107.api.greenapi.com)",
+      "PowerShell(node --version)",
+      "PowerShell(npm --version)",
+      "PowerShell(Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force)",
+      "Read(//c/Program Files/nodejs/**)",
+      "PowerShell(Stop-Process -Name \"node\" -Force -ErrorAction SilentlyContinue)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); git --version)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); cd \"C:\\\\Users\\\\Raul Rosales Rojas\\\\Downloads\\\\cyberdocs-deploy\\\\whatsapp-bridge\"; git init; git add .; git commit -m \"WhatsApp bridge inicial\")",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); cd \"C:\\\\Users\\\\Raul Rosales Rojas\\\\Downloads\\\\cyberdocs-deploy\\\\whatsapp-bridge\"; git config --global user.email \"raulrosalesr3@gmail.com\"; git config --global user.name \"Raul Rosales\"; git commit -m \"WhatsApp bridge inicial\")"
+    ]
+  }
+}

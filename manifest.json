@@ -1,0 +1,25 @@
+{
+  "name": "CyberDocs MX",
+  "short_name": "CyberDocs",
+  "description": "Trámites, Software & Soluciones Digitales",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "background_color": "#0a0b0e",
+  "theme_color": "#6c63ff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://hlqjcjnbtrivxbijcyvv.supabase.co/storage/v1/object/public/plantillas/icon-192.png.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://hlqjcjnbtrivxbijcyvv.supabase.co/storage/v1/object/public/plantillas/icon-512.png.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
