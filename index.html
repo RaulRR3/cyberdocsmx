@@ -5996,10 +5996,11 @@ window.generarConstanciaFiscalHtml=async function(orderData,orderId){
   const tplBuffer=await tplResp.arrayBuffer();
 
   // 7. Abrir ZIP, reemplazar texto y las imágenes QR
+  // image4, image5, image50 son los placeholders 228×228 del QR en el template actual
   const CF_QR_FILES=[
-    'word/media/image2.png','word/media/image4.png',
-    'word/media/image13.png','word/media/image14.png',
-    'word/media/image15.png','word/media/image16.png'
+    'word/media/image4.png',
+    'word/media/image5.png',
+    'word/media/image50.png'
   ];
   const qrBuffer=_cfDataUrlToBuffer(qrDataUrl);
   const origZip=await JSZip.loadAsync(tplBuffer);
