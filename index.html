@@ -6515,21 +6515,86 @@ window.adminVerPedido=function(oid){
     <div class="modal-footer" style="justify-content:space-between">
       <div style="display:flex;gap:8px">
         ${(o.status==='in_progress'||o.status==='pending')?`
-          <button class="btn-sm success" onclick="adminComplete('${o.id}');closeModal()">Completar</button>
-          <button class="btn-sm danger" onclick="adminRefund('${o.id}');closeModal()">Rechazar</button>`:''}
+          <button class="btn-sm success" onclick="closeModal();adminComplete('${o.id}')">Completar</button>
+          <button class="btn-sm danger" onclick="adminRefund('${o.id}')">Rechazar</button>`:''}
       </div>
       <button class="btn-cancel" onclick="closeModal()">Cerrar</button>
     </div>`);
 };
 
-window.adminComplete=async function(oid){
+window.adminComplete=function(oid){
+  const o=ORDERS.find(x=>x.id===oid);if(!o)return;
+  const svc=SERVICES.find(x=>x.id===o.serviceId);
+  const client=USERS.find(x=>x.id===o.clientId);
+  const prov=USERS.find(x=>x.id===o.providerId);
+  window._adminCompleteFiles=[];
+  openModal(`
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <h3>Completar pedido #${oid.slice(-6)}</h3>
+      <p style="margin:4px 0 0;color:var(--text3);font-size:13px">${htmlEsc(svc?.name||'—')} · Cliente: <strong>${htmlEsc(client?.nombre||'—')}</strong>${prov?` · Proveedor: <strong>${htmlEsc(prov.nombre)}</strong>`:''}</p>
+    </div>
+    <div class="modal-body">
+      <div class="mform-group">
+        <label>Documentos a entregar</label>
+        <div style="border:2px dashed var(--border2);border-radius:var(--radius2);padding:20px;text-align:center;cursor:pointer;transition:.15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border2)'" onclick="document.getElementById('adminCompleteFiles').click()">
+          <div style="font-size:28px;margin-bottom:6px">📎</div>
+          <div style="color:var(--text3);font-size:13px">Haz clic para seleccionar archivos (PDF, imágenes)</div>
+          <input type="file" id="adminCompleteFiles" multiple accept="application/pdf,image/*" style="display:none" onchange="adminPreviewFiles(event)">
+        </div>
+        <div id="adminFileList" style="margin-top:8px"></div>
+      </div>
+      <div class="mform-group">
+        <label>Nota de entrega (opcional)</label>
+        <textarea id="adminCompleteNote" rows="3" placeholder="Notas adicionales para el cliente..." style="width:100%;resize:vertical;padding:8px;border:1px solid var(--border2);border-radius:var(--radius2);background:var(--bg3);color:var(--text1);font-size:13px"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-confirm" onclick="adminCompleteConfirm('${oid}')">✅ Completar pedido</button>
+    </div>`);
+};
+
+window.adminPreviewFiles=function(e){
+  const files=[...e.target.files];
+  window._adminCompleteFiles=(window._adminCompleteFiles||[]).concat(files);
+  const list=document.getElementById('adminFileList');
+  if(list)list.innerHTML=`<div style="display:flex;flex-direction:column;gap:4px">${
+    window._adminCompleteFiles.map(f=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--bg3);border-radius:var(--radius3);font-size:13px">
+      📄 <span style="flex:1">${htmlEsc(f.name)}</span><span style="color:var(--text3)">${(f.size/1024).toFixed(0)} KB</span>
+    </div>`).join('')
+  }</div>`;
+};
+
+window.adminCompleteConfirm=async function(oid){
+  const o=ORDERS.find(x=>x.id===oid);if(!o)return;
+  const note=document.getElementById('adminCompleteNote')?.value?.trim();
+  const files=window._adminCompleteFiles||[];
+  const btn=document.querySelector('.btn-confirm');
+  if(btn){btn.disabled=true;btn.textContent='Procesando...';}
   try{
-    const o=ORDERS.find(x=>x.id===oid);
-    const svc=SERVICES.find(x=>x.id===o?.serviceId);
-    await sb.patch(`pedidos?id=eq.${oid}`,{estado:'completed',completed_at:new Date().toISOString(),nota_entrega:'Completado por administrador.'});
-    await loadData();showToast('Pedido completado','success');renderAdminOrders();
-    if(o?.clientId) sendPushTo(o.clientId,'✅ Tu pedido esta listo',`Tu pedido ha sido completado. Revisa Mis Pedidos.`);
-  }catch(e){showToast('Error: '+e.message,'danger');}
+    let urls=[];
+    if(files.length){
+      showToast(`Subiendo ${files.length} archivo(s)...`,'info');
+      for(const file of files){
+        const url=await uploadToStorage(file,`entregas/${oid}`);
+        urls.push({nombre:file.name,url,expira:new Date(Date.now()+7*24*60*60*1000).toISOString()});
+      }
+    }
+    const fileLinks=urls.map(f=>f.url).join('\n');
+    const fullNote=[note,fileLinks].filter(Boolean).join('\n')||'Completado por administrador.';
+    await sb.patch(`pedidos?id=eq.${oid}`,{estado:'completed',completed_at:new Date().toISOString(),nota_entrega:fullNote.trim()});
+    for(const f of urls){
+      await sb.post('archivos_entrega',{pedido_id:oid,url:f.url,nombre:f.nombre,expira_at:f.expira});
+    }
+    window._adminCompleteFiles=[];
+    await loadData();closeModal();renderAdminOrders();
+    showToast('Pedido completado','success');
+    if(o.clientId) sendPushTo(o.clientId,'✅ Tu pedido está listo',`Tu pedido #${oid.slice(-6)} ha sido completado. Revisa Mis Pedidos para descargarlo.`);
+  }catch(e){
+    showToast('Error: '+e.message,'danger');
+    if(btn){btn.disabled=false;btn.textContent='✅ Completar pedido';}
+  }
 };
 
 window.adminRefund=async function(oid){
@@ -6538,7 +6603,6 @@ window.adminRefund=async function(oid){
   if(reason===null)return;
   const nota='RECHAZADO: '+(reason.trim()||'Rechazado por administrador.');
   try{
-    // Consultar saldo actual del cliente directamente en BD
     const freshRows=await sb.get(`usuarios?select=id,nombre,creditos&id=eq.${o.clientId}`);
     const fresh=freshRows?.[0];
     if(!fresh)return;
@@ -6546,6 +6610,7 @@ window.adminRefund=async function(oid){
     await sb.patch(`usuarios?id=eq.${fresh.id}`,{creditos:(fresh.creditos||0)+o.credits});
     await sb.post('transacciones',{usuario_id:fresh.id,tipo:'refund',cantidad:o.credits,descripcion:`Reembolso por rechazo — #${oid.slice(-6)}`});
     await loadData();showToast(`Pedido rechazado. ${o.credits} créditos devueltos a ${fresh.nombre}.`,'info');renderAdminOrders();
+    if(o.clientId) sendPushTo(o.clientId,'❌ Pedido rechazado',`Tu pedido #${oid.slice(-6)} fue rechazado. Motivo: ${reason.trim()||'Rechazado por administrador.'}. Se reembolsaron ${o.credits} créditos.`);
   }catch(e){showToast('Error: '+e.message,'danger');}
 };
 
