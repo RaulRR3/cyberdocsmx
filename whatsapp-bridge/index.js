@@ -393,15 +393,25 @@ async function verificarRespuestaCSF(curp, pedido) {
 // ── Polling activo del grupo CFE ──────────────────────────────────────────────
 async function verificarRespuestaCFE(numServicio, pedido) {
   const enviadoEn = Date.now();
-  const maxEspera = 300000; // 5 minutos
+  const maxEspera = 30 * 60_000; // 30 minutos de polling activo
   const intervalo = 6000;
 
-  console.log(`[CFE POLL] Esperando PDF para número de servicio: ${numServicio}`);
+  // Normalizar: solo dígitos para comparar sin importar formato
+  const digitsServ = numServicio.replace(/\D/g, '');
+
+  console.log(`[CFE POLL] Esperando PDF para número de servicio: ${numServicio} (dígitos: ${digitsServ})`);
 
   while (Date.now() - enviadoEn < maxEspera) {
     await new Promise(r => setTimeout(r, intervalo));
+
+    // Si el pedido ya no está en pendientes (fue resuelto por otro camino), salir
+    if (!pendientes.has(`cfe_${numServicio}`)) {
+      console.log(`[CFE POLL] Pedido ${pedido.orderId} ya fue resuelto — saliendo del poll`);
+      return;
+    }
+
     try {
-      const resp = await fetch(`${GA_URL}/waInstance${GA_ID}/lastIncomingMessages/${GA_TOKEN}?minutes=10`);
+      const resp = await fetch(`${GA_URL}/waInstance${GA_ID}/lastIncomingMessages/${GA_TOKEN}?minutes=35`);
       if (!resp.ok) continue;
       const todos = await resp.json();
       const mensajes = (todos || []).filter(m => m.chatId === GRUPO_CFE);
@@ -414,7 +424,11 @@ async function verificarRespuestaCFE(numServicio, pedido) {
           const fileName    = msg.fileName    || msg.fileMessageData?.fileName    || '';
           const downloadUrl = msg.downloadUrl || msg.fileMessageData?.downloadUrl || '';
           if (!fileName.toLowerCase().endsWith('.pdf') || !downloadUrl) continue;
-          if (!fileName.includes(numServicio)) continue;
+
+          // Comparar solo dígitos — ignora guiones, espacios, ceros extra
+          const digitsFile = fileName.replace(/\D/g, '');
+          const matched = digitsServ && (digitsFile.includes(digitsServ) || digitsServ.includes(digitsFile));
+          if (!matched) continue;
 
           console.log(`[CFE POLL ✓] PDF encontrado: ${fileName}`);
           pendientes.delete(`cfe_${numServicio}`);
@@ -432,13 +446,14 @@ async function verificarRespuestaCFE(numServicio, pedido) {
     }
   }
 
-  // Timeout — notificar a Raul para atención manual
-  pendientes.delete(`cfe_${numServicio}`);
+  // Timeout de 30 min en poll activo — pero NO borra de pendientes.
+  // El listener pasivo (procesarNotificacion) y el setInterval de 2h siguen activos.
+  console.warn(`[CFE POLL] Timeout 30min para ${numServicio} — dejando en pendientes para detección pasiva`);
   await tgEnviarTexto(RAUL_CHAT_ID,
-    `⚡ <b>ATENCIÓN MANUAL REQUERIDA</b> (timeout CFE)\n` +
+    `⚡ <b>Sin respuesta activa (30 min)</b>\n` +
     `📦 Pedido: <b>${pedido.orderId}</b>\n` +
-    `🔢 Número de servicio: ${numServicio}\n\n` +
-    `No se recibió el PDF del grupo CFE en 5 minutos.`
+    `🔢 Número: ${numServicio}\n\n` +
+    `Seguiré detectando el PDF si llega al grupo. Se cancelará automáticamente a las 2 horas si no aparece.`
   );
 }
 
@@ -554,12 +569,18 @@ async function procesarNotificacion(notif) {
 
     // ── PDF del grupo CFE ─────────────────────────────────────────────────────
     if (esGrupoCFE) {
-      const fileNameUp = fileName.toUpperCase().replace('.PDF', '');
+      const digitsFile = fileName.replace(/\D/g, '');
       let clave = null, pedido = null;
+
+      // 1. Buscar por número de servicio (solo dígitos) contra dígitos del nombre del archivo
       for (const [k, v] of pendientes.entries()) {
         if (!k.startsWith('cfe_')) continue;
-        if (fileNameUp.includes(v.numServicio || k.replace('cfe_', ''))) { clave = k; pedido = v; break; }
+        const digitsServ = (v.numServicio || k.replace('cfe_', '')).replace(/\D/g, '');
+        if (digitsServ && (digitsFile.includes(digitsServ) || digitsServ.includes(digitsFile))) {
+          clave = k; pedido = v; break;
+        }
       }
+      // 2. Fallback: tomar el primer CFE pendiente (si solo hay uno, es el correcto)
       if (!pedido) {
         for (const [k, v] of pendientes.entries()) {
           if (k.startsWith('cfe_')) { clave = k; pedido = v; break; }
