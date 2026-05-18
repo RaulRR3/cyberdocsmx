@@ -141,8 +141,8 @@ html,body{font-family:var(--f-body);letter-spacing:-.005em}
 *::-webkit-scrollbar-thumb{background:var(--border3);border-radius:99px;border:3px solid transparent;background-clip:padding-box}
 *::-webkit-scrollbar-thumb:hover{background:var(--text3);background-clip:padding-box;border:3px solid transparent}
 
-html{overflow-x:hidden;max-width:100vw}
-body{background:var(--bg);color:var(--text);font-size:15px;min-height:100vh;overflow-x:hidden;max-width:100vw;position:relative;line-height:1.55}
+html{overflow-x:clip;max-width:100vw}
+body{background:var(--bg);color:var(--text);font-size:15px;min-height:100vh;overflow-x:clip;max-width:100vw;position:relative;line-height:1.55}
 
 /* blobs pastel decorativos en el fondo del body */
 body::before,body::after{content:'';position:fixed;width:520px;height:520px;border-radius:50%;filter:blur(80px);opacity:.32;pointer-events:none;z-index:0}
@@ -247,10 +247,10 @@ body.light-mode .logo-light{display:block!important}
 #app.hidden{display:none!important}
 
 #sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;position:relative}
-.sidebar-header{padding:22px 20px 18px;border-bottom:1px solid var(--border);text-align:left}
-.sidebar-brand{font-family:var(--f-display);font-size:22px;font-weight:800;letter-spacing:-.025em;line-height:1.1;background:linear-gradient(135deg,var(--accent),var(--peach));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sidebar-header{padding:12px 16px 10px;border-bottom:1px solid var(--border);text-align:left}
+.sidebar-brand{font-family:var(--f-display);font-size:20px;font-weight:800;letter-spacing:-.025em;line-height:1.1;background:linear-gradient(135deg,var(--accent),var(--peach));-webkit-background-clip:text;background-clip:text;color:transparent}
 .sidebar-brand span{color:var(--accent)}
-.sidebar-role{font-size:11.5px;color:var(--text3);font-weight:600;margin-top:5px;letter-spacing:0}
+.sidebar-role{font-size:11px;color:var(--text3);font-weight:600;margin-top:3px;letter-spacing:0}
 .sidebar-nav{flex:1;overflow-y:auto;padding:14px 12px}
 .nav-section{font-size:11px;color:var(--text3);font-weight:700;padding:0 12px;margin:18px 0 6px;letter-spacing:.04em;text-transform:uppercase}
 .nav-item{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:12px;cursor:pointer;color:var(--text2);font-size:13.5px;font-weight:600;transition:all var(--dur) var(--ease);margin-bottom:2px;letter-spacing:-.005em;position:relative}
@@ -258,21 +258,21 @@ body.light-mode .logo-light{display:block!important}
 .nav-item.active{background:var(--accentbg);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accentborder)}
 .nav-item .nav-icon{width:18px;height:18px;opacity:.75;flex-shrink:0;transition:opacity var(--dur) var(--ease)}
 .nav-item.active .nav-icon,.nav-item:hover .nav-icon{opacity:1}
-.sidebar-footer{border-top:1px solid var(--border);padding:14px 12px}
-.user-card{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:12px;transition:background var(--dur) var(--ease);cursor:pointer}
+.sidebar-footer{border-top:1px solid var(--border);padding:8px 10px}
+.user-card{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:10px;transition:background var(--dur) var(--ease);cursor:pointer}
 .user-card:hover{background:var(--bg3)}
-.avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;letter-spacing:-.01em}
+.avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;letter-spacing:-.01em}
 .avatar-client{background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff}
 .avatar-provider{background:linear-gradient(135deg,var(--peach),#f4825c);color:#fff}
 .avatar-admin{background:linear-gradient(135deg,var(--mint),#5dc7a4);color:#fff}
 .user-info{flex:1;min-width:0}
-.user-name{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text);letter-spacing:-.005em}
-.user-role-label{font-size:11.5px;color:var(--text3);margin-top:2px;font-weight:500}
-.logout-btn{background:transparent;border:1px solid var(--border2);border-radius:12px;padding:10px 12px;color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;font-family:var(--f-body);transition:all var(--dur) var(--ease);width:100%;margin-top:10px}
+.user-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text);letter-spacing:-.005em}
+.user-role-label{font-size:10.5px;color:var(--text3);margin-top:1px;font-weight:500}
+.logout-btn{background:transparent;border:1px solid var(--border2);border-radius:10px;padding:7px 10px;color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--f-body);transition:all var(--dur) var(--ease);width:100%;margin-top:6px}
 .logout-btn:hover{border-color:var(--danger);color:var(--danger);background:var(--dangerbg)}
 
 /* ── MAIN ── */
-#main{flex:1;overflow-y:auto;background:var(--bg);display:flex;flex-direction:column;position:relative}
+#main{flex:1;overflow-y:auto;overflow-x:hidden;background:var(--bg);display:flex;flex-direction:column;position:relative;max-width:100%}
 .topbar{padding:18px 32px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--bg);position:sticky;top:0;z-index:10;min-height:var(--topbar-h);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .topbar-title{font-family:var(--f-display);font-size:26px;font-weight:800;letter-spacing:-.025em;line-height:1.1}
 .topbar-sub{font-size:13px;color:var(--text2);margin-top:3px;font-weight:500}
@@ -298,7 +298,7 @@ body.light-mode .logo-light{display:block!important}
 .card-title svg,.card-title .nav-icon{width:16px!important;height:16px!important;opacity:.7;color:var(--accent)}
 
 /* ── STATS — bento Apple-esque con orbe pastel ── */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,45%),1fr));gap:14px}
 .stat-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);padding:22px;position:relative;overflow:hidden;transition:all var(--dur) var(--ease);min-height:140px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow-sm)}
 .stat-card::before{content:'';position:absolute;top:-30px;right:-30px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,var(--accent),transparent 65%);opacity:.18;filter:blur(20px);pointer-events:none;transition:opacity var(--dur) var(--ease)}
 .stat-card:nth-child(2)::before{background:radial-gradient(circle,var(--peach),transparent 65%)}
@@ -463,18 +463,31 @@ body.light-mode #modalBg{background:rgba(26,21,48,.30)}
   #sidebarOverlay.visible{display:block}
   #main{width:100%;height:100vh;height:100dvh}
 
-  .topbar{padding:12px 16px;gap:8px}
+  .topbar{padding:12px 16px;gap:8px;overflow:hidden;max-width:100%}
   .topbar-title{font-size:20px}
   .topbar-sub{display:none}
   #hamburgerBtn{display:flex}
 
   .panel{padding:18px 18px;gap:16px}
 
-  .stats-grid{grid-template-columns:1fr 1fr!important;gap:10px}
+  .stats-grid{grid-template-columns:1fr 1fr!important;gap:10px;min-width:0}
   .stat-value{font-size:34px!important}
   .stat-card{padding:18px 18px;min-height:122px}
 
+  /* Safari iOS: bloquear scroll horizontal en toda la app */
+  #app,#main,.panel{overflow-x:hidden;max-width:100%;box-sizing:border-box}
+
+  /* Todas las tablas en móvil: sin scroll horizontal por defecto */
   .table-wrap{overflow-x:hidden}
+  table{min-width:0!important;width:100%}
+
+  /* Solo permitir scroll en tablas que NO tienen layout de tarjeta */
+  .table-wrap.scrollable{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+  /* Elementos con min-width fijo que desbordaban */
+  div[style*="min-width:200px"],
+  div[style*="min-width:220px"]{min-width:0!important;width:100%!important}
+
   #panel_orders .table-wrap table thead{display:none}
   #panel_orders .table-wrap table tbody tr{display:flex;flex-wrap:wrap;gap:4px;padding:14px 16px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer}
   #panel_orders .table-wrap table tbody tr td:nth-child(1){flex:0 0 100%;font-weight:700;color:var(--text);font-size:14px}
@@ -483,8 +496,6 @@ body.light-mode #modalBg{background:rgba(26,21,48,.30)}
   #panel_orders .table-wrap table tbody tr td:nth-child(4){flex:0 0 auto}
   #panel_orders .table-wrap table tbody tr td:nth-child(5){flex:0 0 auto}
   #panel_orders .table-wrap table tbody tr td:nth-child(6){display:none}
-  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  table{min-width:0!important}
 
   .card{padding:18px}
   .services-grid{grid-template-columns:1fr 1fr!important;gap:12px}
@@ -514,6 +525,110 @@ body.light-mode #modalBg{background:rgba(26,21,48,.30)}
   #themeToggle span{display:none}
   #themeToggle{padding:7px 10px}
   #notifBtn{width:38px;height:38px}
+
+  /* ══ ADMIN: PEDIDOS + ACTIVIDAD RECIENTE → tarjetas ══ */
+  #panel_admin_orders .table-wrap,
+  #actividadRecienteCard .table-wrap{overflow-x:hidden}
+  #panel_admin_orders .table-wrap table,
+  #actividadRecienteCard .table-wrap table{min-width:0!important;width:100%}
+  #panel_admin_orders .table-wrap table thead,
+  #actividadRecienteCard .table-wrap table thead{display:none}
+  #panel_admin_orders .table-wrap table tbody tr,
+  #actividadRecienteCard .table-wrap table tbody tr{
+    display:flex;flex-direction:column;gap:4px;
+    padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;
+  }
+  #panel_admin_orders .table-wrap table tbody tr:hover,
+  #actividadRecienteCard .table-wrap table tbody tr:hover{background:var(--bg3)}
+  /* Folio: pequeño gris */
+  #panel_admin_orders .table-wrap table tbody tr td:nth-child(1),
+  #actividadRecienteCard .table-wrap table tbody tr td:nth-child(1){font-size:11px;color:var(--text3)}
+  /* Servicio: grande negrita */
+  #panel_admin_orders .table-wrap table tbody tr td:nth-child(2),
+  #actividadRecienteCard .table-wrap table tbody tr td:nth-child(2){font-size:14px;font-weight:700;color:var(--text)}
+  /* Cliente: pequeño */
+  #panel_admin_orders .table-wrap table tbody tr td:nth-child(3),
+  #actividadRecienteCard .table-wrap table tbody tr td:nth-child(3){font-size:12px;color:var(--text2)}
+  /* Dato: pequeño gris */
+  #panel_admin_orders .table-wrap table tbody tr td:nth-child(4),
+  #actividadRecienteCard .table-wrap table tbody tr td:nth-child(4){font-size:11px;color:var(--text3)}
+  /* Proveedor y costo: ocultos */
+  #panel_admin_orders .table-wrap table tbody tr td:nth-child(5),
+  #actividadRecienteCard .table-wrap table tbody tr td:nth-child(5),
+  #panel_admin_orders .table-wrap table tbody tr td:nth-child(6),
+  #actividadRecienteCard .table-wrap table tbody tr td:nth-child(6){display:none}
+  /* Estado badge */
+  #panel_admin_orders .table-wrap table tbody tr td:nth-child(7),
+  #actividadRecienteCard .table-wrap table tbody tr td:nth-child(7){display:flex}
+  /* Acciones */
+  #panel_admin_orders .table-wrap table tbody tr td:nth-child(8),
+  #actividadRecienteCard .table-wrap table tbody tr td:nth-child(8){display:flex;gap:6px;flex-wrap:wrap;padding-top:2px}
+
+  /* ══ USUARIOS → tarjetas en móvil ══ */
+  #panel_admin_users .table-wrap{overflow-x:hidden}
+  #panel_admin_users .table-wrap table{min-width:0!important;width:100%}
+  #panel_admin_users .table-wrap table thead{display:none}
+  #panel_admin_users .table-wrap table tbody tr{
+    display:flex;flex-direction:column;gap:5px;
+    padding:12px 14px;border-bottom:1px solid var(--border);
+  }
+  /* Col 1 Nombre+avatar */
+  #panel_admin_users .table-wrap table tbody tr td:nth-child(1){font-size:14px;font-weight:600}
+  /* Col 2 Email */
+  #panel_admin_users .table-wrap table tbody tr td:nth-child(2){font-size:12px;color:var(--text3)}
+  /* Col 3 Rol badge */
+  #panel_admin_users .table-wrap table tbody tr td:nth-child(3){display:flex}
+  /* Col 4 Créditos */
+  #panel_admin_users .table-wrap table tbody tr td:nth-child(4){font-size:12px;color:var(--text2)}
+  /* Col 5 Acciones */
+  #panel_admin_users .table-wrap table tbody tr td:nth-child(5){display:flex;gap:6px;flex-wrap:wrap}
+
+  /* ══ TRANSACCIONES → tarjetas en móvil ══ */
+  #panel_admin_credits .table-wrap{overflow-x:hidden}
+  #panel_admin_credits .table-wrap table{min-width:0!important;width:100%}
+  #panel_admin_credits .table-wrap table thead{display:none}
+  #panel_admin_credits .table-wrap table tbody tr{
+    display:grid;grid-template-columns:1fr auto;gap:3px 8px;
+    padding:10px 14px;border-bottom:1px solid var(--border);
+  }
+  /* Fecha: fila 1 izq */
+  #panel_admin_credits .table-wrap table tbody tr td:nth-child(1){
+    grid-row:1;grid-column:1;font-size:11px;color:var(--text3)
+  }
+  /* Usuario: fila 2 full */
+  #panel_admin_credits .table-wrap table tbody tr td:nth-child(2){
+    grid-row:2;grid-column:1/3;font-size:13px;font-weight:600;color:var(--text)
+  }
+  /* Descripción: fila 3 full */
+  #panel_admin_credits .table-wrap table tbody tr td:nth-child(3){
+    grid-row:3;grid-column:1/3;font-size:11px;color:var(--text3)
+  }
+  /* Tipo: oculto (info redundante en móvil) */
+  #panel_admin_credits .table-wrap table tbody tr td:nth-child(4){display:none}
+  /* Cantidad: fila 1 derecha */
+  #panel_admin_credits .table-wrap table tbody tr td:nth-child(5){
+    grid-row:1;grid-column:2;font-size:13px;font-weight:700;text-align:right
+  }
+
+  /* ══ FECHA FILTRO CRÉDITOS → apilado ══ */
+  #panel_admin_credits .card div[style*="display:flex"][style*="gap:10px"][style*="align-items:flex-end"]{
+    flex-direction:column!important;
+  }
+  #panel_admin_credits .card div[style*="display:flex"][style*="gap:10px"][style*="align-items:flex-end"] > *{
+    width:100%!important;min-width:0!important;
+  }
+
+  /* ══ REPORTES: tabla de servicios → scroll horizontal permitido ══ */
+  #panel_admin_reports .table-wrap{overflow-x:auto!important;-webkit-overflow-scrolling:touch}
+  #panel_admin_reports .table-wrap table{min-width:600px}
+
+  /* ══ REPORTES: form filtro → apilado ══ */
+  div[style*="grid-template-columns:1fr 1fr 1fr auto"]{
+    display:flex!important;flex-direction:column!important;gap:10px!important;
+  }
+  div[style*="grid-template-columns:1fr 1fr 1fr auto"] > *{
+    width:100%!important;min-width:0!important;
+  }
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -565,11 +680,16 @@ body.light-mode #modalBg{background:rgba(26,21,48,.30)}
     <div id="formLogin">
       <div class="form-group">
         <label>Correo electrónico</label>
-        <input type="email" id="loginEmail" placeholder="tu@correo.com" autocomplete="off" maxlength="120">
+        <input type="email" id="loginEmail" placeholder="tu@correo.com" autocomplete="off" maxlength="120" oninput="this.value=this.value.toLowerCase()" style="text-transform:lowercase">
       </div>
       <div class="form-group">
         <label>Contraseña</label>
-        <input type="password" id="loginPass" placeholder="••••••••" maxlength="128">
+        <div style="position:relative">
+          <input type="password" id="loginPass" placeholder="••••••••" maxlength="128" style="padding-right:42px;width:100%;box-sizing:border-box">
+          <button type="button" onclick="togglePassVis('loginPass',this)" title="Mostrar/ocultar" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);padding:4px;display:flex;align-items:center;line-height:1">
+            <svg id="loginPass-eye" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
       </div>
       <div style="display:flex;justify-content:center;margin-bottom:14px">
         <div class="h-captcha" data-sitekey="dca8a740-a192-496a-b56e-6ffa8c3c9c6c" data-theme="dark"></div>
@@ -590,7 +710,7 @@ body.light-mode #modalBg{background:rgba(26,21,48,.30)}
       </div>
       <div class="form-group">
         <label>Correo electrónico</label>
-        <input type="email" id="regEmail" placeholder="tu@correo.com" maxlength="120">
+        <input type="email" id="regEmail" placeholder="tu@correo.com" maxlength="120" oninput="this.value=this.value.toLowerCase()" style="text-transform:lowercase">
       </div>
       <div class="form-group">
         <label>Teléfono / WhatsApp</label>
@@ -598,11 +718,21 @@ body.light-mode #modalBg{background:rgba(26,21,48,.30)}
       </div>
       <div class="form-group">
         <label>Contraseña</label>
-        <input type="password" id="regPass" placeholder="Mínimo 6 caracteres" maxlength="128">
+        <div style="position:relative">
+          <input type="password" id="regPass" placeholder="Mínimo 6 caracteres" maxlength="128" style="padding-right:42px;width:100%;box-sizing:border-box">
+          <button type="button" onclick="togglePassVis('regPass',this)" title="Mostrar/ocultar" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);padding:4px;display:flex;align-items:center;line-height:1">
+            <svg id="regPass-eye" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
       </div>
       <div class="form-group">
         <label>Confirmar contraseña</label>
-        <input type="password" id="regPass2" placeholder="Repite tu contraseña" maxlength="128">
+        <div style="position:relative">
+          <input type="password" id="regPass2" placeholder="Repite tu contraseña" maxlength="128" style="padding-right:42px;width:100%;box-sizing:border-box">
+          <button type="button" onclick="togglePassVis('regPass2',this)" title="Mostrar/ocultar" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);padding:4px;display:flex;align-items:center;line-height:1">
+            <svg id="regPass2-eye" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
       </div>
       <div style="display:flex;justify-content:center;margin-bottom:14px">
         <div class="h-captcha" data-sitekey="dca8a740-a192-496a-b56e-6ffa8c3c9c6c" data-theme="dark"></div>
@@ -630,8 +760,8 @@ body.light-mode #modalBg{background:rgba(26,21,48,.30)}
   <div id="sidebarOverlay" onclick="closeSidebar()"></div>
   <nav id="sidebar">
     <div class="sidebar-header">
-      <img src="https://hlqjcjnbtrivxbijcyvv.supabase.co/storage/v1/object/public/plantillas/logo-dark.png" alt="CyberDocs MX" class="logo-dark" style="width:150px;height:auto">
-      <img src="https://hlqjcjnbtrivxbijcyvv.supabase.co/storage/v1/object/public/plantillas/logo-light.png" alt="CyberDocs MX" class="logo-light" style="width:150px;height:auto">
+      <img src="https://hlqjcjnbtrivxbijcyvv.supabase.co/storage/v1/object/public/plantillas/logo-dark.png" alt="CyberDocs MX" class="logo-dark" style="width:115px;height:auto">
+      <img src="https://hlqjcjnbtrivxbijcyvv.supabase.co/storage/v1/object/public/plantillas/logo-light.png" alt="CyberDocs MX" class="logo-light" style="width:115px;height:auto">
       <div class="sidebar-role" id="sidebarRole"></div>
     </div>
     <div class="sidebar-nav" id="sidebarNav"></div>
@@ -645,13 +775,13 @@ body.light-mode #modalBg{background:rgba(26,21,48,.30)}
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--text3)" stroke-width="1.5" style="flex-shrink:0"><path d="M5 3l4 4-4 4"/></svg>
       </div>
       <a href="https://hlqjcjnbtrivxbijcyvv.supabase.co/storage/v1/object/public/plantillas/CyberDocsMx.apk" download="CyberDocsMx.apk"
-        style="display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px 12px;background:#3ddc8415;border:1px solid #3ddc8430;border-radius:var(--radius2);color:#3ddc84;text-decoration:none;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .15s"
+        style="display:flex;align-items:center;gap:6px;margin-top:6px;padding:6px 10px;background:#3ddc8415;border:1px solid #3ddc8430;border-radius:var(--radius3);color:#3ddc84;text-decoration:none;font-size:11.5px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .15s"
         onmouseover="this.style.background='#3ddc8425'" onmouseout="this.style.background='#3ddc8415'">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3ddc84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 17v-5m0 0l-2.5 2.5M12 12l2.5 2.5"/><circle cx="12" cy="7" r=".8" fill="#3ddc84" stroke="none"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3ddc84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 17v-5m0 0l-2.5 2.5M12 12l2.5 2.5"/><circle cx="12" cy="7" r=".8" fill="#3ddc84" stroke="none"/></svg>
         Descargar App Android
       </a>
       <a id="supportBtn" href="#" target="_blank"
-        style="display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px 12px;background:#25d36615;border:1px solid #25d36630;border-radius:var(--radius2);color:#25d366;text-decoration:none;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .15s"
+        style="display:flex;align-items:center;gap:6px;margin-top:6px;padding:6px 10px;background:#25d36615;border:1px solid #25d36630;border-radius:var(--radius3);color:#25d366;text-decoration:none;font-size:11.5px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .15s"
         onmouseover="this.style.background='#25d36625'" onmouseout="this.style.background='#25d36615'">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Soporte WhatsApp
@@ -743,7 +873,7 @@ function checkReqRate(key,maxPerMinute=20){
 
 const SUPABASE_URL = 'https://hlqjcjnbtrivxbijcyvv.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_YVGVU2AnjS56e_nS5nSARw_nuClRwgP';
-const WHATSAPP_URL = 'https://wa.link/cbhr8k';
+const WHATSAPP_URL = 'https://wa.link/2d4zsj';
 
 // ── ONESIGNAL ─────────────────────────────────────────────
 const OS_APP_ID = 'ef5a9375-8eb7-4d45-936d-94afbf85798f';
@@ -841,6 +971,7 @@ async function sendPushTo(targetUserId, title, message) {
 // Nombre de la edge function en Supabase (verificar en Dashboard → Functions)
 const SAT_EDGE_FN = 'sat-proxy';
 const CURP_EDGE_FN = 'curp-lookup';
+const RFC_EDGE_FN  = 'calcular-rfc';
 const CF_LUGARES=[
   "AGUASCALIENTES, AGUASCALIENTES","CALVILLO, AGUASCALIENTES","JESUS MARIA, AGUASCALIENTES",
   "ENSENADA, BAJA CALIFORNIA","MEXICALI, BAJA CALIFORNIA","TECATE, BAJA CALIFORNIA",
@@ -1150,9 +1281,58 @@ const sb={
   del:p=>sbReq('DELETE',p),
 };
 
+// Trae TODOS los registros superando el límite de 1000 de Supabase
+async function sbGetAll(path,batchSize=1000){
+  let all=[];
+  let offset=0;
+  while(true){
+    const sep=path.includes('?')?'&':'?';
+    const batch=await sbReq('GET',`${path}${sep}limit=${batchSize}&offset=${offset}`);
+    all=all.concat(batch);
+    if(!batch.length||batch.length<batchSize)break;
+    offset+=batchSize;
+  }
+  return all;
+}
+
 // ── ESTADO ────────────────────────────────────────
 let currentUser=null,SERVICES=[],ORDERS=[],USERS=[],TRANSACTIONS=[],CATS=[],CATS_FULL=[],RECARGAS=[],AVISOS=[];
 let _catalogSeccion='tramites',_adminSvcSeccion='tramites',_adminCatsSeccion='tramites';
+
+// ── Secciones dinámicas (se persisten en localStorage) ───────────────────────
+const SECCIONES_DEFAULT=[
+  {id:'tramites',label:'📋 Trámites'},
+  {id:'papeleria',label:'📄 Papelería'},
+  {id:'software',label:'💻 Software'}
+];
+function getSecciones(){
+  try{
+    const extra=JSON.parse(localStorage.getItem('cdmx_secciones_extra')||'[]');
+    const defaultIds=SECCIONES_DEFAULT.map(s=>s.id);
+    // Agregar también las que vengan de categorías existentes (por si se importaron)
+    const enUso=[...new Set((CATS_FULL||[]).map(c=>c.seccion||'tramites'))]
+      .filter(s=>!defaultIds.includes(s)&&!extra.find(e=>e.id===s))
+      .map(s=>({id:s,label:'📌 '+s.charAt(0).toUpperCase()+s.slice(1).replace(/_/g,' ')}));
+    return [...SECCIONES_DEFAULT,...extra,...enUso];
+  }catch{return SECCIONES_DEFAULT;}
+}
+function addSeccionCustom(nombre){
+  if(!nombre.trim())return false;
+  const slug=nombre.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+  if(!slug)return false;
+  const defaultIds=SECCIONES_DEFAULT.map(s=>s.id);
+  if(defaultIds.includes(slug))return false;
+  const extra=JSON.parse(localStorage.getItem('cdmx_secciones_extra')||'[]');
+  if(extra.find(e=>e.id===slug))return false;
+  extra.push({id:slug,label:'📌 '+nombre.trim()});
+  localStorage.setItem('cdmx_secciones_extra',JSON.stringify(extra));
+  return slug;
+}
+function deleteSeccionCustom(slug){
+  let extra=JSON.parse(localStorage.getItem('cdmx_secciones_extra')||'[]');
+  extra=extra.filter(e=>e.id!==slug);
+  localStorage.setItem('cdmx_secciones_extra',JSON.stringify(extra));
+}
 let activePanel='',selectedService=null,creditPackSelected=null,editingServiceId=null,_primeraConstanciaGratis=false;
 // Paginación de pedidos del cliente
 let _ordersPage=1,_ordersHasMore=false,_ordersCache={};
@@ -1250,15 +1430,19 @@ async function loadData(){
 
   // ── ADMIN: todo, pero con límites razonables ──────
   }else{
-    const [users,services,orders,txs,cats,recargas,avisos]=await Promise.all([
-      sb.get('usuarios?select=*&order=created_at.asc'),
-      sb.get('servicios?select=*&order=created_at.asc'),
-      sb.get('pedidos?select=*&order=created_at.desc&limit=500'),
-      sb.get('transacciones?select=*&order=created_at.desc&limit=500'),
+    const [users,services,orders,txs,cats,recargas,avisos,authUsersResp]=await Promise.all([
+      sbGetAll('usuarios?select=*&order=created_at.asc'),
+      sbGetAll('servicios?select=*&order=created_at.asc'),
+      sbGetAll('pedidos?select=*&order=created_at.desc'),
+      sbGetAll('transacciones?select=*&order=created_at.desc'),
       sb.get('categorias?select=*&activa=eq.true&order=created_at.asc'),
-      sb.get('recargas?select=*&order=created_at.desc&limit=300'),
+      sbGetAll('recargas?select=*&order=created_at.desc'),
       sb.get('avisos?select=*&activo=eq.true&order=created_at.desc&limit=1'),
+      fetch(`${SUPABASE_URL}/auth/v1/admin/users?per_page=1000&page=1`,{headers:{'apikey':SUPABASE_ADMIN_KEY,'Authorization':'Bearer '+SUPABASE_ADMIN_KEY}}).then(r=>r.json()).catch(()=>({users:[]})),
     ]);
+    // Mapa auth_id → last_sign_in_at para detectar cuentas sin acceso
+    window._authSignInMap={};
+    (authUsersResp.users||[]).forEach(au=>{window._authSignInMap[au.id]=au.last_sign_in_at||null;});
     USERS=users;
     SERVICES=_mapServices(services);
     ORDERS=_mapOrders(orders);
@@ -1376,6 +1560,19 @@ function initRealtime(){
             if(!ORDERS.find(o=>o.id===newOrd.id))ORDERS=[newOrd,...ORDERS];
             if(activePanel==='orders'||activePanel==='dashboard')renderPanel(activePanel);
           }
+        }
+      })
+      .on('postgres_changes',{event:'UPDATE',schema:'public',table:'usuarios',filter:`id=eq.${uid}`},(payload)=>{
+        // Actualizar créditos en tiempo real (recargas aprobadas, reembolsos, etc.)
+        const nuevo=payload.new;
+        if(!nuevo)return;
+        if(typeof nuevo.creditos==='number'&&nuevo.creditos!==currentUser.creditos){
+          const diff=nuevo.creditos-currentUser.creditos;
+          currentUser.creditos=nuevo.creditos;
+          localStorage.setItem('cdmx_session',JSON.stringify(currentUser));
+          updateCreditsDisplay();
+          if(diff>0)showToast(`+${diff} créditos agregados a tu cuenta`,'success');
+          if(activePanel==='credits'||activePanel==='dashboard')renderPanel(activePanel);
         }
       })
       .subscribe((status)=>{
@@ -1500,6 +1697,21 @@ function recordFailedAttempt(){
 
 function resetAttempts(){setLoginState({attempts:0,lockedUntil:null});}
 
+// Mostrar / ocultar contraseña
+function togglePassVis(inputId, btn) {
+  const inp = document.getElementById(inputId);
+  if (!inp) return;
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  const eye = document.getElementById(inputId + '-eye');
+  if (eye) {
+    eye.innerHTML = show
+      ? '<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>'
+      : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  }
+  btn.style.color = show ? 'var(--accent2)' : 'var(--text3)';
+}
+
 function switchAuthTab(tab){
   const isLogin=tab==='login';
   document.getElementById('formLogin').style.display=isLogin?'block':'none';
@@ -1512,7 +1724,7 @@ function switchAuthTab(tab){
 
 async function doRegister(){
   const nombre=document.getElementById('regNombre')?.value?.trim();
-  const email=document.getElementById('regEmail')?.value?.trim();
+  const email=(document.getElementById('regEmail')?.value||'').trim().toLowerCase();
   const tel=document.getElementById('regTel')?.value?.trim();
   const pass=document.getElementById('regPass')?.value?.trim();
   const pass2=document.getElementById('regPass2')?.value?.trim();
@@ -1528,8 +1740,9 @@ async function doRegister(){
   if(nombre.length>100){errEl.textContent='Nombre demasiado largo';errEl.style.display='block';return;}
   // Rate limit: máx 3 registros por minuto desde la misma sesión
   if(!checkReqRate('register',3)){errEl.textContent='Demasiados intentos. Espera un momento.';errEl.style.display='block';return;}
+  // Captcha es opcional (protección adicional, no requerida por el servidor)
   const captchaReg=document.querySelector('#formRegister [name="h-captcha-response"]')?.value;
-  if(!captchaReg){errEl.textContent='Por favor completa el captcha para continuar.';errEl.style.display='block';return;}
+  if(window.hcaptcha&&!captchaReg){errEl.textContent='Por favor completa el captcha para continuar.';errEl.style.display='block';return;}
 
   btn.disabled=true;btn.textContent='Creando cuenta...';
   try{
@@ -1537,12 +1750,19 @@ async function doRegister(){
     const existing=await sb.get(`usuarios?select=id&email=eq.${encodeURIComponent(email)}`).catch(()=>[]);
     if(existing?.length>0){errEl.textContent='Este correo ya tiene una cuenta registrada.';errEl.style.display='block';btn.disabled=false;btn.textContent='Crear mi cuenta';return;}
 
-    // Crear en Supabase Auth
-    await sbAuthSignUp(email,pass);
+    // Crear en Supabase Auth y guardar token para las operaciones siguientes
+    const authData=await sbAuthSignUp(email,pass);
+    const authId=authData?.user?.id||null;
+    if(authData?.access_token){
+      _accessToken=authData.access_token;
+      _refreshToken=authData.refresh_token;
+      _tokenExpiry=Date.now()+(authData.expires_in||3600)*1000;
+    }
 
     // Crear en tabla usuarios
-    const passHash=await _bcrypt.hash(pass,10);
-    await sb.post('usuarios',{nombre,email,telefono:tel||null,rol:'client',contrasena:'[PROTEGIDO]',pass_hash:passHash,creditos:0});
+    // Si bcrypt no está disponible guardamos la contraseña en texto plano como fallback
+    const passHash=await _bcrypt.hash(pass,10).catch(()=>null);
+    await sb.post('usuarios',{nombre,email,telefono:tel||null,rol:'client',contrasena:passHash?'[PROTEGIDO]':pass,pass_hash:passHash||'',auth_id:authId,creditos:0});
 
     // Enviar correo de bienvenida
     await sendWelcomeEmail(nombre,email,pass).catch(()=>{});
@@ -1559,7 +1779,7 @@ async function doRegister(){
 }
 
 async function doLogin(){
-  const email=document.getElementById('loginEmail').value.trim();
+  const email=document.getElementById('loginEmail').value.trim().toLowerCase();
   const pass=document.getElementById('loginPass').value.trim();
   const errEl=document.getElementById('loginError');
   const attEl=document.getElementById('loginAttempts');
@@ -1592,47 +1812,68 @@ async function doLogin(){
   try{
     let authUserId=null;
 
-    // INTENTO 1: Login con Supabase Auth (usuarios ya migrados)
+    // INTENTO 1: Login con Supabase Auth
     try{
       const authData=await sbAuthSignIn(email,pass);
       authUserId=authData.user?.id;
     }catch(authErr){
-      // Auth falló — puede ser usuario no migrado aún, verificar con bcrypt
-      const found=await fetch(`${SUPABASE_URL}/rest/v1/usuarios?email=eq.${encodeURIComponent(email)}&select=id,contrasena,pass_hash,auth_id`,{
+      // Auth falló — verificar con tabla usuarios (bcrypt o texto plano)
+      const found=await fetch(`${SUPABASE_URL}/rest/v1/usuarios?email=ilike.${encodeURIComponent(email)}&select=id,contrasena,pass_hash,auth_id`,{
         headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
       }).then(r=>r.json());
 
-      if(!found.length||(!found[0].pass_hash&&found[0].contrasena==='[PROTEGIDO]')){
+      if(!found.length){
         throw new Error('Correo o contraseña incorrectos.');
       }
 
       const user=found[0];
-      let passOk=false;
-      if(user.pass_hash)passOk=await _bcrypt.compare(pass,user.pass_hash);
-      else passOk=(user.contrasena===pass);
 
-      if(!passOk)throw new Error('Correo o contraseña incorrectos.');
-
-      // Contraseña correcta — migrar a Supabase Auth automáticamente
-      try{
-        const signupData=await sbAuthSignUp(email,pass);
-        authUserId=signupData.user?.id||signupData.id;
-        if(authUserId){
-          // Vincular auth_id en nuestra tabla y hashear contraseña
-          const hash=await _bcrypt.hash(pass,10);
-          await fetch(`${SUPABASE_URL}/rest/v1/usuarios?id=eq.${user.id}`,{
-            method:'PATCH',
-            headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},
-            body:JSON.stringify({auth_id:authUserId,pass_hash:hash,contrasena:'[PROTEGIDO]'})
-          });
-          // Ahora sí login con Auth
+      // Caso: pass_hash vacío y contraseña protegida → no se puede verificar localmente
+      // Intentar crear/vincular cuenta Auth para que el usuario pueda entrar
+      if(!user.pass_hash&&user.contrasena==='[PROTEGIDO]'){
+        // Intentar recuperar acceso creando cuenta en Auth con los datos del sistema
+        try{
+          await sbAuthSignUp(email,pass);
           const authData2=await sbAuthSignIn(email,pass);
           authUserId=authData2.user?.id;
+          if(authUserId){
+            const hash=await _bcrypt.hash(pass,10).catch(()=>null);
+            await fetch(`${SUPABASE_URL}/rest/v1/usuarios?id=eq.${user.id}`,{
+              method:'PATCH',
+              headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},
+              body:JSON.stringify({auth_id:authUserId,...(hash?{pass_hash:hash}:{})})
+            });
+          }
+        }catch{
+          throw new Error('No se puede verificar tu contraseña. Usa "¿Olvidaste tu contraseña?" para restablecerla.');
         }
-      }catch(migErr){
-        // Si ya existe en Auth, intentar login directo
-        try{const authData3=await sbAuthSignIn(email,pass);authUserId=authData3.user?.id;}
-        catch{/* usar el usuario de tabla directamente sin auth_id */}
+        if(!authUserId)throw new Error('No se puede verificar tu contraseña. Usa "¿Olvidaste tu contraseña?" para restablecerla.');
+      } else {
+        // Verificar contraseña con bcrypt o texto plano
+        let passOk=false;
+        if(user.pass_hash)passOk=await _bcrypt.compare(pass,user.pass_hash);
+        else passOk=(user.contrasena===pass);
+
+        if(!passOk)throw new Error('Correo o contraseña incorrectos.');
+
+        // Contraseña correcta — migrar a Supabase Auth automáticamente
+        try{
+          const signupData=await sbAuthSignUp(email,pass);
+          authUserId=signupData.user?.id||signupData.id;
+          if(authUserId){
+            const hash=await _bcrypt.hash(pass,10).catch(()=>null);
+            await fetch(`${SUPABASE_URL}/rest/v1/usuarios?id=eq.${user.id}`,{
+              method:'PATCH',
+              headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'},
+              body:JSON.stringify({auth_id:authUserId,...(hash?{pass_hash:hash,contrasena:'[PROTEGIDO]'}:{})})
+            });
+            const authData2=await sbAuthSignIn(email,pass);
+            authUserId=authData2.user?.id;
+          }
+        }catch(migErr){
+          try{const authData3=await sbAuthSignIn(email,pass);authUserId=authData3.user?.id;}
+          catch{/* continuar sin auth_id */}
+        }
       }
     }
 
@@ -1644,9 +1885,9 @@ async function doLogin(){
         headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+(_accessToken||SUPABASE_KEY)}
       }).then(r=>r.json());
     }
-    // Fallback: buscar por email si no encontró por auth_id
+    // Fallback: buscar por email si no encontró por auth_id (ilike = case-insensitive)
     if(!users.length){
-      users=await fetch(`${SUPABASE_URL}/rest/v1/usuarios?email=eq.${encodeURIComponent(email)}&select=*`,{
+      users=await fetch(`${SUPABASE_URL}/rest/v1/usuarios?email=ilike.${encodeURIComponent(email)}&select=*`,{
         headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+(_accessToken||SUPABASE_KEY)}
       }).then(r=>r.json());
       // Vincular auth_id si lo obtuvimos
@@ -1771,13 +2012,16 @@ function buildApp(){
       });
       Object.entries(porCat).sort(([a],[b])=>a.localeCompare(b,'es')).forEach(([cat,svcs])=>{
         // Header de categoría colapsable
-        const catId='navcat_'+cat.replace(/\s+/g,'_');
+        const catId='navcat_'+cat.replace(/\W+/g,'_');
         const catHeader=document.createElement('div');
         catHeader.style.cssText='display:flex;align-items:center;gap:6px;padding:8px 14px 5px;cursor:pointer;user-select:none';
         const totalPendCat=svcs.reduce((a,{sid})=>a+ORDERS.filter(o=>o.serviceId===sid&&o.providerId===u.id&&o.status==='in_progress').length,0);
-        catHeader.innerHTML=`<svg id="arr_${catId}" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="var(--text3)" stroke-width="1.5"><path d="M2 3.5l3 3 3-3" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;font-weight:700;flex:1">${cat}</span>${totalPendCat>0?`<span style="background:var(--accent);color:#fff;font-size:10px;padding:1px 6px;border-radius:20px">${totalPendCat}</span>`:''}`;
+        // Empezar abierta solo si tiene pedidos pendientes; cerrada por defecto
+        const startOpen=totalPendCat>0;
+        catHeader.innerHTML=`<svg id="arr_${catId}" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="var(--text3)" stroke-width="1.5" style="transition:transform .18s;transform:${startOpen?'none':'rotate(-90deg)'}"><path d="M2 3.5l3 3 3-3" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;font-weight:700;flex:1">${cat}</span>${totalPendCat>0?`<span style="background:var(--accent);color:#fff;font-size:10px;padding:1px 6px;border-radius:20px">${totalPendCat}</span>`:''}`;
         const catBody=document.createElement('div');
         catBody.id=catId;
+        catBody.style.display=startOpen?'block':'none';
         catHeader.onclick=()=>{
           const open=catBody.style.display!=='none';
           catBody.style.display=open?'none':'block';
@@ -1918,7 +2162,7 @@ function renderPanel(id){
           onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
           <div style="flex:1"><div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="font-weight:600;color:var(--text)">${firstKey}: ${firstVal}</span>${badge}</div>
           <div style="font-size:11px;color:var(--text3);margin-top:2px">${fmtDate(o.created_at)}</div></div>
-          <div style="font-family:Syne;font-weight:700;color:var(--accent2)">$${o.credits} MXN</div>
+          <div style="font-family:Syne;font-weight:700;color:var(--accent2)">${fmtCreditos(o.credits)}</div>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--text3)" stroke-width="1.5"><path d="M5 3l4 4-4 4"/></svg>
         </div>`;
       }).join('')}
@@ -2030,7 +2274,7 @@ function renderPanel(id){
               <td><span class="service-name">${s?.name||'—'}</span></td>
               <td><div style="font-size:10px;color:var(--text3);margin-bottom:1px">${firstKey}</div><div style="font-size:13px;font-weight:500;color:var(--text)">${firstVal}</div></td>
               <td>${fmtDate(o.created_at)}</td>
-              <td><span style="font-family:Syne;font-weight:700;color:var(--accent2)">$${o.credits} MXN</span></td>
+              <td><span style="font-family:Syne;font-weight:700;color:var(--accent2)">${fmtCreditos(o.credits)}</span></td>
               <td>${sBadge(o.status,o.deliveryNote)}</td>
               <td style="text-align:center;color:var(--text3);font-size:13px">↗</td>
             </tr>`;
@@ -2099,58 +2343,118 @@ function renderPanel(id){
   }
 
   else if(id==='catalog'){
-    const SECCIONES=[{id:'tramites',label:'📋 Trámites'},{id:'papeleria',label:'📄 Papelería'},{id:'software',label:'💻 Software'}];
+    const SECCIONES=getSecciones();
+
+    // Clave de localStorage por usuario para persistir qué categorías tiene abiertas
+    const _catStateKey=()=>`cdmx_cats_${currentUser?.id||'g'}_${_catalogSeccion}`;
+    const _loadCatStates=()=>{try{return JSON.parse(localStorage.getItem(_catStateKey())||'{}')}catch{return{}}};
+    const _saveCatStates=states=>localStorage.setItem(_catStateKey(),JSON.stringify(states));
+
+    // Normaliza texto para búsqueda: quita acentos y pasa a minúsculas
+    const _norm=t=>(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+
     const renderCatalogSeccion=()=>{
-      const activeServices=SERVICES.filter(s=>s.activo!==false&&(s.seccion||'tramites')===_catalogSeccion);
+      const q=_norm((document.getElementById('catalogSearch')?.value||'').trim());
+      const allSvc=SERVICES.filter(s=>s.activo!==false&&(s.seccion||'tramites')===_catalogSeccion);
       const body=document.getElementById('catalogBody');
       if(!body)return;
-      if(!activeServices.length){body.innerHTML='<div class="card" style="text-align:center;color:var(--text3);padding:40px">No hay servicios disponibles en esta sección por el momento.</div>';return;}
-      const catsUsed=[...new Set(activeServices.map(s=>s.cat))].sort((a,b)=>a.localeCompare(b,'es'));
+
+      const filtered=q?allSvc.filter(s=>_norm(s.name).includes(q)||_norm(s.desc).includes(q)||_norm(s.cat).includes(q)):allSvc;
+
+      if(!filtered.length){
+        body.innerHTML=`<div class="card" style="text-align:center;color:var(--text3);padding:40px">${q?'Sin resultados para "'+htmlEsc(q)+'"':'No hay servicios disponibles en esta sección.'}</div>`;
+        return;
+      }
+
+      const catStates=_loadCatStates();
+      const catsUsed=[...new Set(filtered.map(s=>s.cat))].sort((a,b)=>a.localeCompare(b,'es'));
+
       body.innerHTML=catsUsed.map(cat=>{
-        const svcsCat=activeServices.filter(s=>s.cat===cat).sort((a,b)=>a.name.localeCompare(b.name,'es'));
-        return`<div class="cat-section">
-          <div class="cat-label">
-            <span class="cat-label-text">${cat}</span>
-            <span class="cat-label-count">${svcsCat.length}</span>
-            <span class="cat-label-line"></span>
-          </div>
-          <div class="services-grid">
-            ${svcsCat.map(s=>`
-              <div class="service-card" onclick="openOrderModal('${s.id}')">
-                <div class="sc-name">${s.name}</div>
-                <div class="sc-desc">${s.desc}</div>
-                <div class="sc-footer">
-                  <div class="sc-price-wrap">
-                    <div class="sc-price">$${s.credits} <span style="font-size:10px;color:var(--text3)">MXN</span></div>
-                    <div class="sc-meta">${s.delivery}</div>
+        const svcsCat=filtered.filter(s=>s.cat===cat).sort((a,b)=>a.name.localeCompare(b.name,'es'));
+        // Si hay búsqueda activa, forzar abierto; si no, usar estado guardado (default: cerrado)
+        const isOpen=q?true:(catStates[cat]===true);
+        const catId='cat_'+cat.replace(/\W+/g,'_');
+        return`<div style="border:1px solid var(--border);border-radius:var(--radius2);overflow:hidden;margin-bottom:8px">
+          <button id="${catId}_btn" onclick="window._toggleCat('${catId}','${cat.replace(/'/g,"\\'")}')"
+            style="width:100%;display:flex;align-items:center;gap:10px;padding:13px 16px;background:var(--bg2);border:none;cursor:pointer;text-align:left;transition:background .15s"
+            onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background='var(--bg2)'">
+            <span style="flex:1;font-size:13px;font-weight:700;color:var(--text);font-family:'DM Sans',sans-serif;letter-spacing:.2px">${htmlEsc(cat)}</span>
+            <span style="font-size:11px;font-weight:600;color:var(--accent2);background:var(--accentbg);padding:2px 8px;border-radius:20px;flex-shrink:0">${svcsCat.length}</span>
+            <svg id="${catId}_chev" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--text3)" stroke-width="2" style="flex-shrink:0;transition:transform .2s;transform:rotate(${isOpen?'180':'0'}deg)"><path d="M2 5l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div id="${catId}_body" style="display:${isOpen?'block':'none'}">
+            <div class="services-grid" style="padding:12px">
+              ${svcsCat.map(s=>`
+                <div class="service-card" onclick="openOrderModal('${s.id}')">
+                  <div class="sc-name">${s.name}</div>
+                  <div class="sc-desc">${s.desc}</div>
+                  <div class="sc-footer">
+                    <div class="sc-price-wrap">
+                      <div class="sc-price">${s.credits===0?'<span style="color:var(--success)">Gratis</span>':`$${s.credits} <span style="font-size:10px;color:var(--text3)">MXN</span>`}</div>
+                      <div class="sc-meta">${s.delivery}</div>
+                    </div>
+                    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+                      ${(s.ejemplos||[]).map((url,i)=>`<a href="${url}" download onclick="event.stopPropagation()"
+                        style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius3);padding:4px 9px;color:var(--text2);text-decoration:none;font-size:10px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap"
+                        onmouseover="this.style.borderColor='var(--accentborder)';this.style.color='var(--accent2)'"
+                        onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">📎 ${(s.ejemplos||[]).length>1?'Ejemplo '+(i+1):'Ejemplo'}</a>`).join('')}
+                      <button class="sc-cta" onclick="event.stopPropagation();openOrderModal('${s.id}')">${_catalogSeccion==='tramites'?'Pedir':'Comprar'}</button>
+                    </div>
                   </div>
-                  <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-                    ${(s.ejemplos||[]).map((url,i)=>`<a href="${url}" download onclick="event.stopPropagation()"
-                      style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius3);padding:4px 9px;color:var(--text2);text-decoration:none;font-size:10px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap"
-                      onmouseover="this.style.borderColor='var(--accentborder)';this.style.color='var(--accent2)'"
-                      onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">📎 ${(s.ejemplos||[]).length>1?'Ejemplo '+(i+1):'Ejemplo'}</a>`).join('')}
-                    <button class="sc-cta" onclick="event.stopPropagation();openOrderModal('${s.id}')">${_catalogSeccion==='tramites'?'Pedir':'Comprar'}</button>
-                  </div>
-                </div>
-              </div>`).join('')}
+                </div>`).join('')}
+            </div>
           </div>
         </div>`;
       }).join('');
+
       // actualizar tab activo visualmente
       SECCIONES.forEach(sec=>{
         const btn=document.getElementById('ctab_'+sec.id);
         if(btn){btn.style.background=sec.id===_catalogSeccion?'var(--accent)':'transparent';btn.style.color=sec.id===_catalogSeccion?'#fff':'var(--text2)';btn.style.borderColor=sec.id===_catalogSeccion?'var(--accent)':'var(--border)';}
       });
     };
+
+    // Toggle acordeón: guarda estado en localStorage
+    window._toggleCat=function(catId,catName){
+      const bodyEl=document.getElementById(catId+'_body');
+      const chevEl=document.getElementById(catId+'_chev');
+      if(!bodyEl)return;
+      const open=bodyEl.style.display==='none';
+      bodyEl.style.display=open?'block':'none';
+      if(chevEl)chevEl.style.transform=open?'rotate(180deg)':'rotate(0deg)';
+      const states=_loadCatStates();
+      states[catName]=open;
+      _saveCatStates(states);
+    };
+
     window._switchCatalogTab=function(sec){_catalogSeccion=sec;renderCatalogSeccion();};
+
     el.innerHTML=`
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
         ${SECCIONES.map(sec=>`<button id="ctab_${sec.id}" onclick="window._switchCatalogTab('${sec.id}')"
           style="padding:8px 18px;border-radius:var(--radius2);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid var(--border);background:transparent;color:var(--text2)">
           ${sec.label}
         </button>`).join('')}
       </div>
+      <div style="position:relative;margin-bottom:14px">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="var(--text3)" stroke-width="1.5" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none"><circle cx="6.5" cy="6.5" r="4"/><path d="M11 11l2.5 2.5" stroke-linecap="round"/></svg>
+        <input id="catalogSearch" type="text" placeholder="Buscar servicio... (ej: permiso, acta, RFC)"
+          oninput="renderCatalogSeccion()"
+          style="width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius2);padding:10px 36px 10px 38px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;box-sizing:border-box"
+          onfocus="this.style.borderColor='var(--accentborder)'" onblur="this.style.borderColor='var(--border2)'">
+        <button onclick="document.getElementById('catalogSearch').value='';renderCatalogSeccion()" id="catalogSearchClear"
+          style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;padding:4px;line-height:1;display:none">✕</button>
+      </div>
       <div id="catalogBody"></div>`;
+
+    // Mostrar/ocultar botón limpiar búsqueda
+    document.getElementById('catalogSearch').addEventListener('input',function(){
+      const cl=document.getElementById('catalogSearchClear');
+      if(cl)cl.style.display=this.value?'block':'none';
+    });
+
+    // Exponer renderCatalogSeccion globalmente para el oninput
+    window.renderCatalogSeccion=renderCatalogSeccion;
     renderCatalogSeccion();
   }
 
@@ -2158,7 +2462,7 @@ function renderPanel(id){
     el.innerHTML=`
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
         <div style="display:flex;gap:7px;flex-wrap:wrap;flex:1" id="orderFilters">
-          ${['all','pending','in_progress','completed','refunded'].map(f=>`<button class="btn-sm" onclick="filterOrders('${f}')" data-filter="${f}">${{all:'Todos',pending:'Pendientes',in_progress:'En Progreso',completed:'Completados',refunded:'Reembolsados'}[f]}</button>`).join('')}
+          ${['all','in_progress','completed','refunded'].map(f=>`<button class="btn-sm" onclick="filterOrders('${f}')" data-filter="${f}">${{all:'Todos',in_progress:'En Progreso',completed:'Completados',refunded:'Reembolsados'}[f]}</button>`).join('')}
         </div>
         <div style="position:relative;min-width:200px">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="var(--text3)" stroke-width="1.5" style="position:absolute;left:10px;top:50%;transform:translateY(-50%)"><circle cx="5.5" cy="5.5" r="3.5"/><path d="M9 9l2.5 2.5" stroke-linecap="round"/></svg>
@@ -2359,8 +2663,9 @@ function renderPanel(id){
     el.innerHTML=`
       ${myAssigned.length>0?`
       <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap">
-        <div style="background:var(--accentbg);border:1px solid var(--accentborder);border-radius:var(--radius2);padding:10px 16px;font-size:13px;color:var(--accent2);flex:1">
-          Servicios asignados: <strong>${myAssigned.map(sid=>{const s=SERVICES.find(x=>x.id===sid);return s?.name||sid;}).join(', ')}</strong>
+        <div style="background:var(--accentbg);border:1px solid var(--accentborder);border-radius:var(--radius2);padding:10px 16px;font-size:13px;color:var(--accent2);flex:1;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span>${iconList()}</span>
+          <span><strong>${myAssigned.length}</strong> servicio${myAssigned.length!==1?'s':''} asignados en <strong>${[...new Set(myAssigned.map(sid=>SERVICES.find(x=>x.id===sid)?.cat).filter(Boolean))].length}</strong> categoría${[...new Set(myAssigned.map(sid=>SERVICES.find(x=>x.id===sid)?.cat).filter(Boolean))].length!==1?'s':''} — usa el menú lateral para navegar por categoría</span>
         </div>
         ${mine.length>0?`<button onclick="rechazarTodosLosPedidos()" style="background:var(--dangerbg);border:1px solid #ef444430;border-radius:var(--radius2);padding:9px 16px;color:var(--danger);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">⚠ Rechazar todos</button>`:''}
       </div>`:`<div style="background:var(--warningbg);border:1px solid #f59e0b30;border-radius:var(--radius2);padding:10px 16px;font-size:13px;color:var(--warning)">El administrador aún no te ha asignado servicios específicos.</div>`}
@@ -2394,7 +2699,7 @@ function renderPanel(id){
                 <div style="font-size:12px;color:var(--text3);margin-top:2px">${firstKey}: <span style="color:var(--text2);font-weight:500">${firstVal}</span></div>
               </div>
               <div style="text-align:right;flex-shrink:0">
-                <div style="font-family:Syne;font-weight:700;color:var(--accent2);font-size:14px">$${o.credits} MXN</div>
+                <div style="font-family:Syne;font-weight:700;color:var(--accent2);font-size:14px">${fmtCreditos(o.credits)}</div>
                 <div style="font-size:11px;color:var(--text3);margin-top:2px">${fmtDate(o.created_at)}</div>
               </div>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--text3)" stroke-width="1.5" style="flex-shrink:0"><path d="M5 3l4 4-4 4"/></svg>
@@ -2407,8 +2712,8 @@ function renderPanel(id){
     const done=ORDERS.filter(o=>o.providerId===u.id&&o.status==='completed')
       .sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
     const totalGanado=done.reduce((a,o)=>a+(o.credits||0),0);
-    const hoy=new Date().toDateString();
-    const gananciaHoy=done.filter(o=>new Date(o.created_at).toDateString()===hoy).reduce((a,o)=>a+(o.credits||0),0);
+    const hoy=todayCDMX();
+    const gananciaHoy=done.filter(o=>new Date(o.created_at).toLocaleDateString('sv-SE',{timeZone:'America/Mexico_City'})===hoy).reduce((a,o)=>a+(o.credits||0),0);
     el.innerHTML=`
       <div class="stats-grid">
         <div class="stat-card green" onclick="switchPanel('provider_orders');closeSidebar()" style="cursor:pointer"><div class="stat-label">Trabajos completados</div><div class="stat-value green">${done.length}</div><div class="stat-sub">Ver historial</div></div>
@@ -2438,13 +2743,13 @@ function renderPanel(id){
     const done=ORDERS.filter(o=>o.status==='completed').length;
     el.innerHTML=`
       <div class="stats-grid">
-        <div class="stat-card purple" onclick="switchPanel('admin_orders');closeSidebar()" style="cursor:pointer"><div class="stat-label">Total Pedidos</div><div class="stat-value purple">${ORDERS.length}</div></div>
-        <div class="stat-card blue" onclick="switchPanel('admin_orders');closeSidebar()" style="cursor:pointer"><div class="stat-label">En Progreso</div><div class="stat-value blue">${inp}</div><div class="stat-sub">Ver pedidos</div></div>
-        <div class="stat-card green" onclick="switchPanel('admin_orders');closeSidebar()" style="cursor:pointer"><div class="stat-label">Completados</div><div class="stat-value green">${done}</div><div class="stat-sub">Ver pedidos</div></div>
+        <div class="stat-card purple" onclick="adminOrderFilter='all';adminOrderPage=0;switchPanel('admin_orders');closeSidebar()" style="cursor:pointer"><div class="stat-label">Total Pedidos</div><div class="stat-value purple">${ORDERS.length}</div></div>
+        <div class="stat-card blue" onclick="adminOrderFilter='in_progress';adminOrderPage=0;switchPanel('admin_orders');closeSidebar()" style="cursor:pointer"><div class="stat-label">En Progreso</div><div class="stat-value blue">${inp}</div><div class="stat-sub">Ver pedidos</div></div>
+        <div class="stat-card green" onclick="adminOrderFilter='completed';adminOrderPage=0;switchPanel('admin_orders');closeSidebar()" style="cursor:pointer"><div class="stat-label">Completados</div><div class="stat-value green">${done}</div><div class="stat-sub">Ver pedidos</div></div>
         <div class="stat-card blue" onclick="window._userRolFilter='client';window._userRolFilterFromDashboard=true;switchPanel('admin_users');closeSidebar()" style="cursor:pointer"><div class="stat-label">Clientes</div><div class="stat-value blue">${USERS.filter(u=>u.rol==='client').length}</div><div class="stat-sub">Ver clientes</div></div>
         <div class="stat-card green" onclick="window._userRolFilter='provider';window._userRolFilterFromDashboard=true;switchPanel('admin_users');closeSidebar()" style="cursor:pointer"><div class="stat-label">Proveedores</div><div class="stat-value green">${USERS.filter(u=>u.rol==='provider').length}</div><div class="stat-sub">Ver proveedores</div></div>
       </div>
-      <div class="card"><div class="card-title">${iconList()} Actividad reciente</div>${adminOrderTable(ORDERS.slice(0,8))}</div>`;
+      <div class="card" id="actividadRecienteCard"><div class="card-title">${iconList()} Actividad reciente</div>${adminOrderTable(ORDERS.slice(0,8))}</div>`;
   }
 
   else if(id==='admin_orders'){
@@ -2458,7 +2763,7 @@ function renderPanel(id){
             onfocus="this.style.borderColor='var(--accentborder)'" onblur="this.style.borderColor='var(--border2)'">
         </div>
         <div style="display:flex;gap:6px;flex-wrap:wrap" id="adminOrderFilters">
-          ${['all','pending','in_progress','completed','refunded'].map(f=>`<button class="btn-sm" onclick="setAdminOrderFilter('${f}')" data-filter="${f}">${{all:'Todos',pending:'Pendientes',in_progress:'En Progreso',completed:'Completados',refunded:'Rechazados'}[f]}</button>`).join('')}
+          ${['all','in_progress','completed','refunded'].map(f=>`<button class="btn-sm" onclick="setAdminOrderFilter('${f}')" data-filter="${f}">${{all:'Todos',in_progress:'En Progreso',completed:'Completados',refunded:'Rechazados'}[f]}</button>`).join('')}
         </div>
       </div>
       <div class="card" style="padding:0;overflow:hidden">
@@ -2501,11 +2806,14 @@ function renderPanel(id){
   }
 
   else if(id==='admin_services'){
-    const SECCIONES_ADM=[{id:'tramites',label:'📋 Trámites'},{id:'papeleria',label:'📄 Papelería'},{id:'software',label:'💻 Software'}];
+    const SECCIONES_ADM=getSecciones();
+    const _normAdm=t=>(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
     const renderAdminSvcs=()=>{
+      const q=_normAdm(document.getElementById('adminSvcSearch')?.value||'');
       const secSvcs=SERVICES.filter(s=>(s.seccion||'tramites')===_adminSvcSeccion);
-      const activeSvcs=secSvcs.filter(s=>s.activo!==false);
-      const catsSorted=[...new Set(secSvcs.map(s=>s.cat))].sort((a,b)=>a.localeCompare(b,'es'));
+      const filtered=q?secSvcs.filter(s=>_normAdm(s.name).includes(q)||_normAdm(s.cat).includes(q)):secSvcs;
+      const activeSvcs=filtered.filter(s=>s.activo!==false);
+      const catsSorted=[...new Set(filtered.map(s=>s.cat))].sort((a,b)=>a.localeCompare(b,'es'));
       const body=document.getElementById('adminSvcBody');
       if(!body)return;
       // actualizar tabs
@@ -2514,9 +2822,9 @@ function renderPanel(id){
         if(btn){btn.style.background=sec.id===_adminSvcSeccion?'var(--accent)':'transparent';btn.style.color=sec.id===_adminSvcSeccion?'#fff':'var(--text2)';btn.style.borderColor=sec.id===_adminSvcSeccion?'var(--accent)':'var(--border)';}
       });
       const counter=document.getElementById('adminSvcCounter');
-      if(counter)counter.textContent=`${activeSvcs.length} activo(s) · ${secSvcs.length-activeSvcs.length} inactivo(s)`;
-      body.innerHTML=`${catsSorted.map(cat=>{
-        const svcs=secSvcs.filter(s=>s.cat===cat).sort((a,b)=>a.name.localeCompare(b.name,'es'));
+      if(counter)counter.textContent=q?`${filtered.length} resultado(s) para "${q}"`:`${activeSvcs.length} activo(s) · ${secSvcs.length-activeSvcs.length} inactivo(s)`;
+      body.innerHTML=`${catsSorted.length===0?`<div class="card" style="text-align:center;color:var(--text3);padding:40px">${q?'Sin resultados para "'+htmlEsc(q)+'"':'No hay servicios en esta sección.'}</div>`:''}${catsSorted.map(cat=>{
+        const svcs=filtered.filter(s=>s.cat===cat).sort((a,b)=>a.name.localeCompare(b.name,'es'));
         const activeCount=svcs.filter(s=>s.activo!==false).length;
         return`<div>
           <div class="cat-label"><span class="cat-label-text">${cat}</span><span class="cat-label-count">${activeCount}/${svcs.length}</span><span class="cat-label-line"></span></div>
@@ -2542,6 +2850,7 @@ function renderPanel(id){
                   ${s.generator_type==='antecedentes_edomex'?`<span style="font-size:9px;background:rgba(100,116,139,0.12);color:#475569;border:1px solid #47556930;border-radius:10px;padding:2px 7px;font-weight:600">📄 EdoMex</span>`:''}
                   ${s.generator_type==='ant_federales'?`<span style="font-size:9px;background:rgba(180,83,9,0.12);color:#92400e;border:1px solid #92400e30;border-radius:10px;padding:2px 7px;font-weight:600">🏛️ Federal</span>`:''}
                   ${s.generator_type==='acta_confirmacion'?`<span style="font-size:9px;background:rgba(124,58,237,0.12);color:#7c3aed;border:1px solid #7c3aed30;border-radius:10px;padding:2px 7px;font-weight:600">⛪ Confirmación</span>`:''}
+                  ${s.generator_type==='calcular_rfc'?`<span style="font-size:9px;background:rgba(234,179,8,0.12);color:#a16207;border:1px solid #a1620730;border-radius:10px;padding:2px 7px;font-weight:600">🔑 RFC</span>`:''}
                   ${s.generator_type==='alimenticio'?`<span style="font-size:9px;background:rgba(234,179,8,0.12);color:#a16207;border:1px solid #ca8a0430;border-radius:10px;padding:2px 7px;font-weight:600">🍽️ Alimentos</span>`:''}
                   ${s.permite_adjunto?`<span style="font-size:9px;background:rgba(99,102,241,0.08);color:var(--accent2);border:1px solid var(--accentborder);border-radius:10px;padding:2px 7px">📎 doc</span>`:''}
                 </div>
@@ -2564,6 +2873,7 @@ function renderPanel(id){
       }).join('')}
       ${secSvcs.length===0?'<div class="card" style="text-align:center;color:var(--text3);padding:40px">No hay servicios en esta sección. Crea el primero.</div>':''}`;
     };
+    window.renderAdminSvcs=renderAdminSvcs;
     window._switchAdminSvcTab=function(sec){_adminSvcSeccion=sec;renderAdminSvcs();};
     el.innerHTML=`
       <style>
@@ -2581,6 +2891,15 @@ function renderPanel(id){
           ${sec.label}
         </button>`).join('')}
       </div>
+      <div style="position:relative">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="var(--text3)" stroke-width="1.5" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none"><circle cx="6.5" cy="6.5" r="4"/><path d="M11 11l2.5 2.5" stroke-linecap="round"/></svg>
+        <input id="adminSvcSearch" type="text" placeholder="Buscar servicio por nombre o categoría..."
+          oninput="renderAdminSvcs()"
+          style="width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius2);padding:9px 34px 9px 36px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s;box-sizing:border-box"
+          onfocus="this.style.borderColor='var(--accentborder)'" onblur="this.style.borderColor='var(--border2)'">
+        <button onclick="document.getElementById('adminSvcSearch').value='';renderAdminSvcs()"
+          style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;padding:4px;line-height:1">✕</button>
+      </div>
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
         <div id="adminSvcCounter" style="font-size:13px;color:var(--text3)"></div>
         <button class="btn-confirm" onclick="openAddServiceModal()" style="display:flex;align-items:center;gap:7px;padding:9px 18px;font-size:13px">
@@ -2593,34 +2912,70 @@ function renderPanel(id){
   }
 
   else if(id==='admin_cats'){
-    const SECCIONES_CATS=[{id:'tramites',label:'📋 Trámites'},{id:'papeleria',label:'📄 Papelería'},{id:'software',label:'💻 Software'}];
     const renderAdminCats=()=>{
+      const SECCIONES_CATS=getSecciones();
+      const defaultIds=SECCIONES_DEFAULT.map(s=>s.id);
       const catsFull=(CATS_FULL||[]).filter(c=>(c.seccion||'tramites')===_adminCatsSeccion);
       const catsSorted=[...catsFull].sort((a,b)=>a.nombre.localeCompare(b.nombre,'es'));
       const body=document.getElementById('adminCatsList');
       if(!body)return;
+      // Actualizar tabs activos
       SECCIONES_CATS.forEach(sec=>{
         const btn=document.getElementById('cattab_'+sec.id);
         if(btn){btn.style.background=sec.id===_adminCatsSeccion?'var(--accent)':'transparent';btn.style.color=sec.id===_adminCatsSeccion?'#fff':'var(--text2)';btn.style.borderColor=sec.id===_adminCatsSeccion?'var(--accent)':'var(--border)';}
       });
       body.innerHTML=catsSorted.length===0
         ?'<p style="color:var(--text3);font-size:14px">Sin categorías en esta sección. Agrega la primera abajo.</p>'
-        :catsSorted.map(c=>`
-          <div style="display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);padding:9px 14px">
-            <span style="flex:1;font-size:14px;font-weight:500;color:var(--text)">${htmlEsc(c.nombre)}</span>
-            <span style="font-size:11px;color:var(--text3);margin-right:8px">${SERVICES.filter(s=>s.cat===c.nombre).length} servicio(s)</span>
-            <button class="btn-sm" onclick="editCategory('${c.nombre.replace(/'/g,"\\'")}')">Editar</button>
-            <button class="btn-sm danger" onclick="deleteCategory('${c.nombre.replace(/'/g,"\\'")}')">✕</button>
-          </div>`).join('');
+        :`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px">`+catsSorted.map(c=>{
+          const count=SERVICES.filter(s=>s.cat===c.nombre).length;
+          return`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);padding:14px 14px 12px;display:flex;flex-direction:column;gap:8px;transition:border-color .15s;cursor:default"
+            onmouseover="this.style.borderColor='var(--accentborder)'" onmouseout="this.style.borderColor='var(--border)'">
+            <div style="font-size:13px;font-weight:700;color:var(--text);line-height:1.2">${htmlEsc(c.nombre)}</div>
+            <div style="font-size:11px;color:var(--text3)">${count} servicio${count!==1?'s':''}</div>
+            <div style="display:flex;gap:6px;margin-top:2px">
+              <button class="btn-sm" style="flex:1;font-size:11px;padding:4px 6px" onclick="editCategory('${c.nombre.replace(/'/g,"\\'")}')">Editar</button>
+              <button class="btn-sm danger" style="padding:4px 8px;font-size:11px" onclick="deleteCategory('${c.nombre.replace(/'/g,"\\'")}')">✕</button>
+            </div>
+          </div>`;
+        }).join('')+`</div>`;
     };
     window._switchAdminCatsTab=function(sec){_adminCatsSeccion=sec;renderAdminCats();};
+    window._addSeccionUI=function(){
+      const inp=document.getElementById('newSeccionInput');
+      const nombre=(inp?.value||'').trim();
+      if(!nombre){showToast('Escribe el nombre de la nueva sección','warning');return;}
+      const slug=addSeccionCustom(nombre);
+      if(!slug){showToast('Esa sección ya existe o el nombre no es válido','warning');return;}
+      inp.value='';
+      renderPanel('admin_categories');
+      _adminCatsSeccion=slug;
+      renderAdminCats();
+      showToast(`Sección "${nombre}" creada. Ahora agrega categorías en ella.`,'success');
+    };
+    window._deleteSeccionUI=function(slug){
+      const enUso=(CATS_FULL||[]).some(c=>c.seccion===slug);
+      if(enUso){showToast('No puedes eliminar una sección que tiene categorías. Elimina primero sus categorías.','danger');return;}
+      if(!confirm('¿Eliminar esta sección?'))return;
+      deleteSeccionCustom(slug);
+      if(_adminCatsSeccion===slug)_adminCatsSeccion='tramites';
+      renderPanel('admin_categories');
+      showToast('Sección eliminada','warning');
+    };
+    const seccionesActuales=getSecciones();
+    const defaultIds=SECCIONES_DEFAULT.map(s=>s.id);
     el.innerHTML=`
       <div class="card">
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
-          ${SECCIONES_CATS.map(sec=>`<button id="cattab_${sec.id}" onclick="window._switchAdminCatsTab('${sec.id}')"
-            style="padding:7px 16px;border-radius:var(--radius2);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid var(--border);background:transparent;color:var(--text2)">
-            ${sec.label}
-          </button>`).join('')}
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
+          ${seccionesActuales.map(sec=>`
+            <div style="display:flex;align-items:center;gap:2px">
+              <button id="cattab_${sec.id}" onclick="window._switchAdminCatsTab('${sec.id}')"
+                style="padding:7px 16px;border-radius:var(--radius2);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid var(--border);background:transparent;color:var(--text2)">
+                ${sec.label}
+              </button>
+              ${!defaultIds.includes(sec.id)?`<button onclick="window._deleteSeccionUI('${sec.id}')" title="Eliminar sección"
+                style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:14px;padding:2px 4px;line-height:1;transition:color .15s"
+                onmouseover="this.style.color='var(--danger)'" onmouseout="this.style.color='var(--text3)'">✕</button>`:''}
+            </div>`).join('')}
         </div>
         <div id="adminCatsList" style="display:flex;flex-direction:column;gap:8px"></div>
         <div style="border-top:1px solid var(--border);margin-top:16px;padding-top:16px">
@@ -2630,6 +2985,13 @@ function renderPanel(id){
             <button class="btn-confirm" onclick="addCategory()" style="padding:10px 18px;font-size:13px">Agregar</button>
           </div>
         </div>
+        <div style="border-top:1px solid var(--border);margin-top:16px;padding-top:16px">
+          <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:10px">➕ Agregar nueva sección de pestañas</div>
+          <div class="cat-add-row">
+            <input type="text" id="newSeccionInput" placeholder="Ej: Educación, Legal, Salud..." maxlength="30">
+            <button class="btn-confirm" onclick="window._addSeccionUI()" style="padding:10px 18px;font-size:13px;background:var(--accent2)">Crear sección</button>
+          </div>
+        </div>
       </div>
       <div class="card" style="background:var(--warningbg);border:1px solid #f59e0b30">
         <div style="font-size:13px;color:var(--warning);line-height:1.6">
@@ -2637,12 +2999,13 @@ function renderPanel(id){
         </div>
       </div>`;
     document.getElementById('newCatInput')?.addEventListener('keydown',e=>{if(e.key==='Enter')addCategory();});
+    document.getElementById('newSeccionInput')?.addEventListener('keydown',e=>{if(e.key==='Enter')window._addSeccionUI();});
     renderAdminCats();
   }
 
   else if(id==='admin_credits'){
-    const today=new Date().toISOString().split('T')[0];
-    const todayTx=TRANSACTIONS.filter(t=>(t.created_at||'').startsWith(today));
+    const today=todayCDMX();
+    const todayTx=TRANSACTIONS.filter(t=>(t.created_at||'').split('T')[0]===today);
     const boughtToday=todayTx.filter(t=>t.tipo==='purchase').reduce((a,t)=>a+(t.cantidad||0),0);
     const spentToday=Math.abs(todayTx.filter(t=>t.tipo==='spend').reduce((a,t)=>a+(t.cantidad||0),0));
     el.innerHTML=`
@@ -2831,27 +3194,38 @@ function renderPanel(id){
 
   else if(id==='admin_reports'){
     const providers=USERS.filter(u=>u.rol==='provider');
-    const today=new Date().toISOString().split('T')[0];
-    const primerDiaMes=(()=>{const d=new Date();d.setDate(1);return d.toISOString().split('T')[0];})();
+    const today=todayCDMX();
+    const primerDiaMes=(()=>{const d=new Date();d.setDate(1);return d.toLocaleDateString('sv-SE',{timeZone:'America/Mexico_City'});})();
     el.innerHTML=`
       <div class="card">
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;align-items:flex-end">
-          <div class="mform-group" style="margin:0">
-            <label>Proveedor</label>
-            <select id="rptProvider">
-              <option value="all">Todos los proveedores</option>
-              ${providers.map(p=>`<option value="${p.id}">${p.nombre}</option>`).join('')}
-            </select>
+        <div style="margin-bottom:14px">
+          <button onclick="totalAPagarAhorita()" style="width:100%;padding:13px;background:var(--warningbg);border:1.5px solid #f59e0b50;border-radius:var(--radius2);color:var(--warning);font-family:'Syne',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px"
+            onmouseover="this.style.background='var(--warning)';this.style.color='#fff';this.style.borderColor='var(--warning)'"
+            onmouseout="this.style.background='var(--warningbg)';this.style.color='var(--warning)';this.style.borderColor='#f59e0b50'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2" stroke-linecap="round"/></svg>
+            Total a pagar hasta ahora
+          </button>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px">
+          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-weight:600;margin-bottom:10px">Reporte por rango de fechas</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;align-items:flex-end">
+            <div class="mform-group" style="margin:0">
+              <label>Proveedor</label>
+              <select id="rptProvider">
+                <option value="all">Todos los proveedores</option>
+                ${providers.map(p=>`<option value="${p.id}">${p.nombre}</option>`).join('')}
+              </select>
+            </div>
+            <div class="mform-group" style="margin:0">
+              <label>Fecha inicio</label>
+              <input type="date" id="rptFrom" value="${primerDiaMes}">
+            </div>
+            <div class="mform-group" style="margin:0">
+              <label>Fecha fin</label>
+              <input type="date" id="rptTo" value="${today}">
+            </div>
+            <button class="btn-confirm" onclick="generateReport()" style="padding:10px 18px;font-size:13px;white-space:nowrap">Generar Reporte</button>
           </div>
-          <div class="mform-group" style="margin:0">
-            <label>Fecha inicio</label>
-            <input type="date" id="rptFrom" value="${primerDiaMes}">
-          </div>
-          <div class="mform-group" style="margin:0">
-            <label>Fecha fin</label>
-            <input type="date" id="rptTo" value="${today}">
-          </div>
-          <button class="btn-confirm" onclick="generateReport()" style="padding:10px 18px;font-size:13px;white-space:nowrap">Generar Reporte</button>
         </div>
       </div>
       <div id="reportResult"></div>`;
@@ -2922,7 +3296,7 @@ function renderPanel(id){
             <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px">🔔 Notificaciones de Telegram</div>
             <div style="font-size:12px;color:var(--text2);background:var(--accentbg);border:1px solid var(--accentborder);border-radius:var(--radius2);padding:10px 13px;margin-bottom:10px;line-height:1.6">
               Para recibir notificaciones de nuevos pedidos:<br>
-              1. Abre <strong>@CyberDocsMX</strong> en Telegram y escribe <strong>/start</strong><br>
+              1. Abre <strong>@Cyberdocsmx_bot</strong> en Telegram y escribe <strong>/start</strong><br>
               2. El bot te responderá con tu Chat ID — pégalo aquí abajo
             </div>
             <div class="mform-group" style="margin:0">
@@ -2977,7 +3351,7 @@ function renderPanel(id){
           <div class="card-title" style="margin-bottom:10px">🔔 Notificaciones de Telegram</div>
           <div style="font-size:12px;color:var(--text2);background:var(--accentbg);border:1px solid var(--accentborder);border-radius:var(--radius2);padding:10px 13px;margin-bottom:10px;line-height:1.6">
             Recibe notificaciones cuando tu pedido esté completado o rechazado:<br>
-            1. Abre <strong>@CyberDocsMX</strong> en Telegram y escribe <strong>/start</strong><br>
+            1. Abre <strong>@Cyberdocsmx_bot</strong> en Telegram y escribe <strong>/start</strong><br>
             2. El bot te dirá tu Chat ID — pégalo aquí
           </div>
           <div class="mform-group" style="margin:0">
@@ -3081,7 +3455,7 @@ window.filtrarTxRango=function(){
 
 window.filterTx=function(q){
   const from=document.getElementById('txFrom')?.value||'';
-  const to=document.getElementById('txTo')?.value||new Date().toISOString().split('T')[0];
+  const to=document.getElementById('txTo')?.value||todayCDMX();
   const term=q.toLowerCase();
   const base=from?TRANSACTIONS.filter(t=>{const d=(t.created_at||'').split('T')[0];return d>=from&&d<=to;}):TRANSACTIONS;
   const filtered=term?base.filter(t=>{const u=USERS.find(x=>x.id===t.usuario_id);return u?.nombre?.toLowerCase().includes(term)||t.descripcion?.toLowerCase().includes(term);}):base;
@@ -3118,19 +3492,30 @@ function renderUsersRows(list){
   if(!list.length)return'<tr><td colspan="5" style="color:var(--text3);text-align:center;padding:24px">No se encontraron usuarios</td></tr>';
   return list.map(u=>{
     const ini=(u.nombre||'??').split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+    // Sin acceso: sin auth_id, o tiene auth_id pero nunca ha iniciado sesión (pass no coincide)
+    const nunca=u.auth_id&&(window._authSignInMap||{})[u.auth_id]===null;
+    const sinAuth=!u.auth_id;
+    const tieneErrorAuth=sinAuth||nunca;
+    const badgeError=tieneErrorAuth
+      ?`<span title="${sinAuth?'Sin cuenta de acceso vinculada':'Nunca ha iniciado sesión — posible problema con contraseña'}" style="display:inline-flex;align-items:center;gap:3px;background:#ef4444;color:#fff;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;margin-left:6px;cursor:default;letter-spacing:.3px">⚠ Sin acceso</span>`
+      :'';
     return`<tr>
       <td><div style="display:flex;align-items:center;gap:10px">
         ${u.foto_perfil
           ?`<div style="width:28px;height:28px;border-radius:50%;background:center/cover url(${u.foto_perfil});flex-shrink:0;border:1px solid var(--border2)"></div>`
           :`<div class="avatar avatar-${u.rol}" style="width:28px;height:28px;font-size:11px">${ini}</div>`}
-        <span class="service-name">${u.nombre}</span>
+        <span class="service-name">${u.nombre}</span>${badgeError}
       </div></td>
-      <td style="color:var(--text3)">${u.email}</td>
+      <td>
+        <div style="color:var(--text3);font-size:13px">${u.email}</div>
+        ${u.telefono?`<div style="font-size:11px;color:var(--text3);margin-top:2px;display:flex;align-items:center;gap:4px">📱 ${u.telefono} <a href="https://wa.me/52${u.telefono}" target="_blank" onclick="event.stopPropagation()" style="color:var(--success);font-size:10px;font-weight:600;text-decoration:none;background:var(--successbg);border:1px solid #22c55e30;border-radius:8px;padding:1px 6px">WhatsApp</a></div>`:'<div style="font-size:11px;color:var(--text3);margin-top:2px;opacity:.4">Sin teléfono</div>'}
+      </td>
       <td>${u.rol==='client'?'<span class="badge badge-purple">Cliente</span>':u.rol==='provider'?'<span class="badge badge-success">Proveedor</span>':'<span class="badge badge-danger">Admin</span>'}</td>
       <td>${u.rol==='client'?`<span class="price">${u.creditos||0}</span>`:'—'}</td>
       <td style="display:flex;gap:6px;flex-wrap:wrap">
         ${u.rol==='client'?`<button class="btn-sm" onclick="openAddCreditsAdmin('${u.id}','${u.nombre}')">+ Créditos</button>`:''}
         ${u.rol==='provider'?`<button class="btn-sm success" onclick="openAssignServicesModal('${u.id}','${u.nombre}')">⚙ Asignar</button>`:''}
+        <button class="btn-sm" style="border-color:#a78bfa40;color:#a78bfa" onclick="adminAbrirCambiarPass('${u.id}','${u.auth_id||''}','${u.nombre.replace(/'/g,'&#39;')}')">🔑 Pass</button>
         <button class="btn-sm danger" onclick="deleteUser('${u.id}','${u.nombre}')">Eliminar</button>
       </td>
     </tr>`;
@@ -3147,7 +3532,9 @@ window.filterUsers=function(q){
   const tbody=document.getElementById('usersTableBody');
   if(tbody)tbody.innerHTML=renderUsersRows(filtered);
 };
-function fmtDate(d){if(!d)return'—';return new Date(d).toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});}
+function fmtDate(d){if(!d)return'—';return new Date(d).toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric',timeZone:'America/Mexico_City'});}
+function todayCDMX(){return new Date().toLocaleDateString('sv-SE',{timeZone:'America/Mexico_City'});}
+function fmtCreditos(c){return c===0?'<span style="color:var(--success);font-weight:700">Gratis</span>':`$${c} MXN`;}
 function sBadge(s,nota){
   if(s==='refunded'&&nota&&nota.startsWith('RECHAZADO:'))
     return'<span class="badge badge-danger"><span class="dot dot-danger"></span>Rechazado</span>';
@@ -3181,7 +3568,7 @@ function renderOrdersTable(filter, search=''){
           <div style="font-weight:500;color:var(--text);font-size:13px">${htmlEsc(String(firstVal))}</div>
         </td>
         <td>${fmtDate(o.created_at)}</td>
-        <td><span style="font-family:Syne;font-weight:700;color:var(--accent2)">$${o.credits} MXN</span></td>
+        <td><span style="font-family:Syne;font-weight:700;color:var(--accent2)">${fmtCreditos(o.credits)}</span></td>
         <td>${sBadge(o.status,o.deliveryNote)}</td>
         <td style="text-align:center;color:var(--text3);font-size:13px">↗</td>
       </tr>`;
@@ -3307,7 +3694,7 @@ function providerDashTable(orders){
           <div style="font-size:12px;color:var(--text3)">${firstKey}: <span style="color:var(--text2);font-weight:500">${firstVal}</span></div>
         </div>
         <div style="text-align:right;flex-shrink:0">
-          <div style="font-family:Syne;font-weight:700;color:var(--accent2);font-size:14px">$${o.credits} MXN</div>
+          <div style="font-family:Syne;font-weight:700;color:var(--accent2);font-size:14px">${fmtCreditos(o.credits)}</div>
           <div style="font-size:11px;color:var(--text3);margin-top:2px">${fmtDate(o.created_at)}</div>
         </div>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--text3)" stroke-width="1.5" style="flex-shrink:0"><path d="M5 3l4 4-4 4"/></svg>
@@ -3371,7 +3758,7 @@ function adminOrderTable(orders){
         <td style="color:var(--text3);font-size:12px;white-space:nowrap;cursor:pointer" onclick="adminVerPedido('${o.id}')" title="Ver detalle">#${o.id.slice(-6)} ↗</td>
         <td style="cursor:pointer" onclick="adminVerPedido('${o.id}')" title="Ver detalle"><span class="service-name">${s?.name||'—'}</span></td>
         <td>${c?.nombre||'—'}</td>
-        <td><div style="font-size:10px;color:var(--text3)">${firstKey}</div><div style="font-size:12px;font-weight:500">${firstVal}</div></td>
+        <td style="max-width:200px"><div style="font-size:10px;color:var(--text3)">${firstKey}</div><div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px" title="${htmlEsc(String(firstVal))}">${String(firstVal).startsWith('http')?'<span style="color:var(--accent2);font-size:11px">📎 archivo adjunto</span>':htmlEsc(String(firstVal))}</div></td>
         <td>${p?p.nombre:o.status==='refunded'?'<span style="color:var(--danger);font-size:11px">Sin registro</span>':'<span style="color:var(--text3)">Sin asignar</span>'}</td>
         <td><span style="font-family:Syne;font-weight:300;color:var(--accent2)">$${o.credits}</span></td>
         <td>${sBadge(o.status,o.deliveryNote)}</td>
@@ -3400,8 +3787,11 @@ window.adminRevertCompleted=async function(oid){
   if(reason===null)return;
   const nota='RECHAZADO: '+(reason.trim()||'Revertido por administrador.');
   try{
-    await sb.patch(`pedidos?id=eq.${oid}`,{estado:'refunded',nota_entrega:nota});
-    await sb.patch(`usuarios?id=eq.${c.id}`,{creditos:(c.creditos||0)+o.credits});
+    const freshRows=await sb.get(`usuarios?select=id,creditos&id=eq.${c.id}`);
+    const fresh=freshRows?.[0];
+    if(!fresh){showToast('No se encontró al usuario en la base de datos','danger');return;}
+    await sb.patch(`pedidos?id=eq.${oid}`,{estado:'refunded',completed_at:new Date().toISOString(),nota_entrega:nota});
+    await sb.patch(`usuarios?id=eq.${fresh.id}`,{creditos:(fresh.creditos||0)+o.credits});
     await sb.post('transacciones',{usuario_id:c.id,tipo:'refund',cantidad:o.credits,descripcion:`Reembolso por corrección — #${oid.slice(-6)}`});
     await loadData();
     showToast(`Pedido revertido. $${o.credits} créditos devueltos a ${c.nombre}.`,'success');
@@ -3414,13 +3804,24 @@ window.addCategory=async function(){
   const inp=document.getElementById('newCatInput');
   const nombre=inp?.value?.trim();
   if(!nombre){showToast('Escribe el nombre de la categoría','danger');return;}
-  if(CATS.includes(nombre)){showToast('Esa categoría ya existe','warning');return;}
+  const seccionActual=_adminCatsSeccion||'tramites';
+  // Verificar si ya existe en esta misma sección
+  const yaExiste=(CATS_FULL||[]).some(c=>c.nombre.toLowerCase()===nombre.toLowerCase()&&(c.seccion||'tramites')===seccionActual);
+  if(yaExiste){showToast(`La categoría "${nombre}" ya existe en esta sección`,'warning');return;}
   try{
-    await sb.post('categorias',{nombre,activa:true,seccion:_adminCatsSeccion||'tramites'});
+    await sb.post('categorias',{nombre,activa:true,seccion:seccionActual});
+    inp.value='';
     await loadData();
     showToast(`Categoría "${nombre}" creada`,'success');
     renderPanel('admin_cats');
-  }catch(e){showToast('Error: '+e.message,'danger');}
+  }catch(e){
+    const msg=e.message||'';
+    if(msg.includes('duplicate')||msg.includes('unique')){
+      showToast(`Ya existe una categoría con ese nombre en otra sección. Usa un nombre diferente.`,'warning');
+    }else{
+      showToast('Error: '+msg,'danger');
+    }
+  }
 };
 
 window.deleteCategory=async function(nombre){
@@ -3642,20 +4043,21 @@ async function openOrderModal(sid){
 }
 
 async function submitOrder(){
+  // Bloqueo síncrono: si ya hay un submit en curso, ignorar clicks adicionales
+  if(window._submittingOrder)return;
+  window._submittingOrder=true;
+  const btn=document.querySelector('#modalBg .btn-confirm');
+  if(btn){btn.disabled=true;btn.textContent='Creando pedido...';}
+
   const svc=selectedService,u=currentUser;
   // Rate limit: máx 10 pedidos por minuto por usuario
   if(!checkReqRate('order_'+u.id,10)){
     showToast('Demasiadas solicitudes. Espera un momento.','warning');
+    if(btn){btn.disabled=false;btn.textContent='Confirmar Pedido';}
+    window._submittingOrder=false;
     return;
   }
-  // Bloquear pedido duplicado para servicios de actas (misma CURP, mismo servicio, pendiente)
-  if(svc.name&&svc.name.toUpperCase().includes('ACTA')){
-    const pedidosPendientes=await sb.get(`pedidos?cliente_id=eq.${u.id}&servicio_id=eq.${svc.id}&estado=in.(pending,in_progress)&select=id&limit=1`);
-    if(pedidosPendientes&&pedidosPendientes.length>0){
-      showToast('Ya tienes un pedido activo de este servicio. Espera a que se complete antes de solicitar otro.','warning');
-      return;
-    }
-  }
+
   const data={};let ok=true;
   (svc.fields||[]).forEach((f,i)=>{
     const v=document.getElementById('of_'+i)?.value?.trim();
@@ -3663,7 +4065,7 @@ async function submitOrder(){
     if(v.length>500){showToast('Un campo excede el límite de 500 caracteres','danger');ok=false;return;}
     data[sanitize(String(f))]=sanitize(v);
   });
-  if(!ok)return;
+  if(!ok){if(btn){btn.disabled=false;btn.textContent='Confirmar Pedido';}window._submittingOrder=false;return;}
   // Subir archivos del cliente si hay alguno (múltiples, con expiración de 7 días)
   let adjuntosArr=[];
   const filesToUpload=window._orderAdjuntoFiles||(window._orderAdjuntoFile?[window._orderAdjuntoFile]:[]);
@@ -3721,15 +4123,61 @@ async function submitOrder(){
       if(!curpResp.ok){
         const curpErr=await curpResp.json().catch(()=>({}));
         if(btn){btn.disabled=false;btn.textContent='Confirmar Pedido';}
+        window._submittingOrder=false;
         showToast(curpErr.error||'CURP no válido — favor de revisar y reintentar','danger');
         return;
       }
     }catch(e){
       if(btn){btn.disabled=false;btn.textContent='Confirmar Pedido';}
+      window._submittingOrder=false;
       showToast('No se pudo verificar el CURP. Intenta de nuevo.','warning');
       return;
     }
-    if(btn){btn.disabled=false;btn.textContent='Confirmar Pedido';}
+    if(btn){btn.textContent='Creando pedido...';}
+  }
+  // ── Calcular RFC automáticamente antes de crear el pedido ───────────────
+  if(svc.generator_type==='calcular_rfc'){
+    window._rfcCalculado=null;
+    const curpVal=(data['CURP']||'').toUpperCase().trim();
+    const btn=document.querySelector('#modalBg .btn-confirm');
+    if(btn){btn.disabled=true;btn.textContent='Calculando RFC...';}
+    try{
+      const token=await getToken();
+      // 1. Obtener datos del CURP
+      const curpResp=await fetch(`${SUPABASE_URL}/functions/v1/${CURP_EDGE_FN}`,{
+        method:'POST',
+        headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+token},
+        body:JSON.stringify({curp:curpVal})
+      });
+      if(!curpResp.ok){
+        const err=await curpResp.json().catch(()=>({}));
+        if(btn){btn.disabled=false;btn.textContent='Confirmar Pedido';}
+        window._submittingOrder=false;
+        showToast(err.error||'CURP no válido — favor de revisar y reintentar','danger');
+        return;
+      }
+      const{datos}=await curpResp.json();
+      // 2. Calcular RFC con los datos del CURP
+      const rfcResp=await fetch(`${SUPABASE_URL}/functions/v1/${RFC_EDGE_FN}`,{
+        method:'POST',
+        headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+token},
+        body:JSON.stringify({nombre:datos.nombre,primerApellido:datos.primer_apellido,segundoApellido:datos.segundo_apellido||'',fechaNacimiento:datos.fecha_nacimiento})
+      });
+      if(!rfcResp.ok){
+        if(btn){btn.disabled=false;btn.textContent='Confirmar Pedido';}
+        window._submittingOrder=false;
+        showToast('No se pudo calcular el RFC. Intenta de nuevo.','warning');
+        return;
+      }
+      const rfcData=await rfcResp.json();
+      window._rfcCalculado=rfcData.rfc;
+    }catch(e){
+      if(btn){btn.disabled=false;btn.textContent='Confirmar Pedido';}
+      window._submittingOrder=false;
+      showToast('Error al calcular RFC. Intenta de nuevo.','warning');
+      return;
+    }
+    if(btn){btn.textContent='Creando pedido...';}
   }
   // ─────────────────────────────────────────────────────────────────────────
   // ── Validar RFC/idCIF con SAT antes de cobrar créditos ──────────────────
@@ -3752,10 +4200,11 @@ async function submitOrder(){
       }
     }catch(e){
       if(btn){btn.disabled=false;btn.textContent='Confirmar Pedido';}
+      window._submittingOrder=false;
       showToast('No se pudo verificar con el SAT. Intenta de nuevo.','warning');
       return;
     }
-    if(btn){btn.disabled=false;btn.textContent='Confirmar Pedido';}
+    if(btn){btn.textContent='Creando pedido...';}
   }
   // ──────────────────────────────────────────────────────────────────────────
   // ================================================================================
@@ -3763,15 +4212,17 @@ async function submitOrder(){
     // Los servicios con generator_type (imss, covid, alimenticio) se crean como 'completed'
     // porque el documento ya está listo para descargarse - no requiere acción de proveedor
     const isLink=svc.generator_type==='link';
-    const isLocalGenerator=isGenerator&&(svc.generator_type==='alimenticio'||svc.generator_type==='imss'||svc.generator_type==='covid'||svc.generator_type==='constancia_fiscal'||svc.generator_type==='datos_curp'||svc.generator_type==='antecedentes_edomex'||svc.generator_type==='ant_federales'||svc.generator_type==='acta_confirmacion'||isLink);
+    const isLocalGenerator=isGenerator&&(svc.generator_type==='alimenticio'||svc.generator_type==='imss'||svc.generator_type==='covid'||svc.generator_type==='constancia_fiscal'||svc.generator_type==='datos_curp'||svc.generator_type==='antecedentes_edomex'||svc.generator_type==='ant_federales'||svc.generator_type==='acta_confirmacion'||svc.generator_type==='calcular_rfc'||isLink);
     // Buscar proveedor directamente en BD (USERS está vacío para clientes)
     let provider=null;
     if(!hasPDFTemplate&&!isLocalGenerator){
       provider=svc.proveedor_id?{id:svc.proveedor_id}:null;
     }
     // Los servicios automatizados (generator_type) y plantillas PDF se completan automáticamente
-    const estado=(hasPDFTemplate||isLocalGenerator)?'completed':provider?'in_progress':'pending';
-    const nota=(hasPDFTemplate)?'Documento generado automáticamente con plantilla PDF.':(isLocalGenerator)?'Documento listo para descargar.':null;
+    // CFE siempre arranca como in_progress para que el bridge lo tome automáticamente
+    const esCFEOrder=svc.generator_type==='recibo_cfe';
+    const estado=(hasPDFTemplate||isLocalGenerator)?'completed':esCFEOrder?'in_progress':provider?'in_progress':'pending';
+    const nota=(hasPDFTemplate)?'Documento generado automáticamente con plantilla PDF.':(svc.generator_type==='calcular_rfc'&&window._rfcCalculado)?`RFC: ${window._rfcCalculado}`:(isLocalGenerator)?'Documento listo para descargar.':null;
     // Añadir adjuntos del cliente si existen (array con url, nombre y fecha de expiración)
     if(adjuntosArr.length)data['__adjuntos__']=adjuntosArr;
 
@@ -3789,32 +4240,58 @@ async function submitOrder(){
       await sb.post('transacciones',{usuario_id:u.id,tipo:'spend',cantidad:-efectivosSubmit,descripcion:`Pedido — ${svc.name}`});
     }
     currentUser.creditos=nc;localStorage.setItem('cdmx_session',JSON.stringify(currentUser));
-    await loadData();updateCreditsDisplay();closeModal();
+    await loadData();updateCreditsDisplay();
+    if(activePanel==='dashboard'||activePanel==='orders')renderPanel(activePanel);
 
+    // Determinar mensaje de éxito según tipo de servicio
+    let successTitle,successMsg,successIcon;
     if(isLocalGenerator&&newOrder){
-      closeModal();
-      switchPanel('orders');
+      if(svc.generator_type==='calcular_rfc'&&window._rfcCalculado){
+        successIcon='🔑';successTitle='¡RFC Calculado!';
+        successMsg=`Tu RFC es:<br><strong style="font-size:22px;letter-spacing:3px;font-family:monospace">${htmlEsc(window._rfcCalculado)}</strong><br><span style="font-size:12px;color:var(--text3);margin-top:8px;display:block">Puedes consultarlo en cualquier momento en <strong>Mis Pedidos</strong>.</span>`;
+        sendPushTo(u.id,'🔑 Tu RFC está listo',`Tu RFC calculado es: ${window._rfcCalculado}`);
+        window._rfcCalculado=null;
+      }else{
       const tipoLabel=svc.generator_type==='imss'?'Receta IMSS':svc.generator_type==='covid'?'Certificado COVID':svc.generator_type==='constancia_fiscal'?'Constancia Fiscal SAT':svc.generator_type==='datos_curp'?'Datos del CURP':svc.generator_type==='antecedentes_edomex'?'No Antecedentes Penales EdoMex':svc.generator_type==='ant_federales'?'No Antecedentes Penales Federales':svc.generator_type==='acta_confirmacion'?'Acta de Confirmación':'Constancia de No Deudor Alimentario';
-      showToast(`¡Pedido completado! Descarga el documento ${tipoLabel} desde "Mis Pedidos" → Detalle del pedido → "Descargar documento".`,'success');
-      // Notificar al cliente que su documento está listo
+      successIcon='✅';successTitle='¡Documento listo!';
+      successMsg=`Tu <strong>${tipoLabel}</strong> está disponible para descargar.<br><span style="font-size:12px;color:var(--text3)">Entra a <strong>Mis Pedidos</strong> → abre el detalle → botón "Descargar documento".</span>`;
       sendPushTo(u.id,'✅ Tu documento esta listo',`Tu ${tipoLabel} esta disponible en Mis Pedidos para descargar.`);
+      }
     }else if(hasPDFTemplate&&newOrder){
-      showToast('¡Pedido completado! Entra a "Mis Pedidos" para descargar tu documento.','success');
+      successIcon='✅';successTitle='¡Documento listo!';
+      successMsg=`Tu documento está listo para descargar.<br><span style="font-size:12px;color:var(--text3)">Encuéntralo en <strong>Mis Pedidos</strong>.</span>`;
       sendPushTo(u.id,'✅ Tu documento esta listo','Tu documento esta disponible para descargar en Mis Pedidos.');
     }else{
-      showToast('Pedido creado.','success');
-      // Notificar al proveedor asignado de nuevo pedido
+      successIcon='📋';successTitle='¡Pedido creado con éxito!';
+      successMsg=`Tu pedido de <strong>${htmlEsc(svc.name)}</strong> fue recibido y está siendo procesado.<br><span style="font-size:12px;color:var(--text3)">Te notificaremos en cuanto esté listo. Puedes revisar el estado en <strong>Mis Pedidos</strong>.</span>`;
       if(provider?.id) sendPushTo(provider.id,'📋 Nuevo pedido',`Tienes un nuevo pedido de ${svc.name}. Entra al panel para verlo.`.normalize('NFD').replace(/[̀-ͯ]/g,''));
     }
-    if(activePanel==='dashboard'||activePanel==='orders')renderPanel(activePanel);
-  }catch(e){showToast('Error: '+e.message,'danger');}
+
+    // Mostrar pantalla de éxito dentro del modal (reemplaza el formulario)
+    openModal(`
+      <div style="text-align:center;padding:40px 24px;max-width:420px;margin:0 auto">
+        <div style="font-size:52px;margin-bottom:16px;line-height:1">${successIcon}</div>
+        <div style="font-family:Syne;font-size:20px;font-weight:700;color:var(--text);margin-bottom:12px">${successTitle}</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:28px">${successMsg}</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button class="btn-confirm" onclick="closeModal();switchPanel('orders')" style="padding:11px 22px">Ver mis pedidos</button>
+          <button class="btn-cancel" onclick="closeModal()" style="padding:11px 18px">Cerrar</button>
+        </div>
+      </div>`);
+    window._submittingOrder=false;
+  }catch(e){
+    window._submittingOrder=false;
+    const btnErr=document.querySelector('#modalBg .btn-confirm');
+    if(btnErr&&btnErr.textContent!=='Ver mis pedidos'){btnErr.disabled=false;btnErr.textContent='Confirmar Pedido';}
+    showToast('Error: '+e.message,'danger');
+  }
 }
 
 window.openOrderDetail=function(oid){
   const o=ORDERS.find(x=>x.id===oid),s=SERVICES.find(x=>x.id===o.serviceId),p=USERS.find(x=>x.id===o.providerId);
   const hasPDF=s?.plantilla_fondo&&s?.plantilla_campos?.length;
   // Siempre mostrar botón SAT/generador (tanto en pending como completed, para re-descarga)
-  const hasGenerator=(s?.generator_type==='imss'||s?.generator_type==='covid'||s?.generator_type==='alimenticio'||s?.generator_type==='constancia_fiscal'||s?.generator_type==='datos_curp'||s?.generator_type==='antecedentes_edomex'||s?.generator_type==='ant_federales'||s?.generator_type==='acta_confirmacion');
+  const hasGenerator=(s?.generator_type==='imss'||s?.generator_type==='covid'||s?.generator_type==='alimenticio'||s?.generator_type==='constancia_fiscal'||s?.generator_type==='datos_curp'||s?.generator_type==='antecedentes_edomex'||s?.generator_type==='ant_federales'||s?.generator_type==='acta_confirmacion'||s?.generator_type==='calcular_rfc');
   const hasLink=s?.generator_type==='link'&&s?.link_descarga;
   const genLabel=s?.generator_type==='imss'?'🏥 Receta IMSS':s?.generator_type==='alimenticio'?'🍽️ Constancia de No Deudor Alimentario':s?.generator_type==='constancia_fiscal'?'📋 Constancia Fiscal SAT':s?.generator_type==='datos_curp'?'🪪 Datos del CURP':s?.generator_type==='antecedentes_edomex'?'📄 No Antecedentes EdoMex':s?.generator_type==='ant_federales'?'🏛️ No Antecedentes Federales':s?.generator_type==='acta_confirmacion'?'⛪ Acta de Confirmación':'🦠 Certificado COVID';
   const diasDesdeCreacion=o.created_at?(Date.now()-new Date(o.created_at).getTime())/(1000*60*60*24):0;
@@ -3829,10 +4306,10 @@ window.openOrderDetail=function(oid){
       <div style="margin-bottom:18px">
         <div class="order-detail-row"><span class="key">Servicio</span><span class="val">${s?.name}</span></div>
         <div class="order-detail-row"><span class="key">Fecha</span><span class="val">${fmtDate(o.created_at)}</span></div>
-        <div class="order-detail-row"><span class="key">Costo</span><span class="val" style="color:var(--accent2);font-family:Syne;font-weight:700">$${o.credits} MXN</span></div>
+        <div class="order-detail-row"><span class="key">Costo</span><span class="val" style="color:var(--accent2);font-family:Syne;font-weight:700">${fmtCreditos(o.credits)}</span></div>
       </div>
       <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Información enviada</div>
-      ${Object.entries(o.data||{}).filter(([k])=>!['__adjunto__','__adjuntos__'].includes(k)).map(([k,v])=>`<div class="order-detail-row"><span class="key">${htmlEsc(k)}</span><span class="val">${htmlEsc(typeof v==='object'?JSON.stringify(v):v)}</span></div>`).join('')}
+      ${Object.entries(o.data||{}).filter(([k])=>!k.startsWith('__')).map(([k,v])=>`<div class="order-detail-row"><span class="key">${htmlEsc(k)}</span><span class="val">${htmlEsc(typeof v==='object'?JSON.stringify(v):v)}</span></div>`).join('')}
       ${(()=>{
         const adjuntos=o.data?.['__adjuntos__']||(o.data?.['__adjunto__']?[{url:o.data['__adjunto__'],nombre:'Archivo adjunto',expira:null}]:[]);
         if(!adjuntos.length)return'';
@@ -3857,10 +4334,18 @@ window.openOrderDetail=function(oid){
           </div>
         </div>`;
       })()}
-      ${o.deliveryNote?`<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border)">
-        <div style="font-size:11px;color:var(--success);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Entrega del proveedor</div>
-        ${renderDeliveryNote(o.deliveryNote)}
-      </div>`:''}
+      ${(()=>{
+        const pdfUrl=o.data?.['__pdf_url__']||null;
+        const hasDelivery=o.deliveryNote||pdfUrl;
+        if(!hasDelivery)return'';
+        const notaConUrl=pdfUrl&&!(o.deliveryNote||'').includes(pdfUrl)
+          ?((o.deliveryNote&&!o.deliveryNote.startsWith('RECHAZADO:')?o.deliveryNote+'\n':o.deliveryNote||'')+pdfUrl)
+          :(o.deliveryNote||'');
+        return`<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border)">
+          <div style="font-size:11px;color:var(--success);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Entrega del proveedor</div>
+          ${renderDeliveryNote(notaConUrl)}
+        </div>`;
+      })()}
       ${hasGenerator?(generadorExpirado?`
       <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border)">
         <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">${genLabel}</div>
@@ -3879,7 +4364,7 @@ window.openOrderDetail=function(oid){
           style="display:flex;align-items:center;gap:8px;background:var(--accentbg);border:1px solid var(--accentborder);border-radius:var(--radius2);padding:10px 18px;color:var(--accent2);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;width:100%;justify-content:center"
           onmouseover="this.style.background='var(--accent)';this.style.color='#fff'" onmouseout="this.style.background='var(--accentbg)';this.style.color='var(--accent2)'">
           <svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 2v7M4.5 6.5l2.5 2.5 2.5-2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11h10" stroke-linecap="round"/></svg>
-          ⬇ Descargar documento
+          ⬇ ${s?.generator_type==='calcular_rfc'?'Ver RFC / Descargar':'Descargar documento'}
         </button>
       </div>`):``}
       ${hasPDF?`<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border)">
@@ -4036,7 +4521,7 @@ window.markComplete=async function(oid){
   try{
     const o=ORDERS.find(x=>x.id===oid);
     const svc=SERVICES.find(x=>x.id===o?.serviceId);
-    await sb.patch(`pedidos?id=eq.${oid}`,{estado:'completed',nota_entrega:note});
+    await sb.patch(`pedidos?id=eq.${oid}`,{estado:'completed',completed_at:new Date().toISOString(),nota_entrega:note});
     await loadData();refreshProviderBadge();closeModal();
     showToast('¡Trabajo marcado como completado!','success');
     renderPanel(activePanel);
@@ -4054,7 +4539,7 @@ window.providerReject=async function(oid){
     // Consultar saldo actual del cliente directamente en BD para evitar datos obsoletos
     const freshRows=await sb.get(`usuarios?select=id,creditos&id=eq.${o.clientId}`);
     const freshCredits=freshRows?.[0]?.creditos||0;
-    await sb.patch(`pedidos?id=eq.${oid}`,{estado:'refunded',nota_entrega:'RECHAZADO: '+reason});
+    await sb.patch(`pedidos?id=eq.${oid}`,{estado:'refunded',completed_at:new Date().toISOString(),nota_entrega:'RECHAZADO: '+reason});
     await sb.patch(`usuarios?id=eq.${o.clientId}`,{creditos:freshCredits+o.credits});
     await sb.post('transacciones',{usuario_id:o.clientId,tipo:'refund',cantidad:o.credits,descripcion:`Reembolso por rechazo — ${SERVICES.find(x=>x.id===o.serviceId)?.name||'Servicio'}`});
     await loadData();closeModal();refreshProviderBadge();
@@ -4104,10 +4589,10 @@ const FUENTES_CSS={
 
 const FORMATOS_FECHA=[
   {id:'corto',label:'22/04/2026',fn:()=>{const d=new Date();return`${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()}`;}},
-  {id:'medio',label:'22 de abril de 2026',fn:()=>{const d=new Date();return d.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});}},
-  {id:'largo',label:'Jueves 23 de abril de 2026',fn:()=>{const d=new Date();return d.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});}},
+  {id:'medio',label:'22 de abril de 2026',fn:()=>{const d=new Date();return d.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric',timeZone:'America/Mexico_City'});}},
+  {id:'largo',label:'Jueves 23 de abril de 2026',fn:()=>{const d=new Date();return d.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric',timeZone:'America/Mexico_City'});}},
   {id:'slash_hora',label:'22/04/2026 15:30',fn:()=>{const d=new Date();return`${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()} ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;}},
-  {id:'mes_corto',label:'22 Abr 2026',fn:()=>{const d=new Date();return d.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});}},
+  {id:'mes_corto',label:'22 Abr 2026',fn:()=>{const d=new Date();return d.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric',timeZone:'America/Mexico_City'});}},
   {id:'iso',label:'2026-04-22',fn:()=>{const d=new Date();return d.toISOString().split('T')[0];}},
   {id:'solo_anio',label:'2026',fn:()=>new Date().getFullYear().toString()},
 ];
@@ -4513,7 +4998,7 @@ async function generarPDF(order){
     let valor='';
     if(campo.dato==='[Fecha automática]'||campo.dato==='[Fecha actual]'){
       const fmt=FORMATOS_FECHA.find(f=>f.id===(campo.formatoFecha||'medio'));
-      valor=fmt?fmt.fn():new Date().toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
+      valor=fmt?fmt.fn():new Date().toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric',timeZone:'America/Mexico_City'});
     }else{
       valor=order.data?.[campo.dato]||'';
     }
@@ -4573,7 +5058,7 @@ window.descargarPDFPedido=async function(orderId){
     // Si el pedido no estaba completado, marcarlo automáticamente
     if(order.status!=='completed'){
       await sb.patch(`pedidos?id=eq.${orderId}`,{
-        estado:'completed',
+        estado:'completed',completed_at:new Date().toISOString(),
         nota_entrega:'Documento generado automáticamente con plantilla PDF.'
       });
       // Descontar créditos si aún no se descontaron
@@ -4964,7 +5449,7 @@ window.generarAntecedentesFederalesPdf=async function(orderData,orderId){
 
   const folio=String(Math.floor(1000000+Math.random()*9000000));
   const fecha=`${hoy.getFullYear()}/${String(hoy.getMonth()+1).padStart(2,'0')}/${String(hoy.getDate()).padStart(2,'0')}`;
-  const hora=hoy.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+  const hora=hoy.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:'America/Mexico_City'});
   const fecha_1=`${DIAS_ES[hoy.getDate()]} días del mes de ${MESES_ES[hoy.getMonth()]} de ${hoy.getFullYear()}`;
 
   const vals={
@@ -5123,8 +5608,8 @@ window.generarDocumentoCURPHtml=async function(orderData){
   const{datos}=await resp.json();
 
   const hoy=new Date();
-  const fecha=hoy.toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric'});
-  const hora=hoy.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+  const fecha=hoy.toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'America/Mexico_City'});
+  const hora=hoy.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',timeZone:'America/Mexico_City'});
   const row=(label,val)=>`<tr><td>${label}</td><td>${htmlEsc(val||'—')}</td></tr>`;
 
   return`<!DOCTYPE html>
@@ -5230,7 +5715,146 @@ window.generarDocumentoCURPHtml=async function(orderData){
 <script>window.addEventListener('load',function(){setTimeout(function(){window.print();},900);});<\/script>
 </body></html>`;
 };
-// ─────────────────────────────────────────────────────────────────────���───────
+// ── CURP A RFC — generador ───────────────────────────────────────────────────
+window.generarDocumentoRFCHtml=async function(orderData){
+  const curp=(orderData['CURP']||'').toUpperCase().trim();
+  if(!curp)throw new Error('El pedido no tiene CURP guardado.');
+
+  // 1. Obtener datos del CURP desde RENAPO
+  showToast('Consultando RENAPO...','info');
+  const token=await getToken();
+  const curpResp=await fetch(`${SUPABASE_URL}/functions/v1/${CURP_EDGE_FN}`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+token},
+    body:JSON.stringify({curp})
+  });
+  if(!curpResp.ok){
+    const err=await curpResp.json().catch(()=>({}));
+    throw new Error(err.error||'No se pudo consultar el CURP. Verifica los datos.');
+  }
+  const{datos}=await curpResp.json();
+
+  // 2. Calcular RFC con los datos del CURP
+  showToast('Calculando RFC...','info');
+  const rfcResp=await fetch(`${SUPABASE_URL}/functions/v1/${RFC_EDGE_FN}`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+token},
+    body:JSON.stringify({
+      nombre:datos.nombre,
+      primerApellido:datos.primer_apellido,
+      segundoApellido:datos.segundo_apellido||'',
+      fechaNacimiento:datos.fecha_nacimiento
+    })
+  });
+  if(!rfcResp.ok){
+    const err=await rfcResp.json().catch(()=>({}));
+    throw new Error(err.error||'No se pudo calcular el RFC. Verifica el CURP.');
+  }
+  const{rfc}=await rfcResp.json();
+
+  const hoy=new Date();
+  const fecha=hoy.toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'America/Mexico_City'});
+  const hora=hoy.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',timeZone:'America/Mexico_City'});
+  const row=(label,val)=>`<tr><td>${label}</td><td>${htmlEsc(val||'—')}</td></tr>`;
+
+  return`<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>RFC Calculado</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Roboto',Arial,sans-serif;background:#fff;color:#1a1a1a}
+  .header{background:linear-gradient(135deg,#a16207 0%,#78350f 100%);color:#fff;padding:22px 40px;display:flex;justify-content:space-between;align-items:center}
+  .header-left{display:flex;align-items:center;gap:16px}
+  .escudo{width:56px;height:56px;background:rgba(255,255,255,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+  .org-name{font-size:19px;font-weight:700;letter-spacing:.3px}
+  .org-sub{font-size:11px;opacity:.85;margin-top:2px}
+  .header-right{text-align:right;font-size:11px;opacity:.85;line-height:1.7}
+  .rfc-banner{background:#fffbeb;border-left:4px solid #a16207;padding:18px 40px;display:flex;align-items:center;justify-content:space-between}
+  .rfc-label{font-size:10px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+  .rfc-value{font-size:30px;font-weight:700;color:#a16207;letter-spacing:4px;font-family:'Courier New',monospace}
+  .rfc-badge{background:#a16207;color:#fff;padding:6px 16px;border-radius:20px;font-size:11px;font-weight:700}
+  .content{padding:24px 40px}
+  .section{margin-bottom:22px}
+  .section-header{background:#a16207;color:#fff;padding:8px 16px;font-size:12px;font-weight:700;letter-spacing:.4px;border-radius:4px 4px 0 0;text-transform:uppercase}
+  .data-table{width:100%;border-collapse:collapse;border:1px solid #ddd;border-top:none}
+  .data-table tr:nth-child(even){background:#fffbeb}
+  .data-table td{padding:9px 16px;font-size:12.5px;border-bottom:1px solid #eee}
+  .data-table td:first-child{color:#555;font-weight:500;width:210px}
+  .data-table td:last-child{color:#1a1a1a;font-weight:500}
+  .data-table tr:last-child td{border-bottom:none}
+  .nota{margin:16px 40px;padding:10px 14px;background:#fef9c3;border:1px solid #fde047;border-radius:6px;font-size:11px;color:#713f12;line-height:1.6}
+  .footer{border-top:3px solid #a16207;padding:12px 40px;display:flex;justify-content:space-between;align-items:center;background:#fffbeb;margin-top:8px}
+  .footer-txt{font-size:9.5px;color:#888;line-height:1.6}
+  #print-bar{position:fixed;top:0;left:0;right:0;background:#0d1117;color:#fff;padding:9px 20px;display:flex;align-items:center;gap:14px;font-family:Arial,sans-serif;font-size:13px;z-index:9999;border-bottom:2px solid #a16207}
+  #print-bar button{background:#a16207;color:#fff;border:none;padding:8px 22px;font-weight:700;cursor:pointer;font-size:13px;border-radius:4px}
+  #print-bar .hint{color:#aaa;font-size:11.5px}
+  #doc-wrap{padding-top:50px}
+  @media print{#print-bar{display:none!important}#doc-wrap{padding-top:0!important}@page{margin:0;size:A4}body{margin:0}}
+</style>
+</head>
+<body>
+<div id="print-bar">
+  <button onclick="window.print()">🖨 Guardar como PDF</button>
+  <span class="hint">Cambia el destino a <b style="color:#fbbf24">"Guardar como PDF"</b> y haz clic en <b style="color:#fbbf24">Guardar</b></span>
+</div>
+<div id="doc-wrap">
+  <div class="header">
+    <div class="header-left">
+      <div class="escudo">🔑</div>
+      <div>
+        <div class="org-name">RFC CALCULADO</div>
+        <div class="org-sub">Registro Federal de Contribuyentes · SAT</div>
+        <div class="org-sub">Secretaría de Hacienda y Crédito Público · México</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div style="font-size:13px;font-weight:600">Cálculo de RFC</div>
+      <div>Fecha: ${fecha}</div>
+      <div>Hora: ${hora}</div>
+    </div>
+  </div>
+  <div class="rfc-banner">
+    <div>
+      <div class="rfc-label">Registro Federal de Contribuyentes</div>
+      <div class="rfc-value">${htmlEsc(rfc)}</div>
+    </div>
+    <div class="rfc-badge">✓ CALCULADO</div>
+  </div>
+  <div class="content">
+    <div class="section">
+      <div class="section-header">Datos del Contribuyente</div>
+      <table class="data-table">
+        ${row('RFC',rfc)}
+        ${row('CURP',datos.curp)}
+        ${row('Nombre(s)',datos.nombre)}
+        ${row('Primer Apellido',datos.primer_apellido)}
+        ${row('Segundo Apellido',datos.segundo_apellido)}
+        ${row('Fecha de Nacimiento',datos.fecha_nacimiento)}
+        ${row('Sexo',datos.sexo)}
+        ${row('Entidad de Nacimiento',datos.entidad_nacimiento)}
+      </table>
+    </div>
+  </div>
+  <div class="nota">
+    ⚠️ <strong>Nota informativa:</strong> Este RFC es calculado mediante el algoritmo oficial del SAT a partir de los datos del CURP registrados en RENAPO. La homoclave puede variar si el contribuyente ya cuenta con RFC asignado por el SAT. Para obtener el RFC definitivo, consulta el portal del SAT en <strong>sat.gob.mx</strong>.
+  </div>
+  <div class="footer">
+    <div class="footer-txt">
+      <div>Fuente: RENAPO / UNAM RFC Calculator</div>
+      <div>Documento informativo — no tiene validez oficial</div>
+    </div>
+    <div class="footer-txt" style="text-align:right">
+      <div>Generado digitalmente · ${fecha} · ${hora}</div>
+    </div>
+  </div>
+</div>
+<script>window.addEventListener('load',function(){setTimeout(function(){window.print();},900);});<\/script>
+</body></html>`;
+};
+// ─────────────────────────────────────────────────────────────────────────────
 
 // ── CONSTANCIA FISCAL SAT — helpers y generador ──────────────────────
 
@@ -5463,7 +6087,7 @@ window.generarDocumentoAutomatico=async function(orderId){
       }
       await generarActaConfirmacionPdf(datos,orderId);
       if(order.status!=='completed'){
-        await sb.patch(`pedidos?id=eq.${orderId}`,{estado:'completed',nota_entrega:`Documento generado el ${new Date().toLocaleDateString('es-MX')}`});
+        await sb.patch(`pedidos?id=eq.${orderId}`,{estado:'completed',completed_at:new Date().toISOString(),nota_entrega:`Documento generado el ${new Date().toLocaleDateString('es-MX',{timeZone:'America/Mexico_City'})}`});
         await loadData();updateClientNotifs();
       }
       if(activePanel==='orders'||activePanel==='dashboard')renderPanel(activePanel);
@@ -5478,7 +6102,7 @@ window.generarDocumentoAutomatico=async function(orderId){
       }
       await generarAntecedentesFederalesPdf(datos,orderId);
       if(order.status!=='completed'){
-        await sb.patch(`pedidos?id=eq.${orderId}`,{estado:'completed',nota_entrega:`Documento generado el ${new Date().toLocaleDateString('es-MX')}`});
+        await sb.patch(`pedidos?id=eq.${orderId}`,{estado:'completed',completed_at:new Date().toISOString(),nota_entrega:`Documento generado el ${new Date().toLocaleDateString('es-MX',{timeZone:'America/Mexico_City'})}`});
         await loadData();updateClientNotifs();
       }
       if(activePanel==='orders'||activePanel==='dashboard')renderPanel(activePanel);
@@ -5493,7 +6117,7 @@ window.generarDocumentoAutomatico=async function(orderId){
       }
       await generarAntecedentesEdomexPdf(datos,orderId);
       if(order.status!=='completed'){
-        await sb.patch(`pedidos?id=eq.${orderId}`,{estado:'completed',nota_entrega:`Documento generado el ${new Date().toLocaleDateString('es-MX')}`});
+        await sb.patch(`pedidos?id=eq.${orderId}`,{estado:'completed',completed_at:new Date().toISOString(),nota_entrega:`Documento generado el ${new Date().toLocaleDateString('es-MX',{timeZone:'America/Mexico_City'})}`});
         await loadData();updateClientNotifs();
       }
       if(activePanel==='orders'||activePanel==='dashboard')renderPanel(activePanel);
@@ -5501,6 +6125,37 @@ window.generarDocumentoAutomatico=async function(orderId){
       return;
     }else if(tipo==='datos_curp'){
       htmlFinal=await generarDocumentoCURPHtml(datos);
+    }else if(tipo==='calcular_rfc'){
+      const rfcText=(order.deliveryNote||'').replace('RFC:','').replace('RFC','').trim();
+      const rfcCode=rfcText||'RFC no disponible';
+      const hoy=new Date();
+      const fechaStr=hoy.toLocaleDateString('es-MX',{day:'2-digit',month:'long',year:'numeric',timeZone:'America/Mexico_City'});
+      htmlFinal=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>RFC</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:30px}
+.card{border:2px solid #1a1a2e;border-radius:16px;padding:40px 50px;max-width:480px;width:100%;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.logo{font-size:13px;color:#666;text-transform:uppercase;letter-spacing:2px;margin-bottom:24px}
+.label{font-size:12px;color:#888;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}
+.rfc{font-size:34px;font-weight:900;letter-spacing:5px;font-family:'Courier New',monospace;color:#1a1a2e;margin-bottom:6px}
+.sep{width:60px;height:3px;background:#6c63ff;border-radius:2px;margin:20px auto}
+.dato{font-size:13px;color:#555;margin:4px 0}
+.nota{font-size:11px;color:#aaa;margin-top:20px;line-height:1.6}
+.btn{display:inline-block;margin-top:28px;padding:12px 32px;background:#6c63ff;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none}
+@media print{.btn{display:none!important}body{justify-content:flex-start;padding:20px}@page{margin:1cm}}
+</style></head><body>
+<div class="card">
+  <div class="logo">CyberDocs MX</div>
+  <div class="label">RFC Calculado</div>
+  <div class="rfc">${htmlEsc(rfcCode)}</div>
+  <div class="sep"></div>
+  ${datos&&datos['CURP']?`<div class="dato">CURP: <strong>${htmlEsc(datos['CURP'])}</strong></div>`:''}
+  <div class="dato">Fecha: ${fechaStr}</div>
+  <div class="nota">Este RFC fue calculado mediante el algoritmo oficial del SAT.<br>Para verificar tu RFC oficial visita <strong>sat.gob.mx</strong></div>
+  <button class="btn" onclick="window.print()">⬇ Descargar / Imprimir</button>
+</div>
+<script>window.addEventListener('load',function(){setTimeout(function(){window.print();},1200)});<\/script>
+</body></html>`;
     }else if(tipo==='constancia_fiscal'){
       // Si ya existe PDF guardado, servir directo sin regenerar
       const storedUrl=datos?.__pdf_url__;
@@ -5518,7 +6173,7 @@ window.generarDocumentoAutomatico=async function(orderId){
       // Primera vez: generar, subir a storage y descargar
       await generarConstanciaFiscalHtml(datos,orderId);
       if(order.status!=='completed'){
-        await sb.patch(`pedidos?id=eq.${orderId}`,{estado:'completed',nota_entrega:`Documento generado el ${new Date().toLocaleDateString('es-MX')}`});
+        await sb.patch(`pedidos?id=eq.${orderId}`,{estado:'completed',completed_at:new Date().toISOString(),nota_entrega:`Documento generado el ${new Date().toLocaleDateString('es-MX',{timeZone:'America/Mexico_City'})}`});
         await loadData();
         updateClientNotifs();
       }
@@ -5539,8 +6194,8 @@ window.generarDocumentoAutomatico=async function(orderId){
     // aunque el navegador bloquee la ventana emergente
     if(order.status!=='completed'){
       await sb.patch(`pedidos?id=eq.${orderId}`,{
-        estado:'completed',
-        nota_entrega:`Documento generado automáticamente el ${new Date().toLocaleDateString('es-MX')}`
+        estado:'completed',completed_at:new Date().toISOString(),
+        nota_entrega:`Documento generado automáticamente el ${new Date().toLocaleDateString('es-MX',{timeZone:'America/Mexico_City'})}`
       });
       await loadData();
       updateClientNotifs();
@@ -5777,8 +6432,9 @@ function renderDeliveryNote(text){
   const urls=text.match(urlRegex)||[];
   const plainText=text.replace(urlRegex,'').replace(/\n{2,}/g,'\n').trim();
   let html='';
-  if(plainText){
-    html+=`<div style="font-size:14px;color:var(--text2);line-height:1.6;${urls.length?'margin-bottom:14px;':''}white-space:pre-wrap">${htmlEsc(plainText)}</div>`;
+  // Solo mostrar el texto plano si no hay archivos adjuntos (cuando hay URLs, el botón de descarga es suficiente)
+  if(plainText&&!urls.length){
+    html+=`<div style="font-size:14px;color:var(--text2);line-height:1.6;white-space:pre-wrap">${htmlEsc(plainText)}</div>`;
   }
   if(urls.length){
     html+=`<div style="display:flex;flex-direction:column;gap:8px">
@@ -5789,7 +6445,6 @@ function renderDeliveryNote(text){
           onmouseout="this.style.background='var(--accentbg)';this.style.color='var(--accent2)';this.style.borderColor='var(--accentborder)'">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 13h12" stroke-linecap="round"/></svg>
           ${urls.length>1?`Descargar archivo ${i+1}`:'Descargar archivo'}
-          <span style="font-size:11px;opacity:.6;margin-left:auto;font-family:'DM Sans',sans-serif;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${url.length>35?url.slice(0,35)+'…':url}</span>
         </a>`).join('')}
     </div>`;
   }
@@ -5802,7 +6457,7 @@ window.adminVerPedido=function(oid){
   const s=SERVICES.find(x=>x.id===o.serviceId);
   const c=USERS.find(x=>x.id===o.clientId);
   const p=USERS.find(x=>x.id===o.providerId);
-  const campos=Object.entries(o.data||{}).filter(([k])=>!['__adjunto__','__adjuntos__'].includes(k));
+  const campos=Object.entries(o.data||{}).filter(([k])=>!k.startsWith('__'));
   const adjuntos=o.data?.['__adjuntos__']||(o.data?.['__adjunto__']?[{url:o.data['__adjunto__'],nombre:'Archivo'}]:[]);
   const isRejected=o.status==='refunded'&&(o.deliveryNote||'').startsWith('RECHAZADO:');
   openModal(`
@@ -5816,7 +6471,7 @@ window.adminVerPedido=function(oid){
         <div style="background:var(--bg3);border-radius:var(--radius2);padding:12px">
           <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Servicio</div>
           <div style="font-weight:600;color:var(--text)">${htmlEsc(s?.name||'—')}</div>
-          <div style="font-size:12px;color:var(--accent2);margin-top:2px">$${o.credits} MXN</div>
+          <div style="font-size:12px;color:var(--accent2);margin-top:2px">${fmtCreditos(o.credits)}</div>
         </div>
         <div style="background:var(--bg3);border-radius:var(--radius2);padding:12px">
           <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Cliente</div>
@@ -5843,11 +6498,19 @@ window.adminVerPedido=function(oid){
         <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Archivos del cliente</div>
         ${adjuntos.map(a=>`<a href="${a.url}" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--accentbg);border:1px solid var(--accentborder);border-radius:var(--radius3);color:var(--accent2);text-decoration:none;font-size:12px;font-weight:600;margin-bottom:6px">📎 ${htmlEsc(a.nombre||'Archivo')}</a>`).join('')}
       </div>`:''}
-      ${o.deliveryNote?`
-      <div>
-        <div style="font-size:11px;color:${isRejected?'var(--danger)':'var(--success)'};text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">${isRejected?'Razón del rechazo (proveedor)':'Entrega del proveedor'}</div>
-        <div style="background:var(--bg3);border-radius:var(--radius2);padding:12px">${renderDeliveryNote(o.deliveryNote)}</div>
-      </div>`:''}
+      ${(()=>{
+        const pdfUrl=o.data?.['__pdf_url__']||null;
+        const hasDelivery=o.deliveryNote||pdfUrl;
+        if(!hasDelivery)return'';
+        // Combinar nota_entrega + __pdf_url__ para renderizar un solo bloque de entrega
+        const notaConUrl=pdfUrl&&!(o.deliveryNote||'').includes(pdfUrl)
+          ?((o.deliveryNote&&!o.deliveryNote.startsWith('RECHAZADO:')?o.deliveryNote+'\n':o.deliveryNote||'')+pdfUrl)
+          :(o.deliveryNote||'');
+        return`<div>
+          <div style="font-size:11px;color:${isRejected?'var(--danger)':'var(--success)'};text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">${isRejected?'Razón del rechazo (proveedor)':'Entrega del proveedor'}</div>
+          <div style="background:var(--bg3);border-radius:var(--radius2);padding:12px">${renderDeliveryNote(notaConUrl)}</div>
+        </div>`;
+      })()}
     </div>
     <div class="modal-footer" style="justify-content:space-between">
       <div style="display:flex;gap:8px">
@@ -5863,7 +6526,7 @@ window.adminComplete=async function(oid){
   try{
     const o=ORDERS.find(x=>x.id===oid);
     const svc=SERVICES.find(x=>x.id===o?.serviceId);
-    await sb.patch(`pedidos?id=eq.${oid}`,{estado:'completed',nota_entrega:'Completado por administrador.'});
+    await sb.patch(`pedidos?id=eq.${oid}`,{estado:'completed',completed_at:new Date().toISOString(),nota_entrega:'Completado por administrador.'});
     await loadData();showToast('Pedido completado','success');renderAdminOrders();
     if(o?.clientId) sendPushTo(o.clientId,'✅ Tu pedido esta listo',`Tu pedido ha sido completado. Revisa Mis Pedidos.`);
   }catch(e){showToast('Error: '+e.message,'danger');}
@@ -5879,7 +6542,7 @@ window.adminRefund=async function(oid){
     const freshRows=await sb.get(`usuarios?select=id,nombre,creditos&id=eq.${o.clientId}`);
     const fresh=freshRows?.[0];
     if(!fresh)return;
-    await sb.patch(`pedidos?id=eq.${oid}`,{estado:'refunded',nota_entrega:nota});
+    await sb.patch(`pedidos?id=eq.${oid}`,{estado:'refunded',completed_at:new Date().toISOString(),nota_entrega:nota});
     await sb.patch(`usuarios?id=eq.${fresh.id}`,{creditos:(fresh.creditos||0)+o.credits});
     await sb.post('transacciones',{usuario_id:fresh.id,tipo:'refund',cantidad:o.credits,descripcion:`Reembolso por rechazo — #${oid.slice(-6)}`});
     await loadData();showToast(`Pedido rechazado. ${o.credits} créditos devueltos a ${fresh.nombre}.`,'info');renderAdminOrders();
@@ -5913,6 +6576,72 @@ window.openAddCreditsAdmin=function(uid,uname){
       <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
       <button class="btn-confirm" id="acConfirmBtn" onclick="adminAddCredits('${uid}','${uname}')">Agregar créditos</button>
     </div>`);
+};
+
+// ── Admin: cambiar contraseña de cualquier usuario ────────────────────────────
+const SUPABASE_ADMIN_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhscWpjam5idHJpdnhiaWpjeXZ2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Njg4NjE5NywiZXhwIjoyMDkyNDYyMTk3fQ.gMFsMU7HSVnmz8eMnJVyy8iyhYTHsUc_-10Crn6UuHA';
+
+window.adminAbrirCambiarPass=function(uid,authId,nombre){
+  openModal(`
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <h3>🔑 Cambiar contraseña</h3>
+      <p>Usuario: <strong>${htmlEsc(nombre)}</strong></p>
+    </div>
+    <div class="modal-body">
+      <div class="mform-group">
+        <label>Nueva contraseña</label>
+        <div style="position:relative">
+          <input type="password" id="adminNewPass" placeholder="Mínimo 6 caracteres" maxlength="128" style="width:100%;padding-right:40px">
+          <button type="button" onclick="togglePassVis('adminNewPass','adminNewPassEye')" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);padding:0">
+            <svg id="adminNewPassEye" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+      <div id="adminPassMsg" style="display:none;font-size:12px;margin-top:8px;padding:8px 12px;border-radius:var(--radius2)"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-confirm" id="adminPassBtn" onclick="adminGuardarPass('${uid}','${authId}')">Guardar</button>
+    </div>`);
+  setTimeout(()=>document.getElementById('adminNewPass')?.focus(),100);
+};
+
+window.adminGuardarPass=async function(uid,authId){
+  const pass=(document.getElementById('adminNewPass')?.value||'').trim();
+  const msg=document.getElementById('adminPassMsg');
+  const btn=document.getElementById('adminPassBtn');
+  if(pass.length<6){
+    msg.style.display='block';msg.style.background='var(--dangerbg)';msg.style.color='var(--danger)';
+    msg.textContent='La contraseña debe tener al menos 6 caracteres.';return;
+  }
+  btn.disabled=true;btn.textContent='Guardando...';
+  try{
+    // Si tiene auth_id → actualizar en Supabase Auth via Admin API
+    if(authId){
+      const r=await fetch(`${SUPABASE_URL}/auth/v1/admin/users/${authId}`,{
+        method:'PUT',
+        headers:{'apikey':SUPABASE_ADMIN_KEY,'Authorization':'Bearer '+SUPABASE_ADMIN_KEY,'Content-Type':'application/json'},
+        body:JSON.stringify({password:pass})
+      });
+      if(!r.ok){const e=await r.json();throw new Error(e.message||'Error en Auth');}
+    }
+    // Actualizar pass_hash en tabla usuarios
+    const hash=await _bcrypt.hash(pass,10).catch(()=>null);
+    await fetch(`${SUPABASE_URL}/rest/v1/usuarios?id=eq.${uid}`,{
+      method:'PATCH',
+      headers:{'apikey':SUPABASE_ADMIN_KEY,'Authorization':'Bearer '+SUPABASE_ADMIN_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({pass_hash:hash||'',contrasena:'[PROTEGIDO]',...(!authId?{contrasena:pass}:{})})
+    });
+    msg.style.display='block';msg.style.background='var(--successbg)';msg.style.color='var(--success)';
+    msg.textContent='✅ Contraseña actualizada correctamente.';
+    btn.textContent='Guardado';
+    setTimeout(()=>closeModal(),1500);
+  }catch(e){
+    msg.style.display='block';msg.style.background='var(--dangerbg)';msg.style.color='var(--danger)';
+    msg.textContent='Error: '+(e.message||'No se pudo actualizar');
+    btn.disabled=false;btn.textContent='Guardar';
+  }
 };
 
 window._acMode='add';
@@ -6016,9 +6745,7 @@ function svcModalHTML(s){
         <div class="mform-group">
           <label>Sección</label>
           <select id="svcSeccion" onchange="window._updateSvcCats()">
-            <option value="tramites" ${(!s?.seccion||s?.seccion==='tramites')?'selected':''}>📋 Trámites</option>
-            <option value="papeleria" ${s?.seccion==='papeleria'?'selected':''}>📄 Papelería</option>
-            <option value="software" ${s?.seccion==='software'?'selected':''}>💻 Software</option>
+            ${getSecciones().map(sec=>`<option value="${sec.id}" ${(s?.seccion||'tramites')===sec.id?'selected':''}>${sec.label}</option>`).join('')}
           </select>
         </div>
         <div class="mform-group">
@@ -6081,9 +6808,11 @@ function svcModalHTML(s){
             <option value="alimenticio" ${s?.generator_type==='alimenticio'?'selected':''}>🍽️ Constancia de No Deudor Alimentario</option>
             <option value="constancia_fiscal" ${s?.generator_type==='constancia_fiscal'?'selected':''}>📋 Constancia de Situación Fiscal SAT</option>
             <option value="datos_curp" ${s?.generator_type==='datos_curp'?'selected':''}>🪪 Datos del CURP</option>
+            <option value="calcular_rfc" ${s?.generator_type==='calcular_rfc'?'selected':''}>🔑 CURP A RFC</option>
             <option value="antecedentes_edomex" ${s?.generator_type==='antecedentes_edomex'?'selected':''}>📄 No Antecedentes Penales EdoMex</option>
             <option value="ant_federales" ${s?.generator_type==='ant_federales'?'selected':''}>🏛️ No Antecedentes Penales Federales</option>
             <option value="acta_confirmacion" ${s?.generator_type==='acta_confirmacion'?'selected':''}>⛪ Acta de Confirmación</option>
+            <option value="recibo_cfe" ${s?.generator_type==='recibo_cfe'?'selected':''}>⚡ Recibo CFE</option>
           </select>
           <div style="font-size:11px;color:var(--text3);margin-top:5px">Al seleccionar un generador, el pedido se completa automáticamente sin intervención del proveedor.</div>
           <div id="svcLinkField" style="display:${s?.generator_type==='link'?'block':'none'};margin-top:10px">
@@ -6254,8 +6983,9 @@ window.saveService=async function(){
 
 window.deleteService=async function(sid){
   const s=SERVICES.find(x=>x.id===sid);
-  if(!confirm(`¿Eliminar permanentemente el servicio "${s?.name}"?\n\nEsta acción no se puede deshacer. Los pedidos históricos se conservan.`))return;
+  if(!confirm(`¿Eliminar permanentemente el servicio "${s?.name}"?\n\nEsta acción no se puede deshacer. Los pedidos históricos se conservan (sin servicio asignado).`))return;
   try{
+    await sb.patch(`pedidos?servicio_id=eq.${sid}`,{servicio_id:null});
     await sb.del(`servicios?id=eq.${sid}`);
     await loadData();
     showToast('Servicio eliminado permanentemente','warning');
@@ -6562,7 +7292,7 @@ window.markComplete=async function(oid){
     // Build delivery note with file urls
     const fileLinks=urls.map(f=>`📎 ${f.nombre}: ${f.url}`).join('\n');
     const fullNote=(note?note+'\n':'')+fileLinks;
-    await sb.patch(`pedidos?id=eq.${oid}`,{estado:'completed',nota_entrega:fullNote.trim()});
+    await sb.patch(`pedidos?id=eq.${oid}`,{estado:'completed',completed_at:new Date().toISOString(),nota_entrega:fullNote.trim()});
     // Store file records with expiry
     if(urls.length){
       for(const f of urls){
@@ -6587,7 +7317,7 @@ window.rechazarTodosLosPedidos=async function(){
   try{
     showToast('Procesando...','info');
     for(const o of mine){
-      await sb.patch(`pedidos?id=eq.${o.id}`,{estado:'refunded',nota_entrega:nota});
+      await sb.patch(`pedidos?id=eq.${o.id}`,{estado:'refunded',completed_at:new Date().toISOString(),nota_entrega:nota});
       // Consultar saldo actual en BD para reembolso correcto
       const freshRows=await sb.get(`usuarios?select=id,creditos&id=eq.${o.clientId}`);
       const fresh=freshRows?.[0];
@@ -6609,7 +7339,7 @@ function renderCompletedRows(orders){
     <td><span class="service-name">${s?.name||'—'}</span></td>
     <td>${c?.nombre||'—'}</td>
     <td>${fmtDate(o.created_at)}</td>
-    <td style="font-family:Syne;font-weight:300;color:var(--success)">$${o.credits} MXN</td>
+    <td style="font-family:Syne;font-weight:300;color:var(--success)">${fmtCreditos(o.credits)}</td>
     <td style="color:var(--text3);font-size:12px">↗</td>
   </tr>`;}).join('');
 }
@@ -6868,7 +7598,8 @@ window.verificarPagoSPEI=async function(){
         usuario_id:currentUser.id,email:currentUser.email||'',
         monto:parseFloat(monto),banco:banco,
         numero_seguimiento:clave,foto_comprobante:foto,
-        foto_expira:fotoExpira,estado:'pendiente'
+        foto_expira:fotoExpira,estado:'pendiente',
+        cuenta_destino:_cuentaDest||null
       });
       _rcShowResult('warning',`<strong>⏳ Solicitud enviada al administrador</strong><br>
         <span style="font-size:12px">Tu banco no está en la red SPEI automática. El administrador revisará tu comprobante y acreditará tus créditos manualmente.</span>`);
@@ -6901,7 +7632,8 @@ window.verificarPagoSPEI=async function(){
       numero_seguimiento:clave,
       foto_comprobante:foto,
       foto_expira:fotoExpira,
-      estado:'pendiente'
+      estado:'pendiente',
+      cuenta_destino:_cuentaDest||null
     });
 
     btn.textContent='Consultando BANXICO...';
@@ -7029,7 +7761,7 @@ window.enviarRecarga=async function(){
     window._rcFotoFile=null;
     // Guardar con fecha de expiración a 7 días (para limpiar el archivo del Storage)
     const fotoExpira=new Date(Date.now()+7*24*60*60*1000).toISOString();
-    await sb.post('recargas',{usuario_id:currentUser.id,email,monto,banco,numero_seguimiento:ref,foto_comprobante:foto,foto_expira:fotoExpira,estado:'pendiente'});
+    await sb.post('recargas',{usuario_id:currentUser.id,email,monto,banco,numero_seguimiento:ref,foto_comprobante:foto,foto_expira:fotoExpira,estado:'pendiente',cuenta_destino:_cuentaDest||null});
     _sectionFreshness['credits']=0; // Forzar recarga de la sección
     await loadSectionData('credits');
     showToast('Solicitud enviada. El administrador revisará tu comprobante.','success');
@@ -7050,9 +7782,20 @@ function recargaCard(r,isAdmin){
           <span style="font-size:12px;color:var(--text3)">${r.email}</span>
           ${r.estado==='pendiente'?'<span class="badge badge-warning">Pendiente</span>':r.estado==='aprobada'?'<span class="badge badge-success">Aprobada</span>':'<span class="badge badge-danger">Rechazada</span>'}
         </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+          ${user?.telefono
+            ?`<span style="font-size:12px;color:var(--text3)">📱 ${user.telefono}</span>
+               <a href="https://wa.me/52${user.telefono}" target="_blank"
+                 style="font-size:11px;font-weight:600;color:var(--success);background:var(--successbg);border:1px solid #22c55e30;border-radius:8px;padding:2px 9px;text-decoration:none;white-space:nowrap"
+                 onmouseover="this.style.background='#22c55e20'" onmouseout="this.style.background='var(--successbg)'">
+                 💬 Abrir WhatsApp
+               </a>`
+            :`<span style="font-size:11px;color:var(--text3);opacity:.5">Sin teléfono registrado</span>`}
+        </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:10px">
           <div style="font-size:12px;color:var(--text3)">Monto: <strong style="color:var(--accent2);font-family:Syne;font-size:15px">$${r.monto} MXN</strong></div>
-          <div style="font-size:12px;color:var(--text3)">Banco: <strong style="color:var(--text2)">${r.banco||'—'}</strong></div>
+          <div style="font-size:12px;color:var(--text3)">Banco emisor: <strong style="color:var(--text2)">${r.banco==='admin_revision'?'Revisión manual':r.banco||'—'}</strong></div>
+          <div style="font-size:12px;color:var(--text3)">Banco destino: <strong style="color:${r.cuenta_destino?'var(--accent2)':'var(--text3)'}">${r.cuenta_destino==='bbva'?'🏦 BBVA':r.cuenta_destino==='spin'?'🟠 SPIN by OXXO':r.cuenta_destino||'No especificado'}</strong></div>
           <div style="font-size:12px;color:var(--text3)">Referencia: <strong style="color:var(--text2)">${r.numero_seguimiento||'—'}</strong></div>
           <div style="font-size:12px;color:var(--text3)">Fecha: <strong style="color:var(--text2)">${fmtDate(r.created_at)}</strong></div>
         </div>
@@ -7109,8 +7852,29 @@ window.aprobarRecarga=async function(rid,uid,monto,bonus=0){
     await sb.patch(`recargas?id=eq.${rid}`,{estado:'aprobada',nota_admin:nota});
     await sb.patch(`usuarios?id=eq.${uid}`,{creditos:(client.creditos||0)+total});
     await sb.post('transacciones',{usuario_id:uid,tipo:'purchase',cantidad:total,descripcion:desc});
+
+    // Rechazar automáticamente duplicados pendientes del mismo usuario con la misma referencia
+    const recargaAprobada=RECARGAS.find(r=>r.id===rid);
+    if(recargaAprobada?.numero_seguimiento){
+      const duplicados=RECARGAS.filter(r=>
+        r.id!==rid &&
+        r.estado==='pendiente' &&
+        r.usuario_id===uid &&
+        r.numero_seguimiento===recargaAprobada.numero_seguimiento
+      );
+      for(const dup of duplicados){
+        await sb.patch(`recargas?id=eq.${dup.id}`,{
+          estado:'rechazada',
+          nota_admin:'Rechazada automáticamente: ya se aprobó otra solicitud con la misma referencia.'
+        }).catch(()=>{});
+      }
+      if(duplicados.length>0){
+        showToast(`${duplicados.length} solicitud(es) duplicada(s) rechazada(s) automáticamente`,'info');
+      }
+    }
+
     await loadData();
-    showToast(`${total} créditos acreditados a ${client.nombre}${bonus>0?' (incluye bono)':''},'success'`);
+    showToast(`${total} créditos acreditados a ${client.nombre}${bonus>0?' (incluye bono)':''}`, 'success');
     refreshAdminBadges();
     renderPanel('admin_recargas');
   }catch(e){showToast('Error: '+e.message,'danger');}
@@ -7153,38 +7917,71 @@ window.generateReport=async function(){
 
   const providerBlocks=targetProviders.map(prov=>{
     const precios=prov.precios||{};
-    // Pedidos de este proveedor en el rango
-    const provOrders=ORDERS.filter(o=>{
+    const pagosDelProv=pagos.filter(p=>p.proveedor_id===prov.id);
+
+    // Helper para normalizar timestamps
+    const toRaw=dateRef=>dateRef?(!dateRef.endsWith('Z')&&!/[+-]\d{2}:\d{2}$/.test(dateRef)?dateRef+'Z':dateRef):null;
+    const toDate=rawDate=>rawDate?new Date(rawDate).toLocaleDateString('sv-SE',{timeZone:'America/Mexico_City'}):'';
+
+    // Función: ¿está este pedido cubierto por algún pago? (comparación timestamp en día límite)
+    const estaPagado=o=>{
+      const rawDate=toRaw(o.completed_at||o.created_at);
+      const orderDate=toDate(rawDate);
+      return pagosDelProv.some(p=>{
+        if(orderDate<p.from_date||orderDate>p.to_date)return false;
+        if(orderDate===p.to_date&&p.created_at&&rawDate){
+          return new Date(rawDate).getTime()<=new Date(p.created_at).getTime();
+        }
+        return true;
+      });
+    };
+
+    // Todos los pedidos en el rango (para saber si hay datos)
+    const _todosEnRango=ORDERS.filter(o=>{
       if(o.providerId!==prov.id)return false;
-      const d=new Date(o.created_at);
-      const orderDate=(o.created_at||'').split('T')[0];
+      if(o.status!=='completed'&&o.status!=='refunded')return false;
+      const rawDate=toRaw(o.completed_at||o.created_at);
+      const orderDate=toDate(rawDate);
       return orderDate>=from&&orderDate<=to;
     });
 
-    if(!provOrders.length)return{prov,hasData:false,rows:[],totals:{}};
+    if(!_todosEnRango.length)return{prov,hasData:false,rows:[],totals:{}};
 
-    // Agrupar por servicio
+    // Solo los NO pagados (con lógica de timestamp)
+    const _allOrders=_todosEnRango.filter(o=>!estaPagado(o));
+    const rejectedCount=_allOrders.filter(o=>o.status==='refunded').length;
+    const provOrders=_allOrders.filter(o=>o.status==='completed');
+
+    // ¿Está completamente pagado? (hay pedidos en el rango pero todos cubiertos)
+    const allPaid=_allOrders.length===0;
+    const rangoYaPagado=allPaid?pagosDelProv.find(p=>p.from_date<=toStr&&p.to_date>=fromStr):null;
+
+    if(allPaid)return{prov,hasData:true,allPaid:true,rangoYaPagado,rows:[],totals:{completed:0,rejected:0,publicTotal:0,providerTotal:0,profitTotal:0}};
+
+    // Agrupar por servicio (solo completados)
     const bySvc={};
     provOrders.forEach(o=>{
-      if(!bySvc[o.serviceId])bySvc[o.serviceId]={completed:0,rejected:0};
-      if(o.status==='completed')bySvc[o.serviceId].completed++;
-      else if(o.status==='refunded')bySvc[o.serviceId].rejected++;
+      if(!bySvc[o.serviceId])bySvc[o.serviceId]=0;
+      bySvc[o.serviceId]++;
     });
 
-    const rows=Object.entries(bySvc).map(([sid,counts])=>{
+    const rows=Object.entries(bySvc).map(([sid,count])=>{
       const svc=SERVICES.find(x=>x.id===sid);
       const publicPrice=svc?.credits||0;
-      const provCost=parseFloat(precios[sid]||0);
+      // Buscar precio primero en precios del proveedor, luego en el servicio
+      const rawCost=precios[sid]!==undefined?precios[sid]:svc?.costo_proveedor;
+      const provCost=parseFloat(rawCost||0);
+      const isGratis=provCost===0;
       const profitPerOrder=publicPrice-provCost;
-      const completedPublic=counts.completed*publicPrice;
-      const completedProvCost=counts.completed*provCost;
-      const completedProfit=counts.completed*profitPerOrder;
-      return{svc:svc?.name||'Servicio eliminado',cat:svc?.cat||'—',completed:counts.completed,rejected:counts.rejected,publicPrice,provCost,profitPerOrder,completedPublic,completedProvCost,completedProfit};
+      const completedPublic=count*publicPrice;
+      const completedProvCost=count*provCost;
+      const completedProfit=count*profitPerOrder;
+      return{svc:svc?.name||'Servicio eliminado',cat:svc?.cat||'—',completed:count,publicPrice,provCost,isGratis,profitPerOrder,completedPublic,completedProvCost,completedProfit};
     });
 
     const totals={
       completed:rows.reduce((a,r)=>a+r.completed,0),
-      rejected:rows.reduce((a,r)=>a+r.rejected,0),
+      rejected:rejectedCount,
       publicTotal:rows.reduce((a,r)=>a+r.completedPublic,0),
       providerTotal:rows.reduce((a,r)=>a+r.completedProvCost,0),
       profitTotal:rows.reduce((a,r)=>a+r.completedProfit,0),
@@ -7197,7 +7994,7 @@ window.generateReport=async function(){
     grandTotal.profitTotal+=totals.profitTotal;
 
     allRows.push({prov,rows,totals});
-    return{prov,hasData:true,rows,totals};
+    return{prov,hasData:true,allPaid:false,rangoYaPagado:null,rows,totals};
   });
 
   const mxn=n=>`$${Number(n).toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2})}`;
@@ -7214,13 +8011,18 @@ window.generateReport=async function(){
     </div>`:''}
 
     <!-- BLOQUE POR PROVEEDOR -->
-    ${providerBlocks.map(({prov,hasData,rows,totals})=>{
+    ${providerBlocks.map(({prov,hasData,allPaid,rangoYaPagado,rows,totals})=>{
       if(!hasData)return`<div class="card" style="color:var(--text3);font-size:14px">
         <strong style="color:var(--text)">${prov.nombre}</strong> — Sin pedidos en este período.
       </div>`;
-      // Verificar si este rango ya fue pagado para este proveedor
-      const pagosDelProv=pagos.filter(p=>p.proveedor_id===prov.id);
-      const rangoYaPagado=pagosDelProv.find(p=>p.from_date<=toStr&&p.to_date>=fromStr);
+      if(allPaid)return`<div class="card" style="display:flex;align-items:center;gap:12px;padding:14px 18px">
+        <div class="avatar avatar-provider" style="width:30px;height:30px;font-size:11px;flex-shrink:0">${prov.nombre.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()}</div>
+        <div style="flex:1"><span style="font-family:Syne;font-weight:700;font-size:15px">${htmlEsc(prov.nombre)}</span></div>
+        <span style="font-size:11px;background:#22c55e20;color:var(--success);border:1px solid #22c55e40;border-radius:20px;padding:3px 10px;font-weight:700">✓ PAGADO el ${rangoYaPagado?fmtDate(rangoYaPagado.created_at):toStr}</span>
+      </div>`;
+      if(!rows.length)return`<div class="card" style="font-size:14px">
+        <strong style="color:var(--text)">${prov.nombre}</strong> — <span style="color:var(--danger)">${totals.rejected} pedido(s) rechazado(s)</span> en este período — <span style="color:var(--success);font-weight:700">sin cobro al proveedor.</span>
+      </div>`;
       return`
       <div class="card" style="padding:0;overflow:hidden">
         <!-- Header proveedor -->
@@ -7248,7 +8050,7 @@ window.generateReport=async function(){
               </button>`:''}
             </div>
           </div>
-          ${prov.banco_clabe||prov.banco_cuenta||prov.banco_nombre?`
+          ${(!rangoYaPagado)&&(prov.banco_clabe||prov.banco_cuenta||prov.banco_nombre)?`
           <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:16px;align-items:center">
             <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-weight:600">Datos de pago del proveedor:</div>
             ${prov.banco_nombre?`<div style="font-size:12px;color:var(--text2)">Banco: <strong>${htmlEsc(prov.banco_nombre)}</strong></div>`:''}
@@ -7266,7 +8068,6 @@ window.generateReport=async function(){
             <thead><tr>
               <th>Servicio</th><th>Categoría</th>
               <th style="text-align:right">Completados</th>
-              <th style="text-align:right">Rechazados</th>
               <th style="text-align:right">Precio público</th>
               <th style="text-align:right">Ganancia total</th>
               <th style="text-align:right">Tu ganancia c/u</th>
@@ -7277,22 +8078,19 @@ window.generateReport=async function(){
                 <td><span class="service-name">${r.svc}</span></td>
                 <td><span class="badge badge-purple">${r.cat}</span></td>
                 <td style="text-align:right;color:var(--success);font-weight:600">${r.completed}</td>
-                <td style="text-align:right;color:var(--danger);font-weight:600">${r.rejected}</td>
                 <td style="text-align:right">${mxn(r.publicPrice)}</td>
                 <td style="text-align:right;color:var(--success);font-family:Syne;font-weight:700">${mxn(r.completedProfit)}</td>
                 <td style="text-align:right;color:var(--accent2);font-weight:600">${mxn(r.profitPerOrder)}</td>
-                <td style="text-align:right;color:var(--warning)">${mxn(r.provCost)}</td>
+                <td style="text-align:right;color:${r.isGratis?'var(--success)':'var(--warning)'}${r.isGratis?';font-size:11px;text-transform:uppercase;font-weight:700':''}">${r.isGratis?'Gratis':mxn(r.provCost)}</td>
               </tr>`).join('')}
             </tbody>
             <tfoot>
               <tr style="background:var(--bg3)">
-                <td colspan="2" style="font-family:Syne;font-weight:700;color:var(--text)">TOTALES</td>
+                <td colspan="2" style="font-family:Syne;font-weight:700;color:var(--text)">TOTALES <span style="font-size:11px;color:var(--danger);font-weight:600">(${totals.rejected} rechazados no cobrados)</span></td>
                 <td style="text-align:right;color:var(--success);font-weight:700">${totals.completed}</td>
-                <td style="text-align:right;color:var(--danger);font-weight:700">${totals.rejected}</td>
                 <td></td>
-                <td style="text-align:right;color:var(--accent2);font-weight:700">${mxn(totals.profitTotal - totals.providerTotal >= 0 ? totals.profitTotal - totals.providerTotal : totals.profitTotal)}</td>
                 <td style="text-align:right;color:var(--success);font-family:Syne;font-weight:800;font-size:15px">${mxn(totals.profitTotal)}</td>
-                <td></td>
+                <td style="text-align:right;color:var(--accent2);font-weight:700">${mxn(totals.profitTotal/Math.max(totals.completed,1))}</td>
                 <td style="text-align:right;color:var(--warning);font-family:Syne;font-weight:800;font-size:15px">${mxn(totals.providerTotal)}</td>
               </tr>
             </tfoot>
@@ -7339,6 +8137,164 @@ window.generateReport=async function(){
 
   // Guardar datos para exportar
   window._reportData={allRows,from:fromStr,to:toStr,mxn};
+  window._lastReportView='range';
+};
+
+// ── TOTAL A PAGAR HASTA AHORA ────────────────────────
+window.totalAPagarAhorita=async function(){
+  const container=document.getElementById('reportResult');
+  if(!container)return;
+  container.innerHTML='<div style="padding:24px;text-align:center;color:var(--text3)"><div class="spinner" style="margin:0 auto"></div></div>';
+  window._lastReportView='ahora';
+
+  const pagos=await sb.get('pagos_proveedores?select=*').catch(()=>[]);
+  const nowCDMX=todayCDMX();
+  const mxn=n=>`$${Number(n).toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+
+  // Construir lista de proveedores: rol==='provider' + cualquiera con pedidos o pagos registrados
+  const byRole=USERS.filter(u=>u.rol==='provider');
+  const seenIds=new Set(byRole.map(u=>u.id));
+  // IDs con pedidos asignados
+  ORDERS.forEach(o=>{if(o.providerId&&!seenIds.has(o.providerId)){seenIds.add(o.providerId);}});
+  // IDs con pagos registrados
+  pagos.forEach(p=>{if(p.proveedor_id&&!seenIds.has(p.proveedor_id)){seenIds.add(p.proveedor_id);}});
+  // Unir todos, descartando admins que no tengan pedidos ni pagos
+  const providers=[...byRole,...([...seenIds].filter(id=>!byRole.find(u=>u.id===id)).map(id=>USERS.find(u=>u.id===id)).filter(Boolean))];
+
+  // Mostrar TODOS los proveedores siempre
+  const blocks=providers.map(prov=>{
+    const pagosDelProv=pagos.filter(p=>p.proveedor_id===prov.id);
+    const precios=prov.precios||{};
+
+    // Pedidos completados sin pagar (cualquier fecha hasta hoy)
+    const completedOrders=ORDERS.filter(o=>{
+      if(o.providerId!==prov.id)return false;
+      if(o.status!=='completed')return false;
+      const dateRef=o.completed_at||o.created_at;
+      const rawDate=dateRef?(!dateRef.endsWith('Z')&&!/[+-]\d{2}:\d{2}$/.test(dateRef)?dateRef+'Z':dateRef):null;
+      const orderDate=rawDate?new Date(rawDate).toLocaleDateString('sv-SE',{timeZone:'America/Mexico_City'}):'';
+      if(!orderDate||orderDate>nowCDMX)return false;
+      // Un pago cubre el pedido solo si fue completado ANTES de que se registrara el pago.
+      // En el mismo día del to_date comparamos timestamps exactos para no excluir
+      // pedidos completados DESPUÉS de la hora en que se marcó el pago.
+      return!pagosDelProv.some(p=>{
+        if(orderDate<p.from_date||orderDate>p.to_date)return false;
+        if(orderDate===p.to_date&&p.created_at&&rawDate){
+          const orderTs=new Date(rawDate).getTime();
+          const payTs=new Date(p.created_at).getTime();
+          return orderTs<=payTs;
+        }
+        return true;
+      });
+    });
+
+    // Pedidos activos (en progreso o pendientes)
+    const inProgressOrders=ORDERS.filter(o=>o.providerId===prov.id&&(o.status==='in_progress'||o.status==='pending'));
+
+    let rows=[];
+    let providerTotal=0;
+
+    if(completedOrders.length){
+      const bySvc={};
+      completedOrders.forEach(o=>{if(!bySvc[o.serviceId])bySvc[o.serviceId]=0;bySvc[o.serviceId]++;});
+      rows=Object.entries(bySvc).map(([sid,count])=>{
+        const svc=SERVICES.find(x=>x.id===sid);
+        const rawCost=precios[sid]!==undefined?precios[sid]:svc?.costo_proveedor;
+        const provCost=parseFloat(rawCost||0);
+        const isGratis=provCost===0;
+        return{svc:svc?.name||'Servicio eliminado',count,provCost,isGratis,total:count*provCost};
+      });
+      providerTotal=rows.reduce((a,r)=>a+r.total,0);
+    }
+
+    // Rango: si el último pago fue hoy mismo, fromDate = hoy (mismo día, diferente hora)
+    // Si fue antes de hoy, fromDate = día siguiente al último pago
+    const sorted=pagosDelProv.filter(p=>p.to_date).sort((a,b)=>b.to_date.localeCompare(a.to_date));
+    let fromDate='2000-01-01';
+    if(sorted.length){
+      const lastToDate=sorted[0].to_date;
+      if(lastToDate>=nowCDMX){
+        fromDate=nowCDMX;
+      }else{
+        const nextDay=new Date(lastToDate+'T12:00:00Z');
+        nextDay.setUTCDate(nextDay.getUTCDate()+1);
+        fromDate=nextDay.toLocaleDateString('sv-SE',{timeZone:'America/Mexico_City'});
+      }
+    }
+
+    // alCorriente = pagado y sin trabajo nuevo
+    const alCorriente=!rows.length&&!inProgressOrders.length;
+
+    return{prov,rows,providerTotal,fromDate,inProgress:inProgressOrders.length,alCorriente};
+  });
+
+  const grandTotal=blocks.reduce((a,b)=>a+b.providerTotal,0);
+  container.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:4px">
+      <span style="font-family:Syne;font-weight:700;font-size:15px;color:var(--text)">Estado al ${nowCDMX} (hora CDMX)</span>
+      <span style="font-family:Syne;font-size:20px;font-weight:800;color:var(--warning)">Pendiente total: ${mxn(grandTotal)}</span>
+    </div>
+    ${blocks.map(({prov,rows,providerTotal,fromDate,inProgress,alCorriente})=>`
+    <div class="card" style="padding:0;overflow:hidden;margin-bottom:0${alCorriente?';opacity:.75':''}">
+      <div style="padding:14px 18px;border-bottom:1px solid var(--border);background:var(--bg3)">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="avatar avatar-provider" style="width:30px;height:30px;font-size:11px">${prov.nombre.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()}</div>
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                <span style="font-family:Syne;font-weight:700;font-size:15px">${htmlEsc(prov.nombre)}</span>
+                ${inProgress>0?`<span style="font-size:11px;background:var(--accentbg);color:var(--accent2);border:1px solid var(--accentborder);border-radius:20px;padding:2px 8px;font-weight:600">${inProgress} en curso</span>`:''}
+                ${alCorriente?`<span style="font-size:11px;background:var(--successbg);color:var(--success);border:1px solid #22c55e40;border-radius:20px;padding:2px 8px;font-weight:600">✓ Al corriente</span>`:''}
+              </div>
+              <div style="font-size:12px;color:var(--text3);margin-top:2px">${fromDate} — ${nowCDMX}</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            ${rows.length?`
+            <span style="font-family:Syne;font-size:18px;font-weight:800;color:var(--warning)">${mxn(providerTotal)}</span>
+            <button onclick="marcarComoPagado('${prov.id}','${htmlEsc(prov.nombre)}','${fromDate}','${nowCDMX}',${providerTotal.toFixed(2)})"
+              style="background:var(--successbg);border:1px solid #22c55e40;border-radius:var(--radius2);padding:6px 14px;color:var(--success);font-size:12px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;transition:all .15s"
+              onmouseover="this.style.background='var(--success)';this.style.color='#fff'"
+              onmouseout="this.style.background='var(--successbg)';this.style.color='var(--success)'">
+              ✓ Marcar como pagado
+            </button>`:alCorriente?`<span style="font-size:13px;color:var(--success);font-weight:600">$0.00</span>`:''}
+          </div>
+        </div>
+        ${(!alCorriente)&&(prov.banco_clabe||prov.banco_cuenta||prov.banco_nombre)?`
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+          ${prov.banco_nombre?`<div style="font-size:12px;color:var(--text2)">Banco: <strong>${htmlEsc(prov.banco_nombre)}</strong></div>`:''}
+          ${prov.banco_titular?`<div style="font-size:12px;color:var(--text2)">Titular: <strong>${htmlEsc(prov.banco_titular)}</strong></div>`:''}
+          ${prov.banco_clabe?`<div style="font-size:12px;color:var(--text2)">CLABE: <strong style="font-family:monospace">${htmlEsc(prov.banco_clabe)}</strong></div>`:''}
+          ${prov.banco_cuenta?`<div style="font-size:12px;color:var(--text2)">Cuenta: <strong style="font-family:monospace">${htmlEsc(prov.banco_cuenta)}</strong></div>`:''}
+        </div>`:''}
+      </div>
+      ${rows.length?`
+      <div class="table-wrap"><table>
+        <thead><tr>
+          <th>Servicio</th>
+          <th style="text-align:right">Completados</th>
+          <th style="text-align:right">Costo c/u</th>
+          <th style="text-align:right">Total a pagar</th>
+        </tr></thead>
+        <tbody>
+          ${rows.map(r=>`<tr>
+            <td><span class="service-name">${htmlEsc(r.svc)}</span></td>
+            <td style="text-align:right;color:var(--success);font-weight:600">${r.count}</td>
+            <td style="text-align:right;color:${r.isGratis?'var(--success)':'var(--text2)'}${r.isGratis?';font-size:11px;text-transform:uppercase;font-weight:700':''}">${r.isGratis?'Gratis':mxn(r.provCost)}</td>
+            <td style="text-align:right;color:var(--warning);font-family:Syne;font-weight:700">${r.isGratis?'$0.00':mxn(r.total)}</td>
+          </tr>`).join('')}
+        </tbody>
+        <tfoot>
+          <tr style="background:var(--bg3)">
+            <td colspan="3" style="font-family:Syne;font-weight:700">TOTAL A PAGAR</td>
+            <td style="text-align:right;color:var(--warning);font-family:Syne;font-weight:800;font-size:15px">${mxn(providerTotal)}</td>
+          </tr>
+        </tfoot>
+      </table></div>`:inProgress>0?`
+      <div style="padding:14px 18px;font-size:13px;color:var(--text3)">${inProgress} pedido(s) en curso — aparecerán en el total cuando se completen.</div>`:`
+      <div style="padding:14px 18px;font-size:13px;color:var(--success)">✓ Sin pagos pendientes.</div>`}
+    </div>`).join('')}
+  `;
 };
 
 window.marcarComoPagado=function(provId,provNombre,fromStr,toStr,montoPago){
@@ -7357,7 +8313,7 @@ window.marcarComoPagado=function(provId,provNombre,fromStr,toStr,montoPago){
         <div style="font-size:12px;color:var(--text3);margin-top:3px">Periodo: ${fromStr} al ${toStr}</div>
       </div>
       <div class="mform-group">
-        <label>Comprobante de transferencia <span style="color:var(--danger)">*</span></label>
+        <label>Comprobante de transferencia <span style="color:var(--text3);font-size:11px">(opcional)</span></label>
         <div id="pagoFotoZone" style="border:1.5px dashed var(--border2);border-radius:var(--radius2);padding:16px;text-align:center;cursor:pointer;transition:border-color .2s"
           onmouseover="this.style.borderColor='var(--accentborder)'" onmouseout="this.style.borderColor='var(--border2)'"
           onclick="document.getElementById('pagoFotoInput').click()">
@@ -7419,7 +8375,7 @@ window.confirmarPago=async function(provId,provNombre,fromStr,toStr,montoPago){
     }
     closeModal();
     showToast('Pago registrado y comprobante enviado al proveedor','success');
-    generateReport();
+    if(window._lastReportView==='ahora')totalAPagarAhorita();else generateReport();
   }catch(e){
     showToast('Error: '+e.message,'danger');
     if(btn){btn.disabled=false;btn.textContent='Confirmar pago';}
