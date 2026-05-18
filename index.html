@@ -6502,24 +6502,34 @@ window.adminVerPedido=function(oid){
         const pdfUrl=o.data?.['__pdf_url__']||null;
         const hasDelivery=o.deliveryNote||pdfUrl;
         if(!hasDelivery)return'';
-        // Combinar nota_entrega + __pdf_url__ para renderizar un solo bloque de entrega
         const notaConUrl=pdfUrl&&!(o.deliveryNote||'').includes(pdfUrl)
           ?((o.deliveryNote&&!o.deliveryNote.startsWith('RECHAZADO:')?o.deliveryNote+'\n':o.deliveryNote||'')+pdfUrl)
           :(o.deliveryNote||'');
         return`<div>
-          <div style="font-size:11px;color:${isRejected?'var(--danger)':'var(--success)'};text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">${isRejected?'Razón del rechazo (proveedor)':'Entrega del proveedor'}</div>
+          <div style="font-size:11px;color:${isRejected?'var(--danger)':'var(--success)'};text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">${isRejected?'Razón del rechazo':'Entrega del proveedor'}</div>
           <div style="background:var(--bg3);border-radius:var(--radius2);padding:12px">${renderDeliveryNote(notaConUrl)}</div>
         </div>`;
       })()}
+      ${(o.status==='in_progress'||o.status==='pending')?`
+      <div style="margin-top:18px;border-top:1px solid var(--border2);padding-top:16px">
+        <div style="font-size:11px;color:var(--accent2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;font-weight:700">⚡ Completar este pedido</div>
+        <div style="border:2px dashed var(--border2);border-radius:var(--radius2);padding:16px;text-align:center;cursor:pointer;margin-bottom:10px;transition:.15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border2)'" onclick="document.getElementById('adminCompleteFiles').click()">
+          <div style="font-size:22px;margin-bottom:4px">📎</div>
+          <div style="color:var(--text3);font-size:12px">Haz clic para adjuntar archivos (PDF, imágenes)</div>
+          <input type="file" id="adminCompleteFiles" multiple accept="application/pdf,image/*" style="display:none" onchange="adminPreviewFiles(event)">
+        </div>
+        <div id="adminFileList" style="margin-bottom:10px"></div>
+        <textarea id="adminCompleteNote" rows="2" placeholder="Nota de entrega para el cliente (opcional)..." style="width:100%;resize:vertical;padding:8px;border:1px solid var(--border2);border-radius:var(--radius2);background:var(--bg3);color:var(--text1);font-size:13px;margin-bottom:10px"></textarea>
+        <div style="display:flex;gap:8px">
+          <button class="btn-confirm" style="flex:1" onclick="window._adminCompleteFiles=window._adminCompleteFiles||[];adminCompleteConfirm('${o.id}')">✅ Completar pedido</button>
+          <button class="btn-sm danger" style="padding:8px 16px" onclick="adminRefund('${o.id}')">Rechazar</button>
+        </div>
+      </div>`:''}
     </div>
-    <div class="modal-footer" style="justify-content:space-between">
-      <div style="display:flex;gap:8px">
-        ${(o.status==='in_progress'||o.status==='pending')?`
-          <button class="btn-sm success" onclick="closeModal();adminComplete('${o.id}')">Completar</button>
-          <button class="btn-sm danger" onclick="adminRefund('${o.id}')">Rechazar</button>`:''}
-      </div>
+    <div class="modal-footer">
       <button class="btn-cancel" onclick="closeModal()">Cerrar</button>
     </div>`);
+  window._adminCompleteFiles=[];
 };
 
 window.adminComplete=function(oid){
