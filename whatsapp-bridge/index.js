@@ -12,7 +12,7 @@ const GA_URL   = process.env.GREENAPI_URL;
 const GA_ID    = process.env.GREENAPI_INSTANCE;
 const GA_TOKEN = process.env.GREENAPI_TOKEN;
 const SB_URL   = (process.env.SUPABASE_URL || 'https://hlqjcjnbtrivxbijcyvv.supabase.co').trim();
-const SB_KEY   = process.env.SUPABASE_SERVICE_KEY;
+const SB_KEY   = (process.env.SUPABASE_SERVICE_KEY || '').trim();
 const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TG_API   = `https://api.telegram.org/bot${TG_TOKEN}`;
 
@@ -21,17 +21,61 @@ const RAUL_CHAT_ID = process.env.RAUL_CHAT_ID;
 
 const GRUPO_ACTAS   = process.env.WHATSAPP_GROUP_ID_1;
 const GRUPO_ACTAS_2 = process.env.WHATSAPP_GROUP_ID_2;
+const GRUPO_CSF     = process.env.WHATSAPP_GROUP_ID_CSF; // Grupo Nuevo Elaine
+const GRUPO_CFE     = process.env.WHATSAPP_GROUP_ID_CFE; // Grupo GPO 074 CFE
 
 // ── Pedidos en espera: CURP → datos del pedido ────────────────────────────────
 const pendientes = new Map();
 
+// ── Detectar si el servicio es Constancia de Situación Fiscal ─────────────────
+function detectarCSF(nombre) {
+  const n = (nombre || '').toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '');
+  return n.includes('constancia') && n.includes('fiscal') && n.includes('clon');
+}
+
 // ── Detectar tipo de acta por nombre del servicio ─────────────────────────────
+// ── Detectar si el servicio es Recibo CFE ─────────────────────────────────────
+function detectarCFE(nombre) {
+  const n = (nombre || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  return (n.includes('cfe') && (n.includes('recibo') || n.includes('recib'))) ||
+         n === 'recibo cfe' || n.includes('recibo de luz');
+}
+
+// Extraer número de servicio CFE de los datos del pedido
+// Prioridad: campo cuya clave contenga "servicio"; fallback: primer valor de 10-13 dígitos
+function extraerNumServicioCFE(datos) {
+  if (!datos || typeof datos !== 'object') return null;
+  // 1. Buscar por nombre de clave (clave que contenga "servicio")
+  for (const key of Object.keys(datos)) {
+    if (key.toLowerCase().includes('servicio')) {
+      const val = datos[key];
+      if (typeof val === 'string') {
+        const limpio = val.replace(/\D/g, '').trim();
+        if (limpio.length >= 10 && limpio.length <= 13) return limpio;
+      }
+    }
+  }
+  // 2. Fallback: cualquier campo con 10-13 dígitos (excluir campos de medidor/otros)
+  for (const key of Object.keys(datos)) {
+    if (key.startsWith('__')) continue;
+    const val = datos[key];
+    if (typeof val === 'string') {
+      const limpio = val.replace(/\D/g, '').trim();
+      if (limpio.length >= 10 && limpio.length <= 13) return limpio;
+    }
+  }
+  return null;
+}
+
 function detectarTipoActa(nombre) {
   const n = (nombre || '').toLowerCase()
     .normalize('NFD').replace(/[̀-ͯ]/g, '');
   if (n.includes('matrimonio')) return 'matrimonio';
-  if (n.includes('defuncion'))  return 'defuncion';
+  // 'defunci' cubre tanto 'defuncion' como 'defunción' sin depender del normalize
+  if (n.includes('defunci') || n.includes('defuncion')) return 'defuncion';
   if (n.includes('divorcio'))   return 'divorcio';
+  // 'acta' va al final para no interceptar "Acta de Defunción" o "Acta de Matrimonio"
   if (n.includes('nacimiento') || n.includes('acta')) return 'nacimiento';
   return null;
 }
@@ -67,13 +111,21 @@ function extraerCURP(datos) {
 
 // ── Green API: enviar mensaje al grupo ────────────────────────────────────────
 async function waEnviar(chatId, mensaje) {
+  if (!chatId) {
+    console.error(`[WA ✗] chatId es undefined/null — verifica la variable de entorno del grupo. Mensaje: "${mensaje}"`);
+    return { error: 'chatId not set' };
+  }
   const r = await fetch(`${GA_URL}/waInstance${GA_ID}/sendMessage/${GA_TOKEN}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ chatId, message: mensaje }),
   });
   const j = await r.json();
-  console.log(`[WA →] "${mensaje}" | id: ${j.idMessage || JSON.stringify(j)}`);
+  if (j.idMessage) {
+    console.log(`[WA ✓] Enviado a ${chatId} | id: ${j.idMessage}`);
+  } else {
+    console.error(`[WA ✗] Error enviando a ${chatId}: ${JSON.stringify(j)}`);
+  }
   return j;
 }
 
@@ -164,13 +216,37 @@ async function sbPost(tabla, data) {
   else console.log(`[SB ✓] ${tabla} insertado`);
 }
 
-// Sube el PDF al bucket archivos/entregas y registra en archivos_entrega
 async function sbRechazar(orderId, motivo) {
+  // Obtener el pedido para saber cuántos créditos devolver
+  const pedidos = await sbGet('pedidos', `id=eq.${orderId}&select=id,cliente_id,creditos`);
+  const pedido  = pedidos?.[0];
+
   await sbPatch('pedidos', `id=eq.${orderId}`, {
     estado: 'refunded',
+    completed_at: new Date().toISOString(),
     nota_entrega: `RECHAZADO: ${motivo}`,
   });
+
+  // Devolver créditos al cliente si el pedido tenía costo
+  if (pedido?.cliente_id && pedido.creditos > 0) {
+    const usuarios = await sbGet('usuarios', `id=eq.${pedido.cliente_id}&select=id,creditos`);
+    const usuario  = usuarios?.[0];
+    if (usuario) {
+      const nuevosCreditos = (usuario.creditos || 0) + pedido.creditos;
+      await sbPatch('usuarios', `id=eq.${pedido.cliente_id}`, { creditos: nuevosCreditos });
+      // Registrar la transacción de reembolso
+      await sbPost('transacciones', {
+        usuario_id: pedido.cliente_id,
+        tipo: 'refund',
+        cantidad: pedido.creditos,
+        descripcion: `Reembolso automático — ${motivo}`,
+      });
+      console.log(`[SB ✓] Reembolso ${pedido.creditos} créditos → usuario ${pedido.cliente_id}`);
+    }
+  }
 }
+
+// Sube el PDF al bucket archivos/entregas y registra en archivos_entrega
 
 async function sbEntregarArchivo(orderId, filename, buffer) {
   // 1. Subir a Storage: bucket archivos, carpeta entregas
@@ -198,13 +274,174 @@ async function sbEntregarArchivo(orderId, filename, buffer) {
   //    renderDeliveryNote() extrae URLs del texto y muestra botón "Descargar archivo"
   await sbPatch('pedidos', `id=eq.${orderId}`, {
     estado: 'completed',
+    completed_at: new Date().toISOString(),
     nota_entrega: `Entregado automáticamente vía bot WhatsApp\n${publicUrl}`,
   });
 
   return publicUrl;
 }
 
+// ── Polling activo del grupo CSF (Elaine) — usa lastIncomingMessages ─────────
+async function verificarRespuestaCSF(curp, pedido) {
+  const enviadoEn = Date.now();
+  const maxEspera = 600000; // 10 minutos
+  const intervalo = 6000;
+  let esperandoReintento = false;
+  let tiempoReintento    = null;
+  let intentos           = 0;
+  const maxIntentos      = 3;
+
+  console.log(`[CSF POLL] Esperando respuesta de Elaine para CURP: ${curp}`);
+
+  while (Date.now() - enviadoEn < maxEspera) {
+    await new Promise(r => setTimeout(r, intervalo));
+
+    // Si estamos esperando para reintentar por interrupcion
+    if (esperandoReintento) {
+      if (Date.now() >= tiempoReintento) {
+        esperandoReintento = false;
+        intentos++;
+        if (intentos > maxIntentos) break;
+        console.log(`[CSF RETRY ${intentos}] Reenviando CURP: ${curp}`);
+        pedido.timestamp = Date.now();
+        await waEnviar(GRUPO_CSF, curp);
+      }
+      continue;
+    }
+
+    try {
+      // lastIncomingMessages devuelve documentMessage del grupo Elaine (getChatHistory no los incluye)
+      const resp = await fetch(`${GA_URL}/waInstance${GA_ID}/lastIncomingMessages/${GA_TOKEN}?minutes=12`);
+      if (!resp.ok) continue;
+      const todos = await resp.json();
+      const mensajes = (todos || []).filter(m => m.chatId === GRUPO_CSF);
+
+      console.log(`[CSF POLL] ${mensajes.length} mensajes del grupo Elaine`);
+
+      for (const msg of mensajes) {
+        const tiempoMsg = (msg.timestamp || 0) * 1000;
+        if (tiempoMsg < pedido.timestamp - 5000) continue; // solo mensajes posteriores al envio
+
+        // PDF recibido — en lastIncomingMessages los campos son directos (no en fileMessageData)
+        if (msg.typeMessage === 'documentMessage') {
+          const fileName    = msg.fileName    || msg.fileMessageData?.fileName    || '';
+          const downloadUrl = msg.downloadUrl || msg.fileMessageData?.downloadUrl || '';
+          if (!fileName.toLowerCase().endsWith('.pdf') || !downloadUrl) continue;
+          if (!fileName.toUpperCase().includes(curp)) continue;
+
+          console.log(`[CSF POLL ✓] PDF encontrado: ${fileName}`);
+          pendientes.delete(`csf_${curp}`);
+          const tiempoSeg = ((Date.now() - pedido.timestamp) / 1000).toFixed(1);
+          const pdfBuffer = await waDescargar(downloadUrl);
+          const publicUrl = await sbEntregarArchivo(pedido.orderId, fileName, pdfBuffer);
+          await tgEnviarTexto(RAUL_CHAT_ID,
+            `✅ Constancia Fiscal completada automaticamente\n📄 ${fileName}\n⏱ ${tiempoSeg}s\n🔗 ${publicUrl}`
+          );
+          return;
+        }
+
+        const texto = (
+          msg.textMessage ||
+          msg.extendedTextMessageData?.text ||
+          msg.extendedTextMessage?.text || ''
+        ).trim();
+
+        // Interrupcion temporal → reintentar en 3 minutos
+        if (texto.includes('interrupci') && !esperandoReintento) {
+          console.log(`[CSF] Interrupcion detectada para ${curp}, reintentando en 3 min`);
+          esperandoReintento = true;
+          tiempoReintento    = Date.now() + 180000;
+          await tgEnviarTexto(RAUL_CHAT_ID,
+            `⏳ <b>CSF Pedido ${pedido.orderId}</b>\nEl bot tuvo una interrupcion. Reintentando automaticamente en 3 minutos...\n🔑 CURP: ${curp}`
+          );
+        }
+
+        // Rechazo definitivo
+        const esRechazo = texto.toLowerCase().includes('no encontrado') ||
+                          texto.toLowerCase().includes('no existe')     ||
+                          texto.toLowerCase().includes('no hay registros');
+        if (esRechazo) {
+          pendientes.delete(`csf_${curp}`);
+          await sbRechazar(pedido.orderId, 'CURP sin registros en el SAT.');
+          await tgEnviarTexto(RAUL_CHAT_ID,
+            `❌ Pedido CSF <b>${pedido.orderId}</b> rechazado\n🔑 CURP: ${curp}\n📋 Sin registros en el SAT`
+          );
+          if (pedido.telegramChatId) {
+            await tgEnviarTexto(pedido.telegramChatId,
+              `❌ No pudimos obtener tu Constancia Fiscal\n📋 CURP: ${curp}\n\nVerifica que el CURP sea correcto.\nTus creditos han sido reembolsados automaticamente.`
+            );
+          }
+          return;
+        }
+      }
+    } catch(e) {
+      console.error('[CSF POLL ✗]', e.message);
+    }
+  }
+
+  console.warn(`[CSF TIMEOUT] Sin respuesta de Elaine en 10min para ${curp}`);
+  pendientes.delete(`csf_${curp}`);
+  await tgEnviarTexto(RAUL_CHAT_ID,
+    `⚠️ <b>ATENCION MANUAL REQUERIDA</b> (timeout CSF)\n` +
+    `📦 Pedido: <b>${pedido.orderId}</b>\n` +
+    `🔑 CURP: ${curp}\n\n` +
+    `No se recibio respuesta del grupo Elaine en 10 minutos.`
+  );
+}
+
 // ── Polling activo del grupo 2 (las notificaciones de ese grupo no llegan a la cola) ──
+// ── Polling activo del grupo CFE ──────────────────────────────────────────────
+async function verificarRespuestaCFE(numServicio, pedido) {
+  const enviadoEn = Date.now();
+  const maxEspera = 300000; // 5 minutos
+  const intervalo = 6000;
+
+  console.log(`[CFE POLL] Esperando PDF para número de servicio: ${numServicio}`);
+
+  while (Date.now() - enviadoEn < maxEspera) {
+    await new Promise(r => setTimeout(r, intervalo));
+    try {
+      const resp = await fetch(`${GA_URL}/waInstance${GA_ID}/lastIncomingMessages/${GA_TOKEN}?minutes=10`);
+      if (!resp.ok) continue;
+      const todos = await resp.json();
+      const mensajes = (todos || []).filter(m => m.chatId === GRUPO_CFE);
+
+      for (const msg of mensajes) {
+        const tiempoMsg = (msg.timestamp || 0) * 1000;
+        if (tiempoMsg < pedido.timestamp - 5000) continue;
+
+        if (msg.typeMessage === 'documentMessage') {
+          const fileName    = msg.fileName    || msg.fileMessageData?.fileName    || '';
+          const downloadUrl = msg.downloadUrl || msg.fileMessageData?.downloadUrl || '';
+          if (!fileName.toLowerCase().endsWith('.pdf') || !downloadUrl) continue;
+          if (!fileName.includes(numServicio)) continue;
+
+          console.log(`[CFE POLL ✓] PDF encontrado: ${fileName}`);
+          pendientes.delete(`cfe_${numServicio}`);
+          const tiempoSeg = ((Date.now() - pedido.timestamp) / 1000).toFixed(1);
+          const pdfBuffer = await waDescargar(downloadUrl);
+          const publicUrl = await sbEntregarArchivo(pedido.orderId, fileName, pdfBuffer);
+          await tgEnviarTexto(RAUL_CHAT_ID,
+            `⚡ Recibo CFE completado automáticamente\n📄 ${fileName}\n⏱ ${tiempoSeg}s\n🔗 ${publicUrl}`
+          );
+          return;
+        }
+      }
+    } catch (e) {
+      console.error('[CFE POLL ✗]', e.message);
+    }
+  }
+
+  // Timeout — notificar a Raul para atención manual
+  pendientes.delete(`cfe_${numServicio}`);
+  await tgEnviarTexto(RAUL_CHAT_ID,
+    `⚡ <b>ATENCIÓN MANUAL REQUERIDA</b> (timeout CFE)\n` +
+    `📦 Pedido: <b>${pedido.orderId}</b>\n` +
+    `🔢 Número de servicio: ${numServicio}\n\n` +
+    `No se recibió el PDF del grupo CFE en 5 minutos.`
+  );
+}
+
 async function verificarRespuestaGrupo2(curp, pedido) {
   const enviadoEn = Date.now();
   const maxEspera = 90000; // 90 segundos máximo de espera
@@ -295,14 +532,16 @@ async function procesarNotificacion(notif) {
   if (typeWH !== 'incomingMessageReceived' || !msgData || !sender) return;
 
   const chatId = sender.chatId || '';
-  // Log ALL incoming messages to diagnose group 2 detection
-  console.log(`[POLL ALL] chatId: ${chatId} | tipo: ${msgData.typeMessage} | esperado G1: ${GRUPO_ACTAS} | esperado G2: ${GRUPO_ACTAS_2}`);
+  // Log ALL incoming messages to diagnose group detection
+  console.log(`[POLL ALL] chatId: ${chatId} | tipo: ${msgData.typeMessage} | G1: ${GRUPO_ACTAS} | G2: ${GRUPO_ACTAS_2} | CSF: ${GRUPO_CSF}`);
 
-  if (chatId !== GRUPO_ACTAS && chatId !== GRUPO_ACTAS_2) return;
-  const esGrupo2 = chatId === GRUPO_ACTAS_2;
+  if (chatId !== GRUPO_ACTAS && chatId !== GRUPO_ACTAS_2 && chatId !== GRUPO_CSF && chatId !== GRUPO_CFE) return;
+  const esGrupo2   = chatId === GRUPO_ACTAS_2;
+  const esGrupoCSF = chatId === GRUPO_CSF;
+  const esGrupoCFE = chatId === GRUPO_CFE;
 
   const tipoMsg = msgData.typeMessage || '';
-  console.log(`[POLL] grupo${esGrupo2 ? ' 2 (Raul)' : ' 1 (Pachinko)'} | tipo: ${tipoMsg}`);
+  console.log(`[POLL] grupo${esGrupoCSF ? ' CSF (Elaine)' : esGrupo2 ? ' 2 (Raul)' : ' 1 (Pachinko)'} | tipo: ${tipoMsg}`);
 
   // ── PDF recibido ──────────────────────────────────────────────────────────
   if (tipoMsg === 'documentMessage') {
@@ -313,10 +552,79 @@ async function procesarNotificacion(notif) {
 
     console.log(`[POLL] PDF: "${fileName}"`);
 
+    // ── PDF del grupo CFE ─────────────────────────────────────────────────────
+    if (esGrupoCFE) {
+      const fileNameUp = fileName.toUpperCase().replace('.PDF', '');
+      let clave = null, pedido = null;
+      for (const [k, v] of pendientes.entries()) {
+        if (!k.startsWith('cfe_')) continue;
+        if (fileNameUp.includes(v.numServicio || k.replace('cfe_', ''))) { clave = k; pedido = v; break; }
+      }
+      if (!pedido) {
+        for (const [k, v] of pendientes.entries()) {
+          if (k.startsWith('cfe_')) { clave = k; pedido = v; break; }
+        }
+      }
+      if (!pedido) { console.log(`[CFE] Sin pedido pendiente para "${fileName}"`); return; }
+      pendientes.delete(clave);
+      const tiempoSeg = ((Date.now() - pedido.timestamp) / 1000).toFixed(1);
+      try {
+        const pdfBuffer = await waDescargar(downloadUrl);
+        const publicUrl = await sbEntregarArchivo(pedido.orderId, fileName, pdfBuffer);
+        await tgEnviarTexto(RAUL_CHAT_ID,
+          `⚡ Recibo CFE completado automáticamente\n📄 ${fileName}\n⏱ ${tiempoSeg}s\n🔗 ${publicUrl}`
+        );
+      } catch (e) {
+        console.error(`[CFE ✗] Error procesando ${pedido.orderId}:`, e.message);
+        await tgEnviarTexto(RAUL_CHAT_ID, `⚡ Error en pedido CFE <b>${pedido.orderId}</b>: ${e.message}`);
+      }
+      return;
+    }
+
+    // ── PDF del grupo CSF (Elaine) ─────────────────────────────────────────
+    if (esGrupoCSF) {
+      const fileNameUp = fileName.toUpperCase().replace('.PDF', '');
+
+      // Buscar pedido CSF por CURP en el nombre del archivo
+      let clave = null, pedido = null;
+      for (const [k, v] of pendientes.entries()) {
+        if (!k.startsWith('csf_')) continue;
+        const curpPedido = v.curp || k.replace('csf_', '');
+        if (fileNameUp.includes(curpPedido)) { clave = k; pedido = v; break; }
+      }
+      // Si no hay match por nombre, tomar el primer pedido CSF pendiente
+      if (!pedido) {
+        for (const [k, v] of pendientes.entries()) {
+          if (k.startsWith('csf_')) { clave = k; pedido = v; break; }
+        }
+      }
+      if (!pedido) { console.log(`[CSF] Sin pedido pendiente para "${fileName}"`); return; }
+      pendientes.delete(clave);
+
+      const tiempoSeg = ((Date.now() - pedido.timestamp) / 1000).toFixed(1);
+      console.log(`[CSF ✓] ${clave} → pedido ${pedido.orderId} (${tiempoSeg}s)`);
+      try {
+        const pdfBuffer = await waDescargar(downloadUrl);
+        const publicUrl = await sbEntregarArchivo(pedido.orderId, fileName, pdfBuffer);
+        await tgEnviarTexto(RAUL_CHAT_ID,
+          `✅ Constancia Fiscal completada automáticamente\n` +
+          `📄 ${fileName}\n` +
+          `⏱ ${tiempoSeg}s\n` +
+          `🔗 ${publicUrl}`
+        );
+      } catch (e) {
+        console.error(`[CSF ✗] Error procesando ${pedido.orderId}:`, e.message);
+        await tgEnviarTexto(RAUL_CHAT_ID, `⚠️ Error en pedido CSF <b>${pedido.orderId}</b>: ${e.message}`);
+      }
+      return;
+    }
+
+    // ── PDF de grupos de Actas ─────────────────────────────────────────────
     // Buscar pedido pendiente por CURP en el nombre del archivo (clave: CURP_tipo)
     let clave = null, pedido = null;
     const fileNameUp = fileName.toUpperCase().replace('.PDF', '');
     for (const [k, v] of pendientes.entries()) {
+      if (k.startsWith('csf_')) continue; // ignorar pendientes CSF aquí
       if (fileNameUp.includes(v.curp || k.split('_')[0])) {
         clave = k; pedido = v; break;
       }
@@ -345,6 +653,53 @@ async function procesarNotificacion(notif) {
     } catch (e) {
       console.error(`[✗] Error procesando ${pedido.orderId}:`, e.message);
       await tgEnviarTexto(RAUL_CHAT_ID, `⚠️ Error en pedido automático <b>${pedido.orderId}</b>: ${e.message}`);
+    }
+    return;
+  }
+
+  // ── Rechazo del bot de Elaine (CSF) ──────────────────────────────────────
+  if ((tipoMsg === 'extendedTextMessage' || tipoMsg === 'textMessage') && esGrupoCSF) {
+    const texto = (
+      msgData.extendedTextMessageData?.text ||
+      msgData.textMessageData?.textMessage  || ''
+    ).trim();
+
+    // Ajusta este texto según lo que responda el bot cuando no encuentra el RFC/CURP
+    const esRechazoCSF = texto.toLowerCase().includes('no encontrado') ||
+                         texto.toLowerCase().includes('no existe')     ||
+                         texto.toLowerCase().includes('no hay registros');
+    if (!esRechazoCSF) return;
+
+    // Intentar extraer CURP del mensaje del bot (formato: 18 chars alfanuméricos)
+    const matchCurp = texto.match(/([A-Z]{4}[0-9]{6}[A-Z]{6}[A-Z0-9]{2})/i);
+    let clave = null, pedido = null;
+
+    if (matchCurp) {
+      const curp = matchCurp[1].toUpperCase();
+      clave  = `csf_${curp}`;
+      pedido = pendientes.get(clave);
+    }
+    // Fallback: primer pedido CSF pendiente
+    if (!pedido) {
+      for (const [k, v] of pendientes.entries()) {
+        if (k.startsWith('csf_')) { clave = k; pedido = v; break; }
+      }
+    }
+    if (!pedido) return;
+
+    pendientes.delete(clave);
+    const curp = pedido.curp;
+
+    await sbRechazar(pedido.orderId, 'CURP sin registros en el SAT. Verifica que el CURP sea correcto.');
+    await tgEnviarTexto(RAUL_CHAT_ID,
+      `❌ Pedido CSF <b>${pedido.orderId}</b> rechazado\n🔑 CURP: ${curp}\n📋 Sin registros en el SAT`
+    );
+    if (pedido.telegramChatId) {
+      await tgEnviarTexto(pedido.telegramChatId,
+        `❌ No pudimos obtener tu Constancia Fiscal\n📋 CURP: ${curp}\n\n` +
+        `Verifica que el CURP sea correcto.\n` +
+        `Tus créditos han sido reembolsados automáticamente.`
+      );
     }
     return;
   }
@@ -474,7 +829,34 @@ app.post('/supabase-webhook', async (req, res) => {
     if (!servicio) return;
 
     const tipoActa = detectarTipoActa(servicio.nombre);
-    if (!tipoActa) return; // no es un servicio de actas
+    const esCSF    = !tipoActa && detectarCSF(servicio.nombre);
+    const esCFE    = !tipoActa && !esCSF && detectarCFE(servicio.nombre);
+
+    if (!tipoActa && !esCSF && !esCFE) return; // servicio no automatizado
+
+    // ── Recibo CFE ─────────────────────────────────────────────────────────────
+    if (esCFE) {
+      const numServicio = extraerNumServicioCFE(datos);
+      if (!numServicio) { console.log('[SB WH CFE] Sin número de 12 dígitos en datos:', JSON.stringify(datos)); return; }
+
+      const tgMsgId        = datos.__tg_message_id__ || null;
+      const usuariosCFE    = await sbGet('usuarios', `id=eq.${cliente_id}&select=telegram_chat_id`);
+      const telegramChatId = usuariosCFE?.[0]?.telegram_chat_id || null;
+
+      const clave = `cfe_${numServicio}`;
+      pendientes.set(clave, { orderId, userId: cliente_id, telegramChatId, tgMessageId: tgMsgId, tipo: 'cfe', numServicio, timestamp: Date.now() });
+
+      await waEnviar(GRUPO_CFE, numServicio);
+      await tgEnviarTexto(RAUL_CHAT_ID,
+        `⚡ Procesando Recibo CFE automáticamente\n` +
+        `📋 ${servicio.nombre}\n` +
+        `🔢 Número: ${numServicio}\n` +
+        `📦 Pedido: ${orderId}`
+      );
+      console.log(`[SB WH ✓] ${orderId} | CFE | ${numServicio} → GPO 074 CFE`);
+      verificarRespuestaCFE(numServicio, pendientes.get(clave));
+      return;
+    }
 
     const curp = extraerCURP(datos);
     if (!curp) {
@@ -486,9 +868,30 @@ app.post('/supabase-webhook', async (req, res) => {
     const tgMessageId = datos.__tg_message_id__ || null;
 
     // Obtener telegram_chat_id del cliente
-    const usuarios     = await sbGet('usuarios', `id=eq.${cliente_id}&select=telegram_chat_id`);
+    const usuarios       = await sbGet('usuarios', `id=eq.${cliente_id}&select=telegram_chat_id`);
     const telegramChatId = usuarios?.[0]?.telegram_chat_id || null;
 
+    // ── Constancia de Situación Fiscal → Grupo Elaine ─────────────────────
+    if (esCSF) {
+      pendientes.set(`csf_${curp}`, {
+        orderId, userId: cliente_id, telegramChatId, tgMessageId,
+        tipo: 'csf', curp, timestamp: Date.now(),
+      });
+
+      await waEnviar(GRUPO_CSF, curp);
+
+      await tgEnviarTexto(RAUL_CHAT_ID,
+        `🤖 Procesando Constancia Fiscal automáticamente\n` +
+        `📋 ${servicio.nombre}\n` +
+        `🔑 CURP: ${curp}\n` +
+        `📦 Pedido: ${orderId}`
+      );
+      console.log(`[SB WH ✓] ${orderId} | ${servicio.nombre} | ${curp} → Elaine (CSF)`);
+      verificarRespuestaCSF(curp, pendientes.get(`csf_${curp}`));
+      return;
+    }
+
+    // ── Actas → Grupo Pachinko ─────────────────────────────────────────────
     const mensaje = formatearMensajeNat(tipoActa, curp);
 
     pendientes.set(`${curp}_${tipoActa}`, {
@@ -499,7 +902,6 @@ app.post('/supabase-webhook', async (req, res) => {
 
     await waEnviar(GRUPO_ACTAS, mensaje);
 
-    // Avisar a Raul que el pedido se procesa automáticamente
     await tgEnviarTexto(RAUL_CHAT_ID,
       `🤖 Procesando automáticamente\n` +
       `📋 ${servicio.nombre}\n` +
@@ -521,11 +923,30 @@ app.post('/process-order', async (req, res) => {
     return res.status(400).json({ error: 'Faltan: orderId, tipo, datos' });
 
   const datosObj = typeof datos === 'string' ? JSON.parse(datos) : datos;
-  const tipoActa = tipo.replace('acta_', '');
   const curp     = extraerCURP(datosObj) || (datosObj.CURP || '').toUpperCase().trim();
   if (!curp) return res.status(400).json({ error: 'CURP requerido' });
 
-  const mensaje = formatearMensajeNat(tipoActa, curp);
+  // ── CSF manual ────────────────────────────────────────────────────────────
+  if (tipo === 'csf') {
+    const clave = `csf_${curp}`;
+    pendientes.set(clave, {
+      orderId, userId, telegramChatId, tgMessageId: tgMessageId || null,
+      tipo: 'csf', curp, timestamp: Date.now(),
+    });
+    try {
+      await waEnviar(GRUPO_CSF, curp);
+      console.log(`[Manual CSF] Pedido ${orderId} | CURP: ${curp}`);
+      verificarRespuestaCSF(curp, pendientes.get(clave));
+      return res.json({ ok: true, clave, mensaje: curp });
+    } catch (e) {
+      pendientes.delete(clave);
+      return res.status(500).json({ error: e.message });
+    }
+  }
+
+  // ── Actas manual ──────────────────────────────────────────────────────────
+  const tipoActa = tipo.replace('acta_', '');
+  const mensaje  = formatearMensajeNat(tipoActa, curp);
 
   pendientes.set(`${curp}_${tipoActa}`, {
     orderId, userId, telegramChatId, tgMessageId: tgMessageId || null,
@@ -548,21 +969,91 @@ app.get('/', (req, res) => {
 });
 
 // ── Limpiar pedidos expirados cada 15 min ─────────────────────────────────────
-setInterval(() => {
-  const limite = Date.now() - 30 * 60_000;
+// Reenvía al grupo cada 30 min mientras espera, cancela después de 2 horas.
+// Si el pedido ya fue completado manualmente (proveedor subió el acta), NO cancela.
+setInterval(async () => {
+  const ahora            = Date.now();
+  const limiteExpiracion = ahora - 2 * 60 * 60_000;  // 2 horas
+  const intervaloReenvio = 30 * 60_000;               // reenviar cada 30 min
+
   for (const [k, v] of pendientes.entries()) {
-    if (v.timestamp < limite) {
-      console.warn(`[⏱ exp] Pedido ${v.orderId} (${k}) expiró`);
+    // ── Cancelar si lleva 2 horas sin respuesta ────────────────────────────
+    if (v.timestamp < limiteExpiracion) {
       pendientes.delete(k);
+      try {
+        // Verificar estado actual antes de cancelar — puede que el proveedor
+        // ya lo haya entregado manualmente vía Telegram
+        const pedidos = await sbGet('pedidos', `id=eq.${v.orderId}&select=id,estado`);
+        const pedido  = pedidos?.[0];
+        if (pedido && pedido.estado !== 'in_progress') {
+          console.log(`[⏱ exp] Pedido ${v.orderId} ya en estado "${pedido.estado}" — removido de pendientes sin cancelar`);
+          continue;
+        }
+
+        console.warn(`[⏱ exp] Pedido ${v.orderId} (${k}) expiró sin respuesta tras 2 horas — reembolsando`);
+        await sbRechazar(v.orderId, 'Sin respuesta del sistema en 2 horas. Intenta de nuevo o contacta soporte.');
+        if (v.telegramChatId) {
+          await tgEnviarTexto(v.telegramChatId,
+            `❌ Tu pedido no recibió respuesta a tiempo.\n` +
+            `Tus créditos han sido reembolsados automáticamente.\n` +
+            `Puedes intentarlo de nuevo o contactar soporte.`
+          );
+        }
+        await tgEnviarTexto(RAUL_CHAT_ID,
+          `⏱ <b>Pedido expirado — reembolso automático</b>\n` +
+          `📦 Pedido: <b>${v.orderId}</b>\n` +
+          `🔑 Clave: ${k}`
+        );
+      } catch (e) {
+        console.error(`[⏱ exp ✗] Error reembolsando pedido expirado ${v.orderId}:`, e.message);
+        await tgEnviarTexto(RAUL_CHAT_ID,
+          `⚠️ <b>Error al reembolsar pedido expirado</b>\n` +
+          `📦 Pedido: <b>${v.orderId}</b>\n` +
+          `Error: ${e.message}\n` +
+          `Reembolsa manualmente desde el panel.`
+        ).catch(() => {});
+      }
+      continue;
+    }
+
+    // ── Reenviar al grupo si llevan 30 min sin respuesta ──────────────────
+    const ultimoEnvio = v.ultimoEnvio || v.timestamp;
+    if (ahora - ultimoEnvio >= intervaloReenvio) {
+      v.ultimoEnvio = ahora;
+      try {
+        if (k.startsWith('csf_')) {
+          await waEnviar(GRUPO_CSF, v.curp);
+        } else if (k.startsWith('cfe_')) {
+          await waEnviar(GRUPO_CFE, v.numServicio);
+        } else {
+          await waEnviar(GRUPO_ACTAS, formatearMensajeNat(v.tipoActa || 'nacimiento', v.curp));
+        }
+        const minutos = Math.round((ahora - v.timestamp) / 60_000);
+        console.log(`[⏱ retry] Pedido ${v.orderId} (${k}) reenviado al grupo tras ${minutos} min sin respuesta`);
+        await tgEnviarTexto(RAUL_CHAT_ID,
+          `🔄 <b>Reintento automático</b>\n` +
+          `📦 Pedido: <b>${v.orderId}</b>\n` +
+          `🔑 Clave: ${k}\n` +
+          `⏱ Sin respuesta en ${minutos} min — reenviando solicitud al grupo.`
+        );
+      } catch (e) {
+        console.error(`[⏱ retry ✗] Error reenviando ${v.orderId}:`, e.message);
+      }
     }
   }
 }, 15 * 60_000);
 
 // ── Arrancar ──────────────────────────────────────────────────────────────────
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`\n🚀 WhatsApp Bridge | puerto ${PORT}`);
   console.log(`   Supabase webhook : POST /supabase-webhook`);
   console.log(`   Manual           : POST /process-order`);
+  console.log(`\n📋 Grupos configurados:`);
+  console.log(`   GRUPO_ACTAS   : ${GRUPO_ACTAS   || '❌ NO CONFIGURADO'}`);
+  console.log(`   GRUPO_ACTAS_2 : ${GRUPO_ACTAS_2 || '❌ NO CONFIGURADO'}`);
+  console.log(`   GRUPO_CSF     : ${GRUPO_CSF     || '❌ NO CONFIGURADO'}`);
+  console.log(`   GRUPO_CFE     : ${GRUPO_CFE     || '❌ NO CONFIGURADO'}`);
+  console.log(`   RAUL_CHAT_ID  : ${RAUL_CHAT_ID  || '❌ NO CONFIGURADO'}\n`);
   iniciarPolling();
 });
